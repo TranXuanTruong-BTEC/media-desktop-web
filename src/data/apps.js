@@ -14,11 +14,11 @@ export const APPS_DATA = [
     version: "v2.1.0",
     size: "15 MB",
     os: "Windows",
-    description: "Công cụ tự động click chuột thông minh.",
+    description: "Công cụ tải video YT thông qua đường dẫn.",
     icon: Monitor,
     color: "from-blue-500 to-cyan-400",
     downloadUrl:
-      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/AutoClicker.exe"
+      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaDesktopApp-Setup.exe"
   },
   {
     id: 2,
@@ -30,6 +30,6 @@ export const APPS_DATA = [
     icon: ImageIcon,
     color: "from-purple-500 to-pink-500",
     downloadUrl:
-      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/ImageResizer.exe"
+      ""
   }
 ];
