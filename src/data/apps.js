@@ -1,20 +1,35 @@
+import {
+  Monitor,
+  ImageIcon,
+  FileText,
+  Crosshair,
+  Terminal,
+  Cpu
+} from "lucide-react";
+
 export const APPS_DATA = [
   {
-    id: "media-desktop-app",
-    name: "Media Desktop App",
-    description: "Ứng dụng media desktop miễn phí do tôi phát triển.",
+    id: 1,
+    name: "Auto Clicker Pro",
+    version: "v2.1.0",
+    size: "15 MB",
     os: "Windows",
-    size: "135 MB",
-    status: "ready",
+    description: "Công cụ tự động click chuột thông minh.",
+    icon: Monitor,
+    color: "from-blue-500 to-cyan-400",
     downloadUrl:
-      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaDesktopApp-Setup.exe"
+      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/AutoClicker.exe"
   },
   {
-    id: "image-resizer",
+    id: 2,
     name: "Image Resizer Bulk",
-    description: "Công cụ resize ảnh hàng loạt.",
+    version: "v1.0.5",
+    size: "8 MB",
     os: "Windows",
-    size: "-",
-    status: "coming-soon"
+    description: "Resize ảnh hàng loạt cực nhanh.",
+    icon: ImageIcon,
+    color: "from-purple-500 to-pink-500",
+    downloadUrl:
+      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/ImageResizer.exe"
   }
 ];
