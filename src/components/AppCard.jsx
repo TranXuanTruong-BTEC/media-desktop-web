@@ -23,15 +23,24 @@ export default function AppCard({ app, onDownload }) {
         {app.os}
       </div>
 
-      <a
-        href={app.downloadUrl}
-        download
-        onClick={() => onDownload(app.name)}
-        className="mt-4 flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-700 hover:bg-blue-600 transition font-medium"
-      >
-        <Download className="w-5 h-5" />
-        Tải về ngay
-      </a>
+      {app.isComingSoon ? (
+        <button
+          disabled
+          className="mt-4 flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-600 text-gray-400 cursor-not-allowed font-medium opacity-60"
+        >
+          Coming Soon
+        </button>
+      ) : (
+        <a
+          href={app.downloadUrl}
+          download
+          onClick={() => onDownload(app.name)}
+          className="mt-4 flex items-center justify-center gap-2 py-3 rounded-xl bg-gray-700 hover:bg-blue-600 transition font-medium"
+        >
+          <Download className="w-5 h-5" />
+          Tải về ngay
+        </a>
+      )}
     </div>
   );
 }
