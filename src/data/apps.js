@@ -9,7 +9,7 @@ import {
 
 export const APPS_DATA = [
   {
-    id: 1,
+    id: "yt2-downloader",
     name: "YT2 Downloader",
     os: "Windows",
     description: "Công cụ tải video YT thông qua đường dẫn.",
@@ -19,7 +19,7 @@ export const APPS_DATA = [
       "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaDesktopApp-Setup.exe"
   },
   {
-    id: 2,
+    id: "image-resizer-bulk",
     name: "Image Resizer Bulk",
     os: "Windows",
     description: "Resize ảnh hàng loạt cực nhanh.",
