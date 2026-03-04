@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react"
+
 import { Download, Monitor } from "lucide-react";
 
 export default function AppCard({ app, onDownload }) {

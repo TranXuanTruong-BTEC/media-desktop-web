@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react"
 import { APPS_DATA } from "./data/apps";
 import AppCard from "./components/AppCard";
 import Navbar from "./components/Navbar";
