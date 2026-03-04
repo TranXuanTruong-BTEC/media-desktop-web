@@ -6,7 +6,7 @@ export const tools = [
     version: "v1.0.0",
     size: "28MB",
     os: "Windows 10/11",
-    downloadUrl: "https://yourdomain.com/downloads/yt2.exe",
+    downloadUrl: "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaDesktopApp-Setup.exe",
     image: "/images/yt2.png",
     features: [
       "Tải video chất lượng cao",
