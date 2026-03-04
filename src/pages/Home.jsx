@@ -1,26 +1,27 @@
-import React from "react";
-import { APPS_DATA } from "../data/apps";
-import AppCard from "../components/AppCard";
-import Hero from "../components/Hero";
-import SEO from "../components/SEO";
+import Hero from "../components/home/Hero";
+import TrustSection from "../components/home/TrustSection";
+import FeaturedTools from "../components/home/FeaturedTools";
+import WhySection from "../components/home/WhySection";
+import HowItWorks from "../components/home/HowItWorks";
+import FAQ from "../components/home/FAQ";
+import CTASection from "../components/shared/CTASection";
+import SEO from "../components/shared/SEO";
 
 export default function Home() {
   return (
     <>
       <SEO
-        title="MediaTools - Free Desktop Utilities"
-        description="Download free desktop tools like YouTube Downloader. Fast, lightweight and secure."
+        title="MediaTools - Free Desktop Tools for Windows"
+        description="Bộ công cụ desktop miễn phí cho Windows. Nhanh, nhẹ, không quảng cáo."
       />
 
       <Hero />
-
-      <section id="apps" className="max-w-7xl mx-auto px-6 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {APPS_DATA.map((app) => (
-            <AppCard key={app.id} app={app} />
-          ))}
-        </div>
-      </section>
+      <TrustSection />
+      <FeaturedTools />
+      <WhySection />
+      <HowItWorks />
+      <FAQ />
+      <CTASection />
     </>
   );
 }
