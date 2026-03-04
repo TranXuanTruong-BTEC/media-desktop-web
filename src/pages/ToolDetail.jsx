@@ -44,14 +44,17 @@ function ToolDetail() {
           ))}
         </ul>
 
-        <a
-          href={tool.downloadUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
-        >
-          Download Now
-        </a>
+<button
+  onClick={() => {
+    const link = document.createElement("a");
+    link.href = tool.downloadUrl;
+    link.download = tool.name;
+    link.click();
+  }}
+  className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition transform hover:scale-105"
+>
+  Download Now
+</button>
       </motion.div>
     </div>
   );
