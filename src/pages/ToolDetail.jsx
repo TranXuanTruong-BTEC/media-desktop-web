@@ -1,35 +1,60 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
 import { tools } from "../data/tools";
-
-import ToolHero from "../components/tool/ToolHero";
-import FeatureGrid from "../components/tool/FeatureGrid";
-import ScreenshotSection from "../components/tool/ScreenshotSection";
-import SystemInfo from "../components/tool/SystemInfo";
-import FAQMini from "../components/tool/FAQMini";
-import CTASection from "../components/shared/CTASection";
-import SEO from "../components/shared/SEO";
-
-export default function ToolDetail() {
+import React from "react";
+function ToolDetail() {
   const { slug } = useParams();
   const tool = tools.find((t) => t.slug === slug);
 
-  if (!tool) {
-    return <Navigate to="/" />;
-  }
+  if (!tool) return <div className="p-20">Not Found</div>;
 
   return (
-    <>
-      <SEO
-        title={`${tool.name} - Free Download`}
-        description={tool.description}
-      />
+    <div className="bg-gradient-to-br from-slate-900 to-slate-800 px-6 py-20 min-h-screen">
+      <Helmet>
+        <title>{tool.name} - Download miễn phí</title>
+        <meta name="description" content={tool.description} />
+      </Helmet>
 
-      <ToolHero tool={tool} />
-      <FeatureGrid features={tool.features} />
-      <ScreenshotSection screenshots={tool.screenshots} />
-      <SystemInfo requirements={tool.requirements} />
-      <FAQMini faqs={tool.faqs} />
-      <CTASection />
-    </>
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="max-w-4xl mx-auto bg-slate-800/50 border border-white/10 rounded-2xl p-10"
+      >
+        <img
+          src={tool.image}
+          alt={tool.name}
+          className="rounded-lg mb-8 w-full aspect-video object-cover"
+        />
+
+        <h1 className="text-3xl font-bold mb-4">{tool.name}</h1>
+        <p className="text-gray-400 mb-6">{tool.description}</p>
+
+        <div className="flex gap-8 text-sm text-gray-300 mb-8">
+          <span>Version: {tool.version}</span>
+          <span>Size: {tool.size}</span>
+          <span>OS: {tool.os}</span>
+        </div>
+
+        <h3 className="text-lg font-semibold mb-4">Features</h3>
+        <ul className="list-disc list-inside space-y-2 text-gray-300 mb-8">
+          {tool.features.map((f, i) => (
+            <li key={i}>{f}</li>
+          ))}
+        </ul>
+
+        <a
+          href={tool.downloadUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition"
+        >
+          Download Now
+        </a>
+      </motion.div>
+    </div>
   );
 }
+
+export default ToolDetail;
