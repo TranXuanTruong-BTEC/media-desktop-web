@@ -3,16 +3,28 @@ import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { tools } from "../data/tools";
 import React from "react";
+
 function ToolDetail() {
   const { slug } = useParams();
   const tool = tools.find((t) => t.slug === slug);
 
   if (!tool) return <div className="p-20">Not Found</div>;
 
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = tool.downloadUrl;
+    link.download = tool.name;
+    link.click();
+  };
+
   return (
     <div className="bg-gradient-to-br from-slate-900 to-slate-800 px-6 py-20 min-h-screen">
       <Helmet>
-        <title>{tool.name} - Download miễn phí</title>
+        <title>
+          {tool.status === "released"
+            ? `${tool.name} - Download miễn phí`
+            : `${tool.name} - Coming Soon`}
+        </title>
         <meta name="description" content={tool.description} />
       </Helmet>
 
@@ -28,7 +40,16 @@ function ToolDetail() {
           className="rounded-lg mb-8 w-full aspect-video object-cover"
         />
 
-        <h1 className="text-3xl font-bold mb-4">{tool.name}</h1>
+        <div className="flex items-center gap-3 mb-4">
+          <h1 className="text-3xl font-bold">{tool.name}</h1>
+
+          {tool.status === "coming-soon" && (
+            <span className="px-3 py-1 text-xs bg-yellow-500/20 text-yellow-400 rounded-full border border-yellow-500/30">
+              Beta
+            </span>
+          )}
+        </div>
+
         <p className="text-gray-400 mb-6">{tool.description}</p>
 
         <div className="flex gap-8 text-sm text-gray-300 mb-8">
@@ -44,17 +65,28 @@ function ToolDetail() {
           ))}
         </ul>
 
-<button
-  onClick={() => {
-    const link = document.createElement("a");
-    link.href = tool.downloadUrl;
-    link.download = tool.name;
-    link.click();
-  }}
-  className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition transform hover:scale-105"
->
-  Download Now
-</button>
+        {/* BUTTON SECTION */}
+        {tool.status === "released" ? (
+          <button
+            onClick={handleDownload}
+            className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition transform hover:scale-105"
+          >
+            Download Now
+          </button>
+        ) : (
+          <div className="inline-flex items-center gap-3">
+            <span className="px-4 py-2 bg-yellow-500/20 text-yellow-400 text-sm font-medium rounded-full border border-yellow-500/30">
+              🚧 Coming Soon
+            </span>
+
+            <button
+              disabled
+              className="px-6 py-3 bg-gray-600 text-gray-300 rounded-lg cursor-not-allowed opacity-70"
+            >
+              In Development
+            </button>
+          </div>
+        )}
       </motion.div>
     </div>
   );
