@@ -8,7 +8,7 @@ export const tools = [
     os: "Windows 10/11",
     status: "released", // 👈 đã phát hành
     downloadUrl:
-      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/download/v1.2.1/MediaDesktopApp-Setup.exe",
+      "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/download/v1.2.2/MediaDesktopApp-Setup.exe",
     image: "/images/yt2.png",
     features: [
       "Tải video chất lượng cao",
