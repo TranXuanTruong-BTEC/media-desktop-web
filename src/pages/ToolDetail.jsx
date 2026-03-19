@@ -43,6 +43,8 @@ function ToolDetail() {
   if (!tool) return <div className="p-20">Not Found</div>;
 
   const handleDownload = () => {
+    if (tool.maintenance) return; // ❌ chặn nếu đang bảo trì
+
     const link = document.createElement("a");
     link.href = downloadUrl;
     link.download = tool.name;
@@ -84,12 +86,19 @@ function ToolDetail() {
 
         <p className="text-gray-400 mb-6">{tool.description}</p>
 
-        {/* 🔥 REAL DATA */}
-        <div className="flex gap-8 text-sm text-gray-300 mb-8">
+        {/* 🔥 VERSION + SIZE */}
+        <div className="flex gap-8 text-sm text-gray-300 mb-6">
           <span>🚀 Version: {version}</span>
           <span>📦 Size: {size}</span>
           <span>OS: {tool.os}</span>
         </div>
+
+        {/* 🔴 MAINTENANCE NOTICE */}
+        {tool.maintenance && (
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg text-red-400">
+            🚧 {tool.maintenanceMessage || "Ứng dụng đang bảo trì"}
+          </div>
+        )}
 
         <h3 className="text-lg font-semibold mb-4">Features</h3>
         <ul className="list-disc list-inside space-y-2 text-gray-300 mb-8">
@@ -98,13 +107,25 @@ function ToolDetail() {
           ))}
         </ul>
 
+        {/* 🔥 BUTTON */}
         {tool.status === "released" ? (
-          <button
-            onClick={handleDownload}
-            className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition transform hover:scale-105"
-          >
-            Download Now
-          </button>
+          tool.maintenance ? (
+            // 🔴 BẢO TRÌ
+            <button
+              disabled
+              className="inline-block px-6 py-3 bg-red-600/70 text-white rounded-lg cursor-not-allowed opacity-70"
+            >
+              🚧 Đang bảo trì
+            </button>
+          ) : (
+            // 🟢 DOWNLOAD
+            <button
+              onClick={handleDownload}
+              className="inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition transform hover:scale-105"
+            >
+              Download Now
+            </button>
+          )
         ) : (
           <div className="inline-flex items-center gap-3">
             <span className="px-4 py-2 bg-yellow-500/20 text-yellow-400 text-sm font-medium rounded-full border border-yellow-500/30">

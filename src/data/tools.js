@@ -6,6 +6,8 @@ export const tools = [
     version: null,
     size: null,
     os: "Windows 10/11",
+    maintenance: false,
+    maintenanceMessage: "Ứng dụng đang bảo trì, quay lại sau 1-2 phút",
     status: "released", // 👈 đã phát hành
     downloadUrl:
       "https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaDesktopApp-Setup.exe",
