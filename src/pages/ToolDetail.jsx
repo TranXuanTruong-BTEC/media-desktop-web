@@ -2,17 +2,49 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { tools } from "../data/tools";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function ToolDetail() {
   const { slug } = useParams();
   const tool = tools.find((t) => t.slug === slug);
 
+  const [version, setVersion] = useState(tool?.version || "...");
+  const [downloadUrl, setDownloadUrl] = useState(tool?.downloadUrl || "");
+  const [size, setSize] = useState(tool?.size || "...");
+
+  useEffect(() => {
+    if (!tool || tool.slug !== "yt2-downloader") return;
+
+    async function fetchData() {
+      try {
+        const res = await fetch(
+          "https://api.github.com/repos/TranXuanTruong-BTEC/media-desktop-app/releases/latest"
+        );
+        const data = await res.json();
+
+        const exeFile = data.assets.find((file) =>
+          file.name.endsWith(".exe")
+        );
+
+        setVersion(data.tag_name);
+        setDownloadUrl(exeFile?.browser_download_url || tool.downloadUrl);
+
+        const fileSizeMB = (exeFile.size / 1024 / 1024).toFixed(1);
+        setSize(fileSizeMB + " MB");
+      } catch (err) {
+        setVersion("N/A");
+        setSize("N/A");
+      }
+    }
+
+    fetchData();
+  }, [tool]);
+
   if (!tool) return <div className="p-20">Not Found</div>;
 
   const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = tool.downloadUrl;
+    link.href = downloadUrl;
     link.download = tool.name;
     link.click();
   };
@@ -52,9 +84,10 @@ function ToolDetail() {
 
         <p className="text-gray-400 mb-6">{tool.description}</p>
 
+        {/* 🔥 REAL DATA */}
         <div className="flex gap-8 text-sm text-gray-300 mb-8">
-          <span>Version: {tool.version}</span>
-          <span>Size: {tool.size}</span>
+          <span>🚀 Version: {version}</span>
+          <span>📦 Size: {size}</span>
           <span>OS: {tool.os}</span>
         </div>
 
@@ -65,7 +98,6 @@ function ToolDetail() {
           ))}
         </ul>
 
-        {/* BUTTON SECTION */}
         {tool.status === "released" ? (
           <button
             onClick={handleDownload}

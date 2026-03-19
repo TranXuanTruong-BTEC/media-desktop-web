@@ -3,8 +3,8 @@ export const tools = [
     slug: "yt2-downloader",
     name: "YT2 Downloader",
     description: "Công cụ tải video YouTube thông qua đường dẫn.",
-    version: "v1.0.0",
-    size: "28MB",
+    version: null,
+    size: null,
     os: "Windows 10/11",
     status: "released", // 👈 đã phát hành
     downloadUrl:
@@ -22,8 +22,8 @@ export const tools = [
     slug: "image-resizer-bulk",
     name: "Image Resizer Bulk",
     description: "Resize ảnh hàng loạt cực nhanh.",
-    version: "v1.0.0",
-    size: "15MB",
+    version: null,
+    size: null,
     os: "Windows 10/11",
     status: "//released", // 👈 chưa ra mắt
     downloadUrl: "",
