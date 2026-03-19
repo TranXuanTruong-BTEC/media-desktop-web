@@ -18,20 +18,4 @@ export const tools = [
       "Nhẹ và dễ sử dụng",
     ],
   },
-  // {
-  //   slug: "image-resizer-bulk",
-  //   name: "Image Resizer Bulk",
-  //   description: "Resize ảnh hàng loạt cực nhanh.",
-  //   version: null,
-  //   size: null,
-  //   os: "Windows 10/11",
-  //   status: "//released", // 👈 chưa ra mắt
-  //   downloadUrl: "",
-  //   image: "/images/resizer.png",
-  //   features: [
-  //     "Resize hàng loạt",
-  //     "Giữ nguyên chất lượng",
-  //     "Tối ưu dung lượng",
-  //   ],
-  // },
 ];
