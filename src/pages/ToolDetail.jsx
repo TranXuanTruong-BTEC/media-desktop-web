@@ -46,10 +46,9 @@ export default function ToolDetail() {
         </div>
       </div>
 
-      <div style={{ padding: '16px 0 0' }}>
-        <StatusBanner status={tool.status} toolName={tool.name} />
-      </div>
-      <ToolHero tool={tool} />
+      {/* If tool is not active, show full replacement block + disable ToolHero */}
+      <StatusBanner status={tool.status} toolName={tool.name} mode="page" />
+      {(!tool.status || tool.status === 'active') && <ToolHero tool={tool} />}
       <SystemInfo tool={tool} />
       <ScreenshotSection tool={tool} />
       <FeatureGrid tool={tool} />

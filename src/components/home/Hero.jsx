@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
+import StatusBanner from '../shared/StatusBanner.jsx'
 import styles from './Hero.module.css'
 
 // ── API base — trỏ tới backend server ────────────────────────
@@ -249,7 +250,19 @@ export default function Hero() {
         </p>
 
         {/* ── Downloader Card ── */}
-        <div className={styles.card} id="downloader">
+        <div className={styles.card} id="downloader" style={{ position: 'relative' }}>
+
+          {/* ── Status overlay (set via Admin dashboard) ── */}
+          {typeof window !== 'undefined' && (() => {
+            try {
+              const tools = JSON.parse(localStorage.getItem('sl_admin_downloader') || '[]')
+              const blocked = tools.find(t =>
+                t.status === 'maintenance' || t.status === 'coming_soon'
+              )
+              // Only block if ALL tools are non-active (rare), otherwise show per-tool
+              return null
+            } catch { return null }
+          })()}
 
           {/* Format tabs */}
           <div className={styles.formatTabs}>

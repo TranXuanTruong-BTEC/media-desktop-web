@@ -131,3 +131,39 @@
   color: var(--red);
   border: 1px solid rgba(255,118,117,0.22);
 }
+
+/* Locked card */
+.cardLocked {
+  cursor: not-allowed !important;
+  opacity: 0.65;
+}
+.cardLocked:hover {
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Status overlay pill */
+.statusOverlay {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(253,203,110,0.18);
+  border: 1px solid rgba(253,203,110,0.35);
+  color: var(--amber);
+  border-radius: 40px;
+  padding: 4px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+
+.statusOverlayRed {
+  background: rgba(255,118,117,0.15);
+  border-color: rgba(255,118,117,0.3);
+  color: var(--red);
+}
