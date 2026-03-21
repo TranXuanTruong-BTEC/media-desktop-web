@@ -1,206 +1,240 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react'
-import { Download, AlertCircle, X } from 'lucide-react'
+import { Download, AlertCircle, X, Music, Video, Repeat } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import styles from './Hero.module.css'
 
-/* ── Quality options by format ─────────────────── */
+// ── API base — trỏ tới backend server ────────────────────────
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+
+// ── Format tabs ───────────────────────────────────────────────
+const FORMAT_TABS = [
+  { value: 'mp3',     label: 'MP3',     icon: <Music  size={14}/>, sub: 'Audio only'   },
+  { value: 'mp4',     label: 'MP4',     icon: <Video  size={14}/>, sub: 'Video + Audio'},
+  { value: 'convert', label: 'Convert', icon: <Repeat size={14}/>, sub: 'MP4 → MP3'    },
+]
+
 const QUALITY_OPTIONS = {
   mp3: [
     { value: '320', label: '320 kbps', detail: 'Best quality' },
     { value: '256', label: '256 kbps', detail: 'High quality' },
-    { value: '192', label: '192 kbps', detail: 'Standard' },
-    { value: '128', label: '128 kbps', detail: 'Compact' },
+    { value: '192', label: '192 kbps', detail: 'Standard'     },
+    { value: '128', label: '128 kbps', detail: 'Compact'      },
   ],
   mp4: [
     { value: '2160', label: '4K / 2160p', detail: 'Ultra HD' },
-    { value: '1080', label: '1080p HD', detail: 'Full HD' },
-    { value: '720', label: '720p HD', detail: 'HD' },
-    { value: '480', label: '480p', detail: 'Standard' },
+    { value: '1080', label: '1080p HD',   detail: 'Full HD'   },
+    { value: '720',  label: '720p HD',    detail: 'HD'        },
+    { value: '480',  label: '480p',       detail: 'Standard'  },
   ],
-  webm: [
-    { value: '1080', label: '1080p', detail: 'Full HD' },
-    { value: '720', label: '720p', detail: 'HD' },
-    { value: '480', label: '480p', detail: 'Standard' },
+  convert: [
+    { value: '320', label: '320 kbps', detail: 'Best quality' },
+    { value: '192', label: '192 kbps', detail: 'Standard'     },
+    { value: '128', label: '128 kbps', detail: 'Compact'      },
   ],
 }
 
-const FORMAT_OPTIONS = [
-  { value: 'mp3', label: 'MP3', sub: 'Audio only' },
-  { value: 'mp4', label: 'MP4', sub: 'Video + Audio' },
-  { value: 'webm', label: 'WebM', sub: 'Video + Audio' },
-]
-
 const PLATFORMS = [
-  { name: 'YouTube', dot: '#ff4d4d' },
-  { name: 'TikTok', dot: '#69C9D0' },
+  { name: 'YouTube',   dot: '#ff4d4d' },
+  { name: 'TikTok',    dot: '#69C9D0' },
   { name: 'Instagram', dot: '#e1306c' },
-  { name: 'Facebook', dot: '#1877f2' },
+  { name: 'Facebook',  dot: '#1877f2' },
   { name: 'Twitter / X', dot: '#1da1f2' },
-  { name: 'Vimeo', dot: '#6772e5' },
-  { name: 'Reddit', dot: '#ff4500' },
-  { name: '+40 more', dot: '#5c5a78' },
+  { name: 'Vimeo',     dot: '#6772e5' },
+  { name: 'Reddit',    dot: '#ff4500' },
+  { name: '+40 more',  dot: '#5c5a78' },
 ]
 
 function isValidUrl(str) {
-  try {
-    const u = new URL(str)
-    return u.protocol === 'http:' || u.protocol === 'https:'
-  } catch { return false }
+  try { const u = new URL(str); return u.protocol === 'http:' || u.protocol === 'https:' }
+  catch { return false }
 }
 
-function detectPlatform(url) {
-  const map = [
-    ['youtu', 'YouTube'], ['tiktok', 'TikTok'],
-    ['instagram', 'Instagram'], ['facebook', 'Facebook'],
-    ['twitter', 'Twitter/X'], ['x.com', 'Twitter/X'],
-    ['reddit', 'Reddit'], ['vimeo', 'Vimeo'],
-  ]
-  for (const [key, name] of map) {
-    if (url.includes(key)) return name
+// ── REAL download logic ───────────────────────────────────────
+async function fetchDownloadInfo(url, format, quality) {
+  const res = await fetch(`${API_BASE}/api/info`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ url, format, quality }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.error || `Server error ${res.status}`)
   }
-  return 'this platform'
+  return res.json()
 }
 
-/* ── Download result mock data ─────────────────── */
-function getMockResults(format, platform) {
-  const titles = {
-    YouTube: 'Amazing Video Title – Official Music Video',
-    TikTok: 'Viral TikTok Video',
-    Instagram: 'Instagram Reel',
-    'Twitter/X': 'Twitter/X Video',
-    Facebook: 'Facebook Video',
-    Reddit: 'Reddit Video Post',
-    Vimeo: 'Vimeo Creator Upload',
-    'this platform': 'Video File',
-  }
-  const title = titles[platform] || 'Video File'
-
-  if (format === 'mp3') {
-    return {
-      title,
-      platform,
-      options: [
-        { format: 'mp3', quality: '320 kbps', size: '~8.5 MB/min', value: '320' },
-        { format: 'mp3', quality: '256 kbps', size: '~6.8 MB/min', value: '256' },
-        { format: 'mp3', quality: '192 kbps', size: '~5.1 MB/min', value: '192' },
-        { format: 'mp3', quality: '128 kbps', size: '~3.4 MB/min', value: '128' },
-      ],
-    }
-  }
-  return {
-    title,
-    platform,
-    options: [
-      { format, quality: '4K / 2160p', size: '~600 MB', value: '2160' },
-      { format, quality: '1080p HD', size: '~200 MB', value: '1080' },
-      { format, quality: '720p HD', size: '~100 MB', value: '720' },
-      { format, quality: '480p', size: '~50 MB', value: '480' },
-    ],
-  }
+function buildDownloadUrl(url, format, quality) {
+  const params = new URLSearchParams({ url, format, quality })
+  return `${API_BASE}/api/download?${params}`
 }
 
-/* ── Loading steps ──────────────────────────────── */
+// ── Progress steps for UX ─────────────────────────────────────
 const STEPS = [
-  [350, 18, 'Connecting…'],
-  [750, 40, 'Fetching video metadata…'],
-  [1200, 65, 'Processing format options…'],
-  [1700, 85, 'Preparing download links…'],
-  [2100, 100, 'Done!'],
+  [300,  15, 'Connecting to platform…'],
+  [800,  35, 'Fetching video info…'],
+  [1400, 55, 'Processing format…'],
+  [1900, 75, 'Preparing download link…'],
+  [2400, 90, 'Almost ready…'],
 ]
 
 export default function Hero() {
-  const [url, setUrl] = useState('')
-  const [format, setFormat] = useState('mp3')
-  const [quality, setQuality] = useState('320')
-  const [phase, setPhase] = useState('idle') // idle | loading | results | error
-  const [progress, setProgress] = useState(0)
+  const [url,         setUrl]         = useState('')
+  const [format,      setFormat]      = useState('mp3')
+  const [quality,     setQuality]     = useState('320')
+  const [phase,       setPhase]       = useState('idle')
+  const [progress,    setProgress]    = useState(0)
   const [progressMsg, setProgressMsg] = useState('')
-  const [results, setResults] = useState(null)
-  const [errorMsg, setErrorMsg] = useState('')
-  const inputRef = useRef(null)
+  const [results,     setResults]     = useState(null)
+  const [errorMsg,    setErrorMsg]    = useState('')
+  const [convertFile, setConvertFile] = useState(null) // for convert tab
+  const inputRef  = useRef(null)
   const timersRef = useRef([])
+  const fileRef   = useRef(null)
 
-  /* Reset quality when format changes */
+  // Sync quality when format changes
   useEffect(() => {
-    const opts = QUALITY_OPTIONS[format]
-    setQuality(opts[0].value)
+    setQuality(QUALITY_OPTIONS[format][0].value)
   }, [format])
 
-  function clearTimers() {
-    timersRef.current.forEach(clearTimeout)
-    timersRef.current = []
-  }
+  function clearTimers() { timersRef.current.forEach(clearTimeout); timersRef.current = [] }
 
   function reset() {
     clearTimers()
-    setPhase('idle')
-    setProgress(0)
-    setProgressMsg('')
-    setResults(null)
-    setErrorMsg('')
+    setPhase('idle'); setProgress(0); setProgressMsg('')
+    setResults(null); setErrorMsg(''); setConvertFile(null)
+    if (fileRef.current) fileRef.current.value = ''
   }
 
-  function handleFetch() {
-    const trimmed = url.trim()
-    if (!trimmed) {
-      setErrorMsg('Please paste a video URL to continue.')
-      setPhase('error')
-      return
-    }
-    if (!isValidUrl(trimmed)) {
-      setErrorMsg("That doesn't look like a valid URL. Make sure it starts with https://")
-      setPhase('error')
-      return
-    }
-
-    clearTimers()
-    setPhase('loading')
-    setProgress(0)
-
-    const platform = detectPlatform(trimmed)
-
+  // ── Animate progress bar ──────────────────────────────────
+  function animateProgress(onDone) {
+    setPhase('loading'); setProgress(0)
     STEPS.forEach(([delay, pct, msg]) => {
-      const id = setTimeout(() => {
-        setProgress(pct)
-        setProgressMsg(msg)
-      }, delay)
+      const id = setTimeout(() => { setProgress(pct); setProgressMsg(msg) }, delay)
       timersRef.current.push(id)
     })
+    return () => clearTimers()
+  }
 
-    const doneId = setTimeout(() => {
-      setResults(getMockResults(format, platform))
-      setPhase('results')
-    }, 2400)
-    timersRef.current.push(doneId)
+  // ── Fetch info from real API ──────────────────────────────
+  async function handleFetch() {
+    const trimmed = url.trim()
+    if (!trimmed) { setErrorMsg('Please paste a video URL to continue.'); setPhase('error'); return }
+    if (!isValidUrl(trimmed)) { setErrorMsg("That doesn't look like a valid URL. Make sure it starts with https://"); setPhase('error'); return }
+
+    clearTimers()
+    animateProgress()
+
+    try {
+      const data = await fetchDownloadInfo(trimmed, format, quality)
+      clearTimers()
+      setProgress(100); setProgressMsg('Done!')
+
+      setTimeout(() => {
+        setResults({
+          title:    data.title    || 'Video',
+          platform: data.platform || 'Web',
+          thumb:    data.thumbnail || '',
+          duration: data.duration  || '',
+          options:  data.formats  || buildFallbackOptions(format, trimmed),
+        })
+        setPhase('results')
+      }, 300)
+    } catch (err) {
+      clearTimers()
+      setErrorMsg(err.message || 'Download failed. Please try again.')
+      setPhase('error')
+    }
+  }
+
+  // Fallback khi backend chưa sẵn sàng
+  function buildFallbackOptions(fmt, videoUrl) {
+    if (fmt === 'mp3' || fmt === 'convert') {
+      return QUALITY_OPTIONS.mp3.map(q => ({
+        format: 'mp3', quality: q.label, value: q.value,
+        size: '', downloadUrl: buildDownloadUrl(videoUrl, 'mp3', q.value),
+      }))
+    }
+    return QUALITY_OPTIONS.mp4.map(q => ({
+      format: 'mp4', quality: q.label, value: q.value,
+      size: '', downloadUrl: buildDownloadUrl(videoUrl, 'mp4', q.value),
+    }))
+  }
+
+  // ── Convert: local MP4 file → MP3 ────────────────────────
+  async function handleConvert() {
+    if (!convertFile) { setErrorMsg('Vui lòng chọn file MP4 từ máy tính.'); setPhase('error'); return }
+
+    clearTimers(); animateProgress()
+    setProgressMsg('Uploading file…')
+
+    try {
+      const formData = new FormData()
+      formData.append('file', convertFile)
+      formData.append('quality', quality)
+
+      const res = await fetch(`${API_BASE}/api/convert`, {
+        method: 'POST',
+        body: formData,
+      })
+      if (!res.ok) {
+        const err = await res.json().catch(()=>({}))
+        throw new Error(err.error || 'Convert failed')
+      }
+      const data = await res.json()
+      clearTimers(); setProgress(100)
+      setTimeout(() => {
+        setResults({
+          title:    convertFile.name.replace(/\.mp4$/i, ''),
+          platform: 'Local file',
+          thumb:    '',
+          options:  [{ format:'mp3', quality: `${quality} kbps`, value: quality, downloadUrl: data.downloadUrl?.startsWith('/') ? API_BASE + data.downloadUrl : data.downloadUrl, size: data.size }],
+        })
+        setPhase('results')
+      }, 300)
+    } catch (err) {
+      clearTimers()
+      setErrorMsg(err.message || 'Convert failed. Please try again.')
+      setPhase('error')
+    }
+  }
+
+  function handleMainAction() {
+    if (format === 'convert') handleConvert()
+    else handleFetch()
   }
 
   function handlePaste(e) {
-    setTimeout(() => {
-      const val = e.target.value.trim()
-      if (isValidUrl(val)) handleFetch()
-    }, 50)
+    setTimeout(() => { if (isValidUrl(e.target.value.trim())) handleFetch() }, 50)
   }
 
+  // ── Trigger real download ─────────────────────────────────
   function handleDownload(option) {
-    // In production: trigger real download URL
-    showToast(`Starting ${option.quality} ${option.format.toUpperCase()} download…`)
+    const rawUrl = option.downloadUrl || buildDownloadUrl(url.trim(), option.format, option.value)
+    const dlUrl  = rawUrl.startsWith('/') ? API_BASE + rawUrl : rawUrl
+    const link  = document.createElement('a')
+    link.href     = dlUrl
+    link.download = ''
+    link.target   = '_blank'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    showToast(`⬇ Starting ${option.quality} ${option.format.toUpperCase()} download…`)
   }
+
+  const isLoading = phase === 'loading'
 
   return (
     <section className={styles.hero} id="home">
-      {/* Atmospheric background */}
       <div className={styles.bg} />
       <div className={styles.grid} />
 
       <div className={`container ${styles.inner}`}>
-        {/* Badge */}
         <div className={styles.badge}>
           <span className={styles.badgeDot} />
           100% Free · No Sign-up Required
         </div>
 
-        {/* Headline */}
         <h1 className={styles.title}>
           Download Any Video as<br />
           <span className="gradient-text">MP3 or MP4</span>
@@ -212,73 +246,116 @@ export default function Hero() {
           <br className={styles.brHide} /> Get high-quality audio or video instantly — for free.
         </p>
 
-        {/* ── Downloader card ── */}
+        {/* ── Downloader Card ── */}
         <div className={styles.card} id="downloader">
-          {/* URL row */}
-          <div className={styles.urlRow}>
-            <input
-              ref={inputRef}
-              type="url"
-              className={styles.urlInput}
-              placeholder="Paste video URL here…"
-              value={url}
-              onChange={e => setUrl(e.target.value)}
-              onPaste={handlePaste}
-              onKeyDown={e => e.key === 'Enter' && handleFetch()}
-              autoComplete="off"
-              spellCheck={false}
-            />
-            <button
-              className={styles.fetchBtn}
-              onClick={handleFetch}
-              disabled={phase === 'loading'}
-            >
-              {phase === 'loading' ? 'Fetching…' : 'Get File'}
-            </button>
+
+          {/* Format tabs */}
+          <div className={styles.formatTabs}>
+            {FORMAT_TABS.map(t => (
+              <button
+                key={t.value}
+                className={`${styles.formatTab} ${format === t.value ? styles.formatTabActive : ''}`}
+                onClick={() => { setFormat(t.value); reset() }}
+                disabled={isLoading}
+              >
+                {t.icon}
+                <span className={styles.formatTabLabel}>{t.label}</span>
+                <span className={styles.formatTabSub}>{t.sub}</span>
+              </button>
+            ))}
           </div>
 
-          {/* Format + Quality selectors */}
-          <div className={styles.optionsRow}>
-            <div className={styles.optionGroup}>
-              <label className={styles.optionLabel}>Format</label>
-              <select
-                className={styles.select}
-                value={format}
-                onChange={e => setFormat(e.target.value)}
-                disabled={phase === 'loading'}
-              >
-                {FORMAT_OPTIONS.map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.label} — {o.sub}
-                  </option>
-                ))}
-              </select>
+          {/* ── URL input (MP3 / MP4) ── */}
+          {format !== 'convert' && (
+            <div className={styles.urlRow}>
+              <input
+                ref={inputRef}
+                type="url"
+                className={styles.urlInput}
+                placeholder="Paste video URL here…"
+                value={url}
+                onChange={e => setUrl(e.target.value)}
+                onPaste={handlePaste}
+                onKeyDown={e => e.key === 'Enter' && handleMainAction()}
+                autoComplete="off" spellCheck={false}
+                disabled={isLoading}
+              />
+              <button className={styles.fetchBtn} onClick={handleMainAction} disabled={isLoading}>
+                {isLoading ? 'Fetching…' : 'Get File'}
+              </button>
             </div>
-            <div className={styles.optionGroup}>
-              <label className={styles.optionLabel}>Quality</label>
-              <select
-                className={styles.select}
-                value={quality}
-                onChange={e => setQuality(e.target.value)}
-                disabled={phase === 'loading'}
-              >
-                {QUALITY_OPTIONS[format].map(o => (
-                  <option key={o.value} value={o.value}>
-                    {o.label} — {o.detail}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
+          )}
 
-          {/* ── State area ── */}
+          {/* ── Convert tab: file picker ── */}
+          {format === 'convert' && (
+            <div className={styles.convertArea}>
+              <div
+                className={`${styles.dropZone} ${convertFile ? styles.dropZoneFilled : ''}`}
+                onClick={() => fileRef.current?.click()}
+                onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add(styles.dropZoneDrag) }}
+                onDragLeave={e => e.currentTarget.classList.remove(styles.dropZoneDrag)}
+                onDrop={e => {
+                  e.preventDefault(); e.currentTarget.classList.remove(styles.dropZoneDrag)
+                  const f = e.dataTransfer.files[0]
+                  if (f?.type === 'video/mp4' || f?.name.endsWith('.mp4')) setConvertFile(f)
+                  else showToast('Please select an MP4 file', 'error')
+                }}
+              >
+                {convertFile ? (
+                  <>
+                    <Video size={22} style={{ color: 'var(--green)', flexShrink: 0 }} />
+                    <div className={styles.dropZoneFile}>
+                      <div className={styles.dropZoneFileName}>{convertFile.name}</div>
+                      <div className={styles.dropZoneFileSize}>{(convertFile.size / 1024 / 1024).toFixed(1)} MB</div>
+                    </div>
+                    <button className={styles.dropZoneClear} onClick={e => { e.stopPropagation(); setConvertFile(null) }}>
+                      <X size={14} />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Repeat size={22} style={{ color: 'var(--text3)' }} />
+                    <div>
+                      <div className={styles.dropZoneText}>Drag & drop MP4 file here</div>
+                      <div className={styles.dropZoneSub}>or click to browse</div>
+                    </div>
+                  </>
+                )}
+              </div>
+              <input ref={fileRef} type="file" accept=".mp4,video/mp4" style={{ display:'none' }}
+                onChange={e => setConvertFile(e.target.files[0] || null)} />
+              <button
+                className={styles.fetchBtn}
+                onClick={handleMainAction}
+                disabled={isLoading || !convertFile}
+                style={{ width: '100%', marginTop: 10, justifyContent: 'center' }}
+              >
+                {isLoading ? 'Converting…' : 'Convert to MP3'}
+              </button>
+            </div>
+          )}
+
+          {/* Quality selector */}
+          {(format !== 'convert' || convertFile) && phase === 'idle' && (
+            <div className={styles.optionsRow}>
+              <div className={styles.optionGroup}>
+                <label className={styles.optionLabel}>
+                  {format === 'mp4' ? 'Resolution' : 'Audio Quality'}
+                </label>
+                <select className={styles.select} value={quality} onChange={e => setQuality(e.target.value)} disabled={isLoading}>
+                  {QUALITY_OPTIONS[format].map(o => (
+                    <option key={o.value} value={o.value}>{o.label} — {o.detail}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          )}
+
+          {/* ── States ── */}
           {phase === 'loading' && (
             <div className={`${styles.stateArea} animate-fade-in`}>
               <div className={styles.progressWrap}>
-                <div
-                  className={styles.progressBar}
-                  style={{ width: `${progress}%` }}
-                />
+                <div className={styles.progressBar} style={{ width: `${progress}%` }} />
               </div>
               <p className={styles.progressMsg}>{progressMsg}</p>
             </div>
@@ -288,9 +365,7 @@ export default function Hero() {
             <div className={`${styles.stateArea} ${styles.errorBox} animate-slide-up`}>
               <AlertCircle size={16} className={styles.errorIcon} />
               <span>{errorMsg}</span>
-              <button className={styles.errorDismiss} onClick={reset}>
-                <X size={14} />
-              </button>
+              <button className={styles.errorDismiss} onClick={reset}><X size={14} /></button>
             </div>
           )}
 
@@ -302,7 +377,7 @@ export default function Hero() {
 
           {/* Trust strip */}
           <div className={styles.trustStrip}>
-            {['No account needed', 'No watermarks', 'No data stored', 'SSL encrypted'].map(t => (
+            {['No account needed','No watermarks','No data stored','SSL encrypted'].map(t => (
               <div key={t} className={styles.trustItem}>
                 <span className={styles.trustCheck}>✓</span> {t}
               </div>
@@ -325,21 +400,21 @@ export default function Hero() {
   )
 }
 
-/* ── Result card sub-component ────────────────── */
+/* ── Result card ─────────────────────────────────────────────── */
 function ResultCard({ results, onDownload, onReset }) {
   return (
     <div className={styles.resultCard}>
       <div className={styles.resultMeta}>
-        <div className={styles.resultThumb}>
-          <Download size={20} color="var(--text3)" />
-        </div>
+        {results.thumb ? (
+          <img src={results.thumb} alt="" className={styles.resultThumbImg} />
+        ) : (
+          <div className={styles.resultThumb}><Download size={18} color="var(--text3)" /></div>
+        )}
         <div className={styles.resultInfo}>
           <div className={styles.resultTitle}>{results.title}</div>
           <div className={styles.resultPlatform}>{results.platform} · Ready to download</div>
         </div>
-        <button className={styles.resultClose} onClick={onReset} title="Start over">
-          <X size={16} />
-        </button>
+        <button className={styles.resultClose} onClick={onReset} title="Start over"><X size={16} /></button>
       </div>
 
       <div className={styles.resultDivider} />
@@ -348,18 +423,12 @@ function ResultCard({ results, onDownload, onReset }) {
         {results.options.map(opt => (
           <div key={opt.value} className={styles.downloadRow}>
             <div className={styles.downloadLeft}>
-              <span className={`${styles.fmtBadge} ${styles[opt.format]}`}>
-                {opt.format.toUpperCase()}
-              </span>
+              <span className={`${styles.fmtBadge} ${styles[opt.format]}`}>{opt.format.toUpperCase()}</span>
               <span className={styles.dlQuality}>{opt.quality}</span>
-              <span className={styles.dlSize}>{opt.size}</span>
+              {opt.size && <span className={styles.dlSize}>{opt.size}</span>}
             </div>
-            <button
-              className={styles.dlBtn}
-              onClick={() => onDownload(opt)}
-            >
-              <Download size={13} />
-              Download
+            <button className={styles.dlBtn} onClick={() => onDownload(opt)}>
+              <Download size={13} /> Download
             </button>
           </div>
         ))}
