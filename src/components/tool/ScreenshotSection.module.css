@@ -1,0 +1,239 @@
+.section {
+  padding: 80px 0;
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+/* ── Text side ── */
+.textSide {}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.5vw, 38px);
+  font-weight: 800;
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+  margin-bottom: 36px;
+}
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.stepNum {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--accent2);
+  background: rgba(108,92,231,0.12);
+  border: 1px solid rgba(108,92,231,0.2);
+  border-radius: 6px;
+  padding: 5px 9px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.stepTitle {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  letter-spacing: -0.2px;
+}
+
+.stepDesc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* ── Mock side ── */
+.mockSide {
+  display: flex;
+  justify-content: center;
+}
+
+.mockCard {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  width: 100%;
+  max-width: 380px;
+  box-shadow: var(--shadow), 0 0 60px rgba(108,92,231,0.1);
+}
+
+.mockHeader {
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mockDots {
+  display: flex;
+  gap: 5px;
+}
+.mockDots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--border2);
+}
+.mockDots span:nth-child(1) { background: rgba(255,96,87,0.6); }
+.mockDots span:nth-child(2) { background: rgba(255,189,68,0.6); }
+.mockDots span:nth-child(3) { background: rgba(40,200,70,0.6); }
+
+.mockUrl {
+  font-size: 12px;
+  color: var(--text3);
+  font-family: monospace;
+  background: var(--bg2);
+  border-radius: 4px;
+  padding: 3px 10px;
+  flex: 1;
+  text-align: center;
+}
+
+.mockBody {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.mockInput {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 10px 10px 14px;
+}
+
+.mockInputText {
+  flex: 1;
+  font-size: 12px;
+  color: var(--text3);
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mockBtn {
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.mockResult {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: var(--bg2);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.mockThumb {
+  width: 56px;
+  height: 40px;
+  border-radius: 5px;
+  background: var(--bg3);
+  flex-shrink: 0;
+}
+
+.mockMeta { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
+.mockTitle {
+  height: 10px;
+  background: var(--border2);
+  border-radius: 3px;
+  width: 80%;
+}
+
+.mockSub {
+  height: 8px;
+  background: var(--border);
+  border-radius: 3px;
+  width: 50%;
+}
+
+.mockRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.2s;
+}
+.mockRow:first-of-type { border-color: rgba(108,92,231,0.3); }
+
+.mockBadge {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  background: rgba(108,92,231,0.18);
+  color: var(--accent2);
+  border-radius: 3px;
+  padding: 2px 6px;
+  flex-shrink: 0;
+}
+
+.mockRowLabel {
+  font-size: 12px;
+  color: var(--text2);
+  flex: 1;
+}
+
+.mockDlBtn {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent2);
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(108,92,231,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+@media (max-width: 900px) {
+  .inner {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+  .mockSide { order: -1; }
+}
+
+@media (max-width: 560px) {
+  .section { padding: 56px 0; }
+}

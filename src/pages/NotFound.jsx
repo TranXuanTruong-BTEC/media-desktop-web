@@ -1,19 +1,25 @@
-import { Link } from "react-router-dom";
-import React from "react";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import SEO from '../components/shared/SEO.jsx'
+import styles from './NotFound.module.css'
+
 export default function NotFound() {
   return (
-    <div style={{ padding: "80px 20px", textAlign: "center" }}>
-      <h1 style={{ fontSize: "48px", marginBottom: "20px" }}>
-        404 - Page Not Found
-      </h1>
-
-      <p style={{ marginBottom: "30px" }}>
-        The page you are looking for does not exist.
-      </p>
-
-      <Link to="/" style={{ color: "#3b82f6" }}>
-        Go back to Home
-      </Link>
-    </div>
-  );
+    <>
+      <SEO title="Page Not Found – SnapLoad" description="The page you're looking for doesn't exist." />
+      <div className={styles.page}>
+        <div className={styles.inner}>
+          <div className={styles.code}>404</div>
+          <h1 className={styles.title}>Page not found</h1>
+          <p className={styles.desc}>
+            The page you're looking for doesn't exist or has been moved.
+          </p>
+          <div className={styles.actions}>
+            <Link to="/" className="btn-primary">← Go home</Link>
+            <Link to="/#downloader" className="btn-secondary">Try the downloader</Link>
+          </div>
+        </div>
+      </div>
+    </>
+  )
 }

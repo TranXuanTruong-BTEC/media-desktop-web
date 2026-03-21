@@ -1,46 +1,70 @@
+import React from 'react'
+import { useState } from 'react'
+import { Plus, Minus } from 'lucide-react'
+import styles from './FAQ.module.css'
+
+const faqs = [
+  {
+    q: 'Is SnapLoad free to use?',
+    a: 'Yes, completely free. Download MP3 and MP4 files without creating an account or entering payment details. We keep the lights on through a small number of non-intrusive ads.',
+  },
+  {
+    q: 'What video platforms are supported?',
+    a: 'SnapLoad works with 50+ platforms including YouTube, TikTok, Instagram, Facebook, Twitter/X, Reddit, Vimeo, Dailymotion, Snapchat, Pinterest, and many more.',
+  },
+  {
+    q: 'Is it legal to download videos?',
+    a: 'Downloading for personal use is generally permissible in many jurisdictions. However, you must not download and redistribute copyrighted content without authorization. Please review the terms of service for each platform. SnapLoad is a tool — how you use it is your responsibility.',
+  },
+  {
+    q: 'Does SnapLoad store my data or files?',
+    a: 'No. We process URLs transiently and do not log, store, or cache them. Downloaded files are streamed directly to your browser. We have no interest in your data.',
+  },
+  {
+    q: 'What quality options are available?',
+    a: 'For MP3 audio: 128, 192, 256, and 320 kbps. For MP4/WebM video: up to 4K/2160p where the source supports it, otherwise 1080p, 720p, or 480p.',
+  },
+  {
+    q: 'Why is my download failing?',
+    a: "The video may be private or region-locked, the platform may have changed its API, or the URL may be malformed. Try copying the URL directly from your browser's address bar.",
+  },
+]
+
 export default function FAQ() {
-  const faqs = [
-    {
-      question: "Ứng dụng có miễn phí không?",
-      answer: "Có, tất cả công cụ đều miễn phí và không quảng cáo."
-    },
-    {
-      question: "Có thu thập dữ liệu người dùng không?",
-      answer: "Không. Chúng tôi không lưu trữ hay theo dõi bất kỳ dữ liệu cá nhân nào."
-    },
-    {
-      question: "Có cần tài khoản để sử dụng không?",
-      answer: "Không cần đăng ký hoặc đăng nhập."
-    },
-    {
-      question: "Có hỗ trợ macOS không?",
-      answer: "Hiện tại chỉ hỗ trợ Windows 10/11."
-    }
-  ];
+  const [open, setOpen] = useState(null)
 
   return (
-    <section className="bg-slate-900 py-24 px-6 text-white">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-16">
-          Câu hỏi thường gặp
-        </h2>
+    <section className={styles.section} id="faq">
+      <div className={`container ${styles.inner}`}>
+        <div className={styles.header}>
+          <span className="section-label">Common questions</span>
+          <h2 className="section-title">FAQ</h2>
+        </div>
 
-        <div className="space-y-6">
-          {faqs.map((faq, index) => (
+        <div className={styles.list}>
+          {faqs.map((faq, i) => (
             <div
-              key={index}
-              className="bg-slate-800 p-6 rounded-xl border border-slate-700"
+              key={i}
+              className={`${styles.item} ${open === i ? styles.itemOpen : ''}`}
             >
-              <h3 className="font-semibold">
-                {faq.question}
-              </h3>
-              <p className="text-slate-400 mt-2 text-sm">
-                {faq.answer}
-              </p>
+              <button
+                className={styles.question}
+                onClick={() => setOpen(open === i ? null : i)}
+                aria-expanded={open === i}
+              >
+                <span>{faq.q}</span>
+                <span className={styles.icon}>
+                  {open === i ? <Minus size={16} /> : <Plus size={16} />}
+                </span>
+              </button>
+
+              <div className={`${styles.answer} ${open === i ? styles.answerOpen : ''}`}>
+                <div className={styles.answerInner}>{faq.a}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

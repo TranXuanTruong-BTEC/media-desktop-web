@@ -1,0 +1,76 @@
+.section {
+  padding: 0 0 96px;
+  background: var(--bg);
+}
+
+.inner {}
+
+/* Filter tabs */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+  padding: 20px 0 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filterBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1.5px solid var(--border2);
+  border-radius: 40px;
+  padding: 7px 16px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filterBtn:hover {
+  border-color: var(--border3);
+  color: var(--text);
+}
+
+.filterBtn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.filterCount {
+  background: rgba(255,255,255,0.18);
+  border-radius: 40px;
+  padding: 1px 7px;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.active .filterCount {
+  background: rgba(255,255,255,0.25);
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+
+/* Empty state */
+.empty {
+  text-align: center;
+  padding: 64px 0;
+  color: var(--text3);
+  font-size: 15px;
+}
+
+@media (max-width: 560px) {
+  .grid { grid-template-columns: 1fr; }
+  .section { padding-bottom: 64px; }
+}

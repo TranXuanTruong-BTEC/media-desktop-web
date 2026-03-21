@@ -1,46 +1,70 @@
+import React from 'react'
+import styles from './WhySection.module.css'
+
+const features = [
+  {
+    icon: '🎵',
+    iconBg: 'rgba(108,92,231,0.14)',
+    title: 'High-quality audio',
+    desc: 'Download MP3 at up to 320 kbps — the highest quality available. Perfect for music, podcasts, and lectures.',
+  },
+  {
+    icon: '🎬',
+    iconBg: 'rgba(0,206,201,0.1)',
+    title: 'HD & 4K video',
+    desc: 'Get MP4 or WebM files at full resolution — up to 4K where available. No compression, no quality loss.',
+  },
+  {
+    icon: '⚡',
+    iconBg: 'rgba(253,203,110,0.1)',
+    title: 'Lightning fast',
+    desc: 'Our servers are globally distributed. Most downloads start in under 3 seconds, no matter where you are.',
+  },
+  {
+    icon: '🔒',
+    iconBg: 'rgba(255,118,117,0.1)',
+    title: 'Private & secure',
+    desc: "We don't log your URLs, store your files, or track activity. Your downloads are 100% private.",
+  },
+  {
+    icon: '📦',
+    iconBg: 'rgba(108,92,231,0.14)',
+    title: 'Multiple formats',
+    desc: 'Choose MP3, MP4, or WebM. Pick the quality that fits — from 128 kbps to 320 kbps for audio.',
+  },
+  {
+    icon: '📱',
+    iconBg: 'rgba(0,206,201,0.1)',
+    title: 'Works on any device',
+    desc: 'Mobile, tablet, desktop — SnapLoad works perfectly on all screen sizes and modern browsers.',
+  },
+]
+
 export default function WhySection() {
-  const features = [
-    {
-      title: "Tối ưu hiệu suất native",
-      desc: "Ứng dụng desktop chạy trực tiếp trên Windows, nhanh và ổn định."
-    },
-    {
-      title: "Không thu thập dữ liệu",
-      desc: "Chúng tôi không lưu trữ hay theo dõi bất kỳ thông tin cá nhân nào."
-    },
-    {
-      title: "Nhẹ và dễ cài đặt",
-      desc: "Dung lượng nhỏ, cài đặt trong vài giây."
-    },
-    {
-      title: "Thiết kế tập trung trải nghiệm",
-      desc: "Giao diện tối giản, dễ sử dụng cho mọi đối tượng."
-    }
-  ];
-
   return (
-    <section className="bg-slate-900 py-24 px-6 text-white">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-16">
-          Vì sao chọn MediaTools?
-        </h2>
+    <section className={styles.section} id="why">
+      <div className={`container ${styles.inner}`}>
+        <div className={styles.header}>
+          <span className="section-label">What you get</span>
+          <h2 className="section-title">Everything you need,<br />nothing you don't</h2>
+          <p className="section-sub">
+            We stripped out the ads, popups, and confusing menus.
+            Just pure, fast downloads.
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-10">
-          {features.map((feature, index) => (
-            <div
-              key={index}
-              className="bg-slate-800 p-6 rounded-xl border border-slate-700"
-            >
-              <h3 className="font-semibold text-lg mb-2">
-                {feature.title}
-              </h3>
-              <p className="text-slate-400 text-sm">
-                {feature.desc}
-              </p>
+        <div className={styles.grid}>
+          {features.map(f => (
+            <div key={f.title} className={styles.card}>
+              <div className={styles.icon} style={{ background: f.iconBg }}>
+                {f.icon}
+              </div>
+              <h3 className={styles.cardTitle}>{f.title}</h3>
+              <p className={styles.cardDesc}>{f.desc}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

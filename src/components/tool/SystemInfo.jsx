@@ -1,29 +1,52 @@
-export default function SystemInfo({ requirements }) {
+import React from 'react'
+import styles from './SystemInfo.module.css'
+
+export default function SystemInfo({ tool }) {
   return (
-    <section className="bg-slate-900 py-20 px-6 text-white">
-      <div className="max-w-5xl mx-auto">
+    <section className={styles.section}>
+      <div className={`container ${styles.inner}`}>
+        <div className={styles.grid}>
 
-        <h2 className="text-2xl font-bold mb-10">
-          Yêu cầu hệ thống
-        </h2>
-
-        <div className="grid md:grid-cols-2 gap-8">
-          {requirements.map((item, index) => (
-            <div
-              key={index}
-              className="bg-slate-800 border border-slate-700 p-6 rounded-xl"
-            >
-              <h3 className="font-semibold mb-2">
-                {item.title}
-              </h3>
-              <p className="text-slate-400 text-sm">
-                {item.value}
-              </p>
+          <div className={styles.block}>
+            <h3 className={styles.blockTitle}>Supported platforms</h3>
+            <div className={styles.tags}>
+              {tool.platforms.map(p => (
+                <span key={p} className={styles.tag}>{p}</span>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
 
+          <div className={styles.block}>
+            <h3 className={styles.blockTitle}>Output formats</h3>
+            <div className={styles.tags}>
+              {tool.formats.map(f => (
+                <span key={f} className={`${styles.tag} ${styles[f]}`}>
+                  {f.toUpperCase()}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className={styles.block}>
+            <h3 className={styles.blockTitle}>Requirements</h3>
+            <div className={styles.tags}>
+              <span className={styles.tag}>Modern browser</span>
+              <span className={styles.tag}>Internet connection</span>
+              <span className={styles.tag}>No app needed</span>
+            </div>
+          </div>
+
+          <div className={styles.block}>
+            <h3 className={styles.blockTitle}>Privacy</h3>
+            <div className={styles.tags}>
+              <span className={styles.tag}>No account</span>
+              <span className={styles.tag}>No logging</span>
+              <span className={styles.tag}>SSL secured</span>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
-  );
+  )
 }

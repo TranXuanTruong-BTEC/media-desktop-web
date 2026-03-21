@@ -1,14 +1,24 @@
-import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React from 'react'
+import { useState, useEffect } from 'react'
+import { ChevronUp } from 'lucide-react'
+import styles from './ScrollTop.module.css'
 
-function ScrollTop() {
-  const { pathname } = useLocation();
+export default function ScrollTop() {
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+    const onScroll = () => setVisible(window.scrollY > 500)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
-  return null;
+  return (
+    <button
+      className={`${styles.btn} ${visible ? styles.visible : ''}`}
+      onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      aria-label="Back to top"
+    >
+      <ChevronUp size={18} />
+    </button>
+  )
 }
-
-export default ScrollTop;

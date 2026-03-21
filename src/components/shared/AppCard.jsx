@@ -1,36 +1,34 @@
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
+import styles from './AppCard.module.css'
 
 export default function AppCard({ tool }) {
   return (
-    <div className="group bg-slate-900 border border-slate-800 rounded-2xl p-8 hover:border-blue-500 transition-all duration-300 hover:-translate-y-1">
-
-      {/* Icon */}
-      <div className="text-4xl mb-4">
-        {tool.icon || "🛠"}
+    <Link to={`/tool/${tool.slug}`} className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.icon} style={{ background: tool.iconBg }}>
+          <span style={{ color: tool.iconColor, fontSize: '20px', fontWeight: 700 }}>
+            {tool.icon}
+          </span>
+        </div>
+        {tool.featured && <span className={styles.badge}>Popular</span>}
       </div>
 
-      {/* Title */}
-      <h3 className="text-xl font-semibold text-white">
-        {tool.name}
-      </h3>
+      <h3 className={styles.name}>{tool.name}</h3>
+      <p className={styles.tagline}>{tool.tagline}</p>
 
-      {/* Description */}
-      <p className="text-slate-400 mt-3 text-sm leading-relaxed">
-        {tool.description}
-      </p>
-
-      {/* Meta */}
-      <div className="mt-4 text-xs text-slate-500">
-        v{tool.version} • {tool.os}
+      <div className={styles.formats}>
+        {tool.formats.map(f => (
+          <span key={f} className={`${styles.format} ${styles[f]}`}>
+            {f.toUpperCase()}
+          </span>
+        ))}
       </div>
 
-      {/* CTA */}
-      <Link
-        to={`/tools/${tool.slug}`}
-        className="inline-block mt-6 text-blue-400 group-hover:text-blue-300 transition font-medium text-sm"
-      >
-        View Details →
-      </Link>
-    </div>
-  );
+      <div className={styles.arrow}>
+        <ArrowRight size={16} />
+      </div>
+    </Link>
+  )
 }

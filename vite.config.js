@@ -1,13 +1,15 @@
 import { defineConfig } from 'vite'
-import sitemap from 'vite-plugin-sitemap'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [
-    sitemap({
-      hostname: 'https://mytools-9ns.pages.dev',
-      changefreq: 'weekly',
-      priority: 0.8,
-      lastmod: new Date()
-    })
-  ]
+    react({
+      jsxRuntime: 'automatic',
+    }),
+  ],
+  css: {
+    modules: {
+      localsConvention: 'camelCase',
+    },
+  },
 })

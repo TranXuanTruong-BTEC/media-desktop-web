@@ -1,25 +1,46 @@
-import { useEffect } from "react";
+import React from 'react'
+import { useState, useEffect } from 'react'
+import { CheckCircle, AlertCircle, X } from 'lucide-react'
+import styles from './Toast.module.css'
 
-export default function Toast({ message, type = "success", onClose }) {
+// Usage: window.dispatchEvent(new CustomEvent('toast', { detail: { message, type } }))
+export function showToast(message, type = 'success') {
+  window.dispatchEvent(new CustomEvent('toast', { detail: { message, type } }))
+}
+
+export default function Toast() {
+  const [toasts, setToasts] = useState([])
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      onClose();
-    }, 3000);
+    const handler = (e) => {
+      const id = Date.now()
+      setToasts(prev => [...prev, { id, ...e.detail }])
+      setTimeout(() => {
+        setToasts(prev => prev.filter(t => t.id !== id))
+      }, 3500)
+    }
+    window.addEventListener('toast', handler)
+    return () => window.removeEventListener('toast', handler)
+  }, [])
 
-    return () => clearTimeout(timer);
-  }, [onClose]);
-
-  const baseStyle =
-    "fixed bottom-6 right-6 px-6 py-3 rounded-xl shadow-lg text-sm font-medium z-50 transition";
-
-  const typeStyle =
-    type === "error"
-      ? "bg-red-600 text-white"
-      : "bg-green-600 text-white";
+  const dismiss = (id) => setToasts(prev => prev.filter(t => t.id !== id))
 
   return (
-    <div className={`${baseStyle} ${typeStyle}`}>
-      {message}
+    <div className={styles.container}>
+      {toasts.map(toast => (
+        <div key={toast.id} className={`${styles.toast} ${styles[toast.type]} animate-slide-up`}>
+          <span className={styles.icon}>
+            {toast.type === 'error'
+              ? <AlertCircle size={16} />
+              : <CheckCircle size={16} />
+            }
+          </span>
+          <span className={styles.message}>{toast.message}</span>
+          <button className={styles.dismiss} onClick={() => dismiss(toast.id)}>
+            <X size={14} />
+          </button>
+        </div>
+      ))}
     </div>
-  );
+  )
 }

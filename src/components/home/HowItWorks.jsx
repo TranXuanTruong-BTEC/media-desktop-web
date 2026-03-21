@@ -1,33 +1,53 @@
+import React from 'react'
+import styles from './HowItWorks.module.css'
+
+const steps = [
+  {
+    num: '1',
+    icon: '🔗',
+    title: 'Copy the link',
+    desc: 'Go to YouTube, TikTok, Instagram, or any supported platform. Copy the video URL from your browser or the share menu.',
+  },
+  {
+    num: '2',
+    icon: '⚙️',
+    title: 'Pick your format',
+    desc: 'Paste the URL into SnapLoad. Choose MP3 or MP4 and select the quality that fits your needs.',
+  },
+  {
+    num: '3',
+    icon: '⬇️',
+    title: 'Download instantly',
+    desc: 'Hit download and your file is ready in seconds — saved directly to your device. No waiting, no spam.',
+  },
+]
+
 export default function HowItWorks() {
-  const steps = [
-    "Tải ứng dụng về máy",
-    "Mở ứng dụng và nhập dữ liệu",
-    "Xử lý và lưu kết quả trong vài giây"
-  ];
-
   return (
-    <section className="bg-slate-950 py-24 px-6 text-white">
-      <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold mb-16">
-          Cách hoạt động
-        </h2>
+    <section className={styles.section} id="how">
+      <div className={`container ${styles.inner}`}>
+        <div className={styles.header}>
+          <span className="section-label">Simple as it gets</span>
+          <h2 className="section-title">3 steps to your file</h2>
+          <p className="section-sub">
+            No complicated settings, no account creation. Works exactly as you'd expect.
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-3 gap-10">
-          {steps.map((step, index) => (
-            <div
-              key={index}
-              className="bg-slate-900 p-8 rounded-2xl border border-slate-800"
-            >
-              <div className="text-3xl font-bold text-blue-500 mb-4">
-                {index + 1}
-              </div>
-              <p className="text-slate-300">
-                {step}
-              </p>
+        <div className={styles.steps}>
+          {steps.map((step, i) => (
+            <div key={step.num} className={styles.step}>
+              {/* Connector line */}
+              {i < steps.length - 1 && <div className={styles.connector} />}
+
+              <div className={styles.stepNum}>{step.num}</div>
+              <div className={styles.stepIcon}>{step.icon}</div>
+              <h3 className={styles.stepTitle}>{step.title}</h3>
+              <p className={styles.stepDesc}>{step.desc}</p>
             </div>
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

@@ -1,0 +1,200 @@
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 0 64px;
+  background: var(--bg);
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 600px 350px at 50% 0%, rgba(108,92,231,0.18) 0%, transparent 65%);
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.toolMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  text-align: left;
+}
+
+.toolIcon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.toolTitle {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1.1;
+  margin-bottom: 4px;
+}
+
+.toolTagline {
+  font-size: 15px;
+  color: var(--text2);
+  font-weight: 300;
+}
+
+/* Widget (mirrors Hero but slightly more compact) */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  width: 100%;
+  max-width: 600px;
+  box-shadow: var(--shadow), 0 0 60px rgba(108,92,231,0.1);
+}
+
+.urlRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.urlInput {
+  flex: 1;
+  background: var(--bg2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 13px 16px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  min-width: 0;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.urlInput::placeholder { color: var(--text3); }
+.urlInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,92,231,0.15); }
+
+.fetchBtn {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 13px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.2s, transform 0.1s;
+}
+.fetchBtn:hover:not(:disabled) { background: var(--accent2); }
+.fetchBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.fetchBtn:active:not(:disabled) { transform: scale(0.97); }
+
+.optionsRow {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+.optionGroup { flex: 1; }
+.optionLabel {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 5px;
+}
+.select {
+  width: 100%;
+  background: var(--bg2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 8px 30px 8px 10px;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' fill='none'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%235c5a78' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  transition: border-color 0.2s;
+}
+.select:focus { border-color: var(--accent); }
+.select:disabled { opacity: 0.5; }
+
+/* States */
+.state { margin-top: 12px; }
+
+.progressWrap { background: var(--bg2); border-radius: 40px; height: 5px; margin-bottom: 8px; overflow: hidden; }
+.progressBar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--green));
+  border-radius: 40px;
+  transition: width 0.4s ease;
+  animation: shimmer-bar 1.5s infinite;
+}
+.progressMsg { font-size: 12px; color: var(--text2); text-align: center; }
+
+.errorBox {
+  background: var(--red2);
+  border: 1px solid rgba(255,118,117,0.2);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--red);
+}
+.errClose { background: none; border: none; color: var(--red); cursor: pointer; margin-left: auto; opacity: 0.7; display: flex; align-items: center; padding: 0; }
+.errClose:hover { opacity: 1; }
+
+.resultCard { background: var(--bg2); border: 1px solid var(--border2); border-radius: var(--radius); overflow: hidden; }
+.resultHeader { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; gap: 10px; }
+.resultTitle { font-size: 13px; font-weight: 500; flex: 1; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.resultClose { background: none; border: none; color: var(--text3); cursor: pointer; display: flex; align-items: center; padding: 2px; border-radius: 4px; transition: color 0.2s; }
+.resultClose:hover { color: var(--text); }
+.resultDivider { height: 1px; background: var(--border); }
+.downloadList { display: flex; flex-direction: column; gap: 5px; padding: 8px 10px; }
+.downloadRow { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); transition: border-color 0.2s, background 0.2s; }
+.downloadRow:hover { border-color: rgba(108,92,231,0.3); background: rgba(108,92,231,0.04); }
+.downloadLeft { display: flex; align-items: center; gap: 10px; }
+.badge { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; flex-shrink: 0; }
+.mp3  { background: rgba(108,92,231,0.18); color: var(--accent2); }
+.mp4  { background: rgba(0,206,201,0.14); color: var(--green); }
+.webm { background: rgba(253,203,110,0.14); color: var(--amber); }
+.dlQuality { font-size: 12px; color: var(--text); font-weight: 500; }
+.dlBtn {
+  display: flex; align-items: center; gap: 5px;
+  background: transparent; border: 1.5px solid var(--accent);
+  border-radius: var(--radius-sm); color: var(--accent2);
+  padding: 5px 12px; font-family: var(--font-body); font-size: 11px; font-weight: 600;
+  cursor: pointer; transition: background 0.2s, color 0.2s; flex-shrink: 0;
+}
+.dlBtn:hover { background: var(--accent); color: #fff; }
+
+@media (max-width: 560px) {
+  .hero { padding: 52px 0 48px; }
+  .toolMeta { flex-direction: column; align-items: center; text-align: center; }
+  .urlRow { flex-direction: column; }
+  .fetchBtn { width: 100%; }
+  .optionsRow { flex-direction: column; }
+}

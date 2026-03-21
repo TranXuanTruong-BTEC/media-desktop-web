@@ -1,23 +1,23 @@
-import { Routes, Route } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/Footer";
-import Home from "../pages/Home";
-import ToolDetail from "../pages/ToolDetail";
-import React from "react";
+import React from 'react'
+import { Routes, Route } from 'react-router-dom'
+import Home from '../pages/Home.jsx'
+import ToolDetail from '../pages/ToolDetail.jsx'
+import Tools from '../pages/Tools.jsx'
+import DesktopToolDetail from '../pages/DesktopToolDetail.jsx'
+import Privacy from '../pages/Privacy.jsx'
+import Terms from '../pages/Terms.jsx'
+import NotFound from '../pages/NotFound.jsx'
 
-function AppRoutes() {
+export default function AppRoutes() {
   return (
-    <div className="bg-slate-900 text-white min-h-screen flex flex-col">
-      <Navbar />
-      <div className="flex-1">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tool/:slug" element={<ToolDetail />} />
-        </Routes>
-      </div>
-      <Footer />
-    </div>
-  );
+    <Routes>
+      <Route path="/"              element={<Home />} />
+      <Route path="/tool/:toolId"  element={<ToolDetail />} />
+      <Route path="/tools"         element={<Tools />} />
+      <Route path="/tools/:toolId" element={<DesktopToolDetail />} />
+      <Route path="/privacy"       element={<Privacy />} />
+      <Route path="/terms"         element={<Terms />} />
+      <Route path="*"              element={<NotFound />} />
+    </Routes>
+  )
 }
-
-export default AppRoutes;

@@ -1,20 +1,26 @@
-import { tools } from "../../data/tools";
-import AppCard from "../shared/AppCard";
+import React from 'react'
+import AppCard from '../shared/AppCard.jsx'
+import { tools } from '../../data/tools.js'
+import styles from './FeaturedTools.module.css'
 
 export default function FeaturedTools() {
   return (
-    <section id="tools" className="bg-slate-950 py-24 px-6 text-white">
-      <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold text-center mb-16">
-          Công cụ nổi bật
-        </h2>
+    <section className={styles.section} id="tools">
+      <div className={`container ${styles.inner}`}>
+        <div className={styles.header}>
+          <span className="section-label">All Tools</span>
+          <h2 className="section-title">One platform,<br />every downloader</h2>
+          <p className="section-sub">
+            Whether you need audio, video, or both — we've got a dedicated tool for every major platform.
+          </p>
+        </div>
 
-        <div className="grid md:grid-cols-2 gap-10">
-          {tools.map((tool) => (
-            <AppCard key={tool.slug} tool={tool} />
+        <div className={styles.grid}>
+          {tools.map(tool => (
+            <AppCard key={tool.id} tool={tool} />
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }

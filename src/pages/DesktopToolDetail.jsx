@@ -1,0 +1,270 @@
+import React from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { Download, ArrowLeft, Check, Clock, HardDrive, Monitor, Tag, Github, Loader, Star } from 'lucide-react'
+import { getDesktopToolById, desktopTools, formatDownloadCount } from '../data/desktopTools.js'
+import { useGithubRelease } from '../hooks/useGithubRelease.js'
+import SEO from '../components/shared/SEO.jsx'
+import DesktopToolCard from '../components/desktop/DesktopToolCard.jsx'
+import { showToast } from '../components/shared/Toast.jsx'
+import styles from './DesktopToolDetail.module.css'
+
+export default function DesktopToolDetail() {
+  const { toolId } = useParams()
+  const tool = getDesktopToolById(toolId)
+
+  if (!tool) {
+    return (
+      <div className={styles.notFound}>
+        <h1>Tool không tồn tại</h1>
+        <Link to="/tools" className="btn-primary">← Quay lại Tools</Link>
+      </div>
+    )
+  }
+
+  const gh = useGithubRelease(tool.githubRepo, tool.assetName)
+
+  const version     = gh.version      || tool.version
+  const downloadUrl = gh.downloadUrl  || tool.downloadUrl
+  const fileSize    = gh.fileSize     || tool.fileSize
+  const releaseDate = gh.releaseDate  || tool.releaseDate
+  const dlCount     = gh.downloadCount > 0 ? gh.downloadCount : tool.downloadCount
+  const changelog   = gh.changelog?.length ? gh.changelog : tool.changelog
+
+  const otherTools = desktopTools.filter(t => t.id !== tool.id).slice(0, 3)
+
+  function handleDownload() {
+    showToast(`🚀 Đang tải ${tool.name} v${version}…`)
+  }
+
+  return (
+    <>
+      <SEO
+        title={`${tool.name} v${version} – Tải miễn phí`}
+        description={tool.description}
+        keywords={tool.tags.join(', ')}
+      />
+
+      {/* Breadcrumb */}
+      <div className={styles.breadcrumb}>
+        <div className="container">
+          <Link to="/tools" className={styles.back}>
+            <ArrowLeft size={14} /> Tất cả Tools
+          </Link>
+        </div>
+      </div>
+
+      {/* Hero */}
+      <div className={styles.hero}>
+        <div className={styles.heroBg} />
+        <div className={`container ${styles.heroInner}`}>
+
+          <div className={styles.heroLeft}>
+            <div className={styles.toolIcon} style={{ background: tool.iconBg }}>
+              <span style={{ color: tool.iconColor, fontSize: '36px' }}>{tool.icon}</span>
+            </div>
+            <div className={styles.heroMeta}>
+              <div className={styles.heroBadgeRow}>
+                {tool.featured && <span className={styles.featuredBadge}><Star size={10} fill="currentColor" /> Featured</span>}
+                <span className={styles.catBadge}>{tool.category}</span>
+                {tool.githubRepo && (
+                  <a href={`https://github.com/${tool.githubRepo}`} target="_blank" rel="noopener noreferrer" className={styles.ghBadge}>
+                    <Github size={11} /> Open Source
+                  </a>
+                )}
+                {!gh.loading && !gh.error && (
+                  <span className={styles.liveBadge}>
+                    <span className={styles.liveDot} /> Live từ GitHub
+                  </span>
+                )}
+              </div>
+              <h1 className={styles.heroTitle}>{tool.name}</h1>
+              <p className={styles.heroDesc}>{tool.description}</p>
+
+              {/* Stats */}
+              <div className={styles.stats}>
+                <div className={styles.stat}>
+                  <HardDrive size={13} />
+                  {gh.loading ? <span className={styles.skeleton} /> : <span>{fileSize}</span>}
+                </div>
+                <div className={styles.stat}>
+                  <Monitor size={13} />
+                  <span>{tool.requirements}</span>
+                </div>
+                <div className={styles.stat}>
+                  <Download size={13} />
+                  {gh.loading
+                    ? <span className={styles.skeleton} />
+                    : <span>{formatDownloadCount(dlCount) || '—'} lượt tải</span>}
+                </div>
+                <div className={styles.stat}>
+                  <Clock size={13} />
+                  {gh.loading
+                    ? <span className={styles.skeleton} />
+                    : <span>Cập nhật {releaseDate}</span>}
+                </div>
+              </div>
+
+              {/* Download button */}
+              <div className={styles.heroActions}>
+                {gh.loading ? (
+                  <div className={styles.dlBtnLoading}>
+                    <Loader size={18} className={styles.spin} />
+                    Đang tải thông tin phiên bản…
+                  </div>
+                ) : (
+                  <a
+                    href={downloadUrl}
+                    className={styles.downloadBtn}
+                    style={{ background: tool.color || 'var(--accent)' }}
+                    onClick={handleDownload}
+                  >
+                    <Download size={20} />
+                    Tải xuống miễn phí
+                    <span className={styles.dlMeta}>v{version} · {fileSize} · .{tool.ext}</span>
+                  </a>
+                )}
+              </div>
+
+              <p className={styles.safeNote}>
+                ✓ Mã nguồn mở &nbsp;·&nbsp; ✓ Không virus &nbsp;·&nbsp; ✓ Không adware &nbsp;·&nbsp; ✓ Không cần đăng ký
+              </p>
+            </div>
+          </div>
+
+          {/* Version card */}
+          <div className={styles.heroRight}>
+            <div className={styles.versionCard}>
+              <div className={styles.versionHeader}>
+                <Tag size={13} /> Thông tin phiên bản
+              </div>
+              <div className={styles.versionRows}>
+                {[
+                  ['Phiên bản', gh.loading ? null : `v${version}`],
+                  ['Nền tảng', tool.platform.join(' / ')],
+                  ['Kích thước', gh.loading ? null : fileSize],
+                  ['Định dạng', `.${tool.ext}`],
+                  ['Lượt tải', gh.loading ? null : (formatDownloadCount(dlCount) || '—')],
+                  ['Cập nhật', gh.loading ? null : releaseDate],
+                ].map(([k, v]) => (
+                  <div key={k} className={styles.versionRow}>
+                    <span className={styles.vKey}>{k}</span>
+                    {v === null
+                      ? <span className={styles.skeleton} />
+                      : <span className={styles.vVal}>{v}</span>
+                    }
+                  </div>
+                ))}
+              </div>
+              {tool.githubRepo && (
+                <a
+                  href={`https://github.com/${tool.githubRepo}/releases`}
+                  target="_blank" rel="noopener noreferrer"
+                  className={styles.allReleasesLink}
+                >
+                  <Github size={13} /> Xem tất cả Releases
+                </a>
+              )}
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* Features + Changelog */}
+      <div className={styles.contentBelt}>
+        <div className={`container ${styles.contentGrid}`}>
+
+          <div className={styles.block}>
+            <h2 className={styles.blockTitle}>Tính năng nổi bật</h2>
+            <ul className={styles.featureList}>
+              {tool.features.map(f => (
+                <li key={f} className={styles.featureItem}>
+                  <span className={styles.featureCheck} style={{ background: tool.accentColor, color: tool.iconColor }}>
+                    <Check size={13} />
+                  </span>
+                  {f}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className={styles.block}>
+            <h2 className={styles.blockTitle}>Lịch sử cập nhật</h2>
+            {gh.loading ? (
+              <div className={styles.changelogLoading}>
+                <Loader size={16} className={styles.spin} /> Đang tải changelog từ GitHub…
+              </div>
+            ) : (
+              <div className={styles.changelog}>
+                {changelog.map((log, i) => (
+                  <div key={log.version} className={`${styles.logItem} ${i === 0 ? styles.logLatest : ''}`}>
+                    <div className={styles.logHeader}>
+                      <span className={styles.logVersion}>v{log.version}</span>
+                      {i === 0 && <span className={styles.logNew}>Mới nhất</span>}
+                      <span className={styles.logDate}>{log.date}</span>
+                    </div>
+                    <p className={styles.logNotes}>{log.notes}</p>
+                  </div>
+                ))}
+                {tool.githubRepo && (
+                  <a
+                    href={`https://github.com/${tool.githubRepo}/releases`}
+                    target="_blank" rel="noopener noreferrer"
+                    className={styles.moreReleasesLink}
+                  >
+                    Xem toàn bộ lịch sử →
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+
+        </div>
+      </div>
+
+      {/* Requirements */}
+      <div className={styles.requireSection}>
+        <div className={`container ${styles.requireInner}`}>
+          <h2 className={styles.blockTitle}>Yêu cầu hệ thống</h2>
+          <div className={styles.requireGrid}>
+            <div className={styles.requireItem}>
+              <Monitor size={18} className={styles.requireIcon} />
+              <div>
+                <div className={styles.requireLabel}>Hệ điều hành</div>
+                <div className={styles.requireVal}>{tool.requirements}</div>
+              </div>
+            </div>
+            <div className={styles.requireItem}>
+              <HardDrive size={18} className={styles.requireIcon} />
+              <div>
+                <div className={styles.requireLabel}>Dung lượng</div>
+                <div className={styles.requireVal}>{gh.loading ? '…' : fileSize}</div>
+              </div>
+            </div>
+            <div className={styles.requireItem}>
+              <Download size={18} className={styles.requireIcon} />
+              <div>
+                <div className={styles.requireLabel}>Cài đặt</div>
+                <div className={styles.requireVal}>Chạy file .{tool.ext} và làm theo hướng dẫn</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Other tools */}
+      {otherTools.length > 0 && (
+        <div className={styles.moreSection}>
+          <div className={`container ${styles.moreInner}`}>
+            <h2 className={styles.blockTitle}>Các tool khác</h2>
+            <div className={styles.moreGrid}>
+              {otherTools.map(t => (
+                <DesktopToolCard key={t.id} tool={t} />
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
