@@ -121,9 +121,11 @@ export default function Hero() {
 
   // ── Fetch info from real API ──────────────────────────────
   async function handleFetch() {
-    const trimmed = url.trim()
-    if (!trimmed) { setErrorMsg('Please paste a video URL to continue.'); setPhase('error'); return }
-    if (!isValidUrl(trimmed)) { setErrorMsg("That doesn't look like a valid URL. Make sure it starts with https://"); setPhase('error'); return }
+    // Read directly from DOM to avoid stale state from onPaste timing
+    const trimmed = (inputRef.current?.value || url).trim()
+    if (trimmed) setUrl(trimmed) // sync state
+    if (!trimmed) { setErrorMsg('Vui lòng dán link video vào ô trên.'); setPhase('error'); return }
+    if (!isValidUrl(trimmed)) { setErrorMsg('Link không hợp lệ. Hãy đảm bảo link bắt đầu bằng https://'); setPhase('error'); return }
 
     clearTimers()
     animateProgress()
@@ -208,12 +210,23 @@ export default function Hero() {
   }
 
   function handlePaste(e) {
-    setTimeout(() => { if (isValidUrl(e.target.value.trim())) handleFetch() }, 50)
+    // Use clipboardData for instant value before React re-render
+    const pasted = e.clipboardData?.getData('text')?.trim() || ''
+    const val = pasted || e.target.value?.trim() || ''
+    if (val) setUrl(val)
+    // Small delay to let React update, then fetch
+    setTimeout(() => {
+      const finalVal = inputRef.current?.value?.trim() || val
+      if (isValidUrl(finalVal)) {
+        setUrl(finalVal)
+        handleFetch()
+      }
+    }, 80)
   }
 
   // ── Trigger real download ─────────────────────────────────
   function handleDownload(option) {
-    const rawUrl = option.downloadUrl || buildDownloadUrl(url.trim(), option.format, option.value)
+    const rawUrl = option.downloadUrl || buildDownloadUrl((inputRef.current?.value || url).trim(), option.format, option.value)
     const dlUrl  = rawUrl.startsWith('/') ? API_BASE + rawUrl : rawUrl
     const link  = document.createElement('a')
     link.href     = dlUrl
