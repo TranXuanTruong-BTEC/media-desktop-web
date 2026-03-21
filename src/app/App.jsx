@@ -7,6 +7,7 @@ import Footer from '../components/layout/Footer.jsx'
 import ScrollTop from '../components/layout/ScrollTop.jsx'
 import Toast from '../components/shared/Toast.jsx'
 import Onboarding, { OnboardingTrigger } from '../components/shared/Onboarding.jsx'
+import { DonateNavBtn } from '../components/shared/DonateModal.jsx'
 
 function ScrollToTop() {
   const { pathname } = useLocation()

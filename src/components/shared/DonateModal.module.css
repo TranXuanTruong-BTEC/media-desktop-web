@@ -1,0 +1,367 @@
+/* ════════════════════════════════════════
+   DONATE FUNNEL — full styles
+════════════════════════════════════════ */
+
+/* ── Trigger banner (toast-style) ── */
+.trigger {
+  position: fixed;
+  bottom: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 80;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xl);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  width: calc(100% - 48px);
+  max-width: 580px;
+  transition: bottom 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.triggerVisible {
+  bottom: 28px;
+}
+
+.triggerIcon {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(108,92,231,0.14);
+  color: var(--accent2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.triggerText { flex: 1; min-width: 0; }
+
+.triggerTitle {
+  font-size: 14px; font-weight: 600; color: var(--text);
+  margin-bottom: 2px;
+}
+
+.triggerSub {
+  font-size: 12px; color: var(--text2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.triggerBtn {
+  background: var(--accent);
+  color: #fff; border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-family: var(--font-body);
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.15s, transform 0.1s;
+}
+.triggerBtn:hover { background: var(--accent2); transform: translateY(-1px); }
+
+.triggerSkip {
+  background: none; border: none;
+  color: var(--text3); cursor: pointer;
+  display: flex; align-items: center; padding: 4px;
+  border-radius: 6px; transition: color 0.15s; flex-shrink: 0;
+}
+.triggerSkip:hover { color: var(--text2); }
+
+/* ── Overlay ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  z-index: 9999;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.25s ease;
+}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+/* ── Modal ── */
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xl);
+  width: 100%; max-width: 440px;
+  position: relative;
+  box-shadow: 0 28px 80px rgba(0,0,0,0.65);
+  animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+  overflow: hidden;
+}
+
+/* Shimmer top bar */
+.modal::before {
+  content: '';
+  position: absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--green), var(--accent));
+  background-size: 200%;
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+
+@keyframes popIn {
+  from { opacity:0; transform:translateY(24px) scale(0.95); }
+  to   { opacity:1; transform:translateY(0) scale(1); }
+}
+
+.closeBtn {
+  position: absolute; top: 14px; right: 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border2);
+  border-radius: 50%; width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text3); cursor: pointer; z-index: 1;
+  transition: all 0.15s;
+}
+.closeBtn:hover { color: var(--text); background: rgba(255,255,255,0.1); }
+
+/* ── Modal header ── */
+.modalHeader {
+  padding: 28px 24px 0;
+  text-align: center;
+}
+
+.modalAvatar {
+  width: 54px; height: 54px; border-radius: 50%;
+  background: rgba(108,92,231,0.15);
+  color: var(--accent2);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  animation: heartbeat 2s ease-in-out infinite;
+}
+@keyframes heartbeat {
+  0%,100% { transform: scale(1); }
+  15%     { transform: scale(1.12); }
+  30%     { transform: scale(1); }
+  45%     { transform: scale(1.06); }
+}
+
+.modalTitle {
+  font-family: var(--font-display);
+  font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--text); margin-bottom: 8px;
+}
+
+.modalDesc {
+  font-size: 13px; color: var(--text2);
+  line-height: 1.7; margin-bottom: 20px;
+}
+
+/* ── Modal body ── */
+.modalBody { padding: 0 24px 22px; }
+
+.sectionLabel {
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text3); margin-bottom: 10px;
+}
+
+/* Amounts */
+.amountGrid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 8px; margin-bottom: 10px;
+}
+
+.amountBtn {
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius);
+  padding: 13px 8px; text-align: center;
+  cursor: pointer; background: var(--bg2);
+  transition: all 0.15s;
+}
+.amountBtn:hover { border-color: var(--accent); background: rgba(108,92,231,0.05); }
+
+.amountBtnActive {
+  border-color: var(--accent) !important;
+  background: rgba(108,92,231,0.1) !important;
+  box-shadow: 0 0 0 3px rgba(108,92,231,0.12);
+}
+
+.amountVal {
+  font-family: var(--font-display);
+  font-size: 16px; font-weight: 800; letter-spacing: -0.3px;
+  color: var(--text); margin-bottom: 3px;
+}
+.amountBtnActive .amountVal { color: var(--accent2); }
+
+.amountSub { font-size: 11px; color: var(--text3); }
+.amountBtnActive .amountSub { color: var(--accent); }
+
+/* Custom input */
+.customInput {
+  width: 100%;
+  background: var(--bg2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text);
+  font-family: var(--font-body); font-size: 13px;
+  outline: none; margin-bottom: 18px;
+  transition: border-color 0.15s;
+}
+.customInput::placeholder { color: var(--text3); }
+.customInput:focus { border-color: var(--accent); }
+
+/* Methods */
+.methodGrid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 7px; margin-bottom: 14px;
+}
+
+.methodBtn {
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 8px;
+  cursor: pointer; background: var(--bg2);
+  font-family: var(--font-body); font-size: 13px; font-weight: 500;
+  color: var(--text2); transition: all 0.15s;
+}
+.methodBtn:hover { border-color: var(--border3); color: var(--text); }
+
+.methodBtnActive {
+  border-color: var(--accent) !important;
+  background: rgba(108,92,231,0.08) !important;
+  color: var(--accent2) !important;
+}
+
+.methodIcon { font-size: 16px; flex-shrink: 0; }
+
+/* Bank info */
+.bankInfo {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.bankRow { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.bankKey { font-size: 12px; color: var(--text3); flex-shrink: 0; }
+.bankVal { font-size: 13px; font-weight: 600; color: var(--text); text-align: right; }
+.bankValCopy {
+  font-size: 13px; font-weight: 600; color: var(--accent2);
+  cursor: pointer; text-align: right;
+  transition: color 0.15s;
+}
+.bankValCopy:hover { color: var(--accent3); }
+
+.bankNote {
+  font-size: 12px; color: var(--text2);
+  background: rgba(108,92,231,0.08);
+  border: 1px solid rgba(108,92,231,0.15);
+  border-radius: 6px; padding: 6px 10px; margin-top: 2px;
+}
+.bankNote strong { color: var(--accent2); }
+
+/* Donate button */
+.donateBtn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff; border: none;
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
+  cursor: pointer; margin-bottom: 10px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  box-shadow: 0 4px 20px rgba(108,92,231,0.4);
+  transition: opacity 0.15s, transform 0.12s;
+}
+.donateBtn:hover { opacity: 0.88; transform: translateY(-1px); }
+.donateBtn:active { transform: scale(0.98); }
+
+.modalNote {
+  text-align: center; font-size: 11px; color: var(--text3);
+  line-height: 1.6;
+}
+
+/* ── Thank you phase ── */
+.thanks {
+  padding: 40px 28px 32px;
+  display: flex; flex-direction: column; align-items: center; text-align: center;
+}
+
+.thanksCheck {
+  width: 60px; height: 60px; border-radius: 50%;
+  background: rgba(34,213,122,0.14);
+  color: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.thanksTitle {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  color: var(--text); margin-bottom: 10px;
+}
+
+.thanksSub {
+  font-size: 14px; color: var(--text2);
+  line-height: 1.75; max-width: 320px; margin-bottom: 24px;
+}
+
+.thanksStats {
+  display: flex; align-items: center;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 20px; gap: 20px;
+  margin-bottom: 24px; width: 100%;
+}
+.thanksStat { text-align: center; flex: 1; }
+.thanksStatNum {
+  font-family: var(--font-display);
+  font-size: 22px; font-weight: 800; letter-spacing: -1px;
+  color: var(--accent2); margin-bottom: 3px;
+}
+.thanksStatLabel { font-size: 11px; color: var(--text3); }
+.thanksStatDiv { width: 1px; height: 36px; background: var(--border2); }
+
+.thanksActions { display: flex; gap: 10px; width: 100%; }
+
+.shareBtn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  background: var(--bg2);
+  border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 11px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  color: var(--text2); cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.shareBtn:hover { border-color: var(--border3); color: var(--text); }
+
+.continueBtn {
+  flex: 1;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: 11px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background 0.15s;
+}
+.continueBtn:hover { background: var(--accent2); }
+
+/* ── Navbar donate button ── */
+.navDonateBtn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(108,92,231,0.12);
+  border: 1.5px solid rgba(108,92,231,0.25);
+  border-radius: 40px; padding: 7px 14px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  color: var(--accent2); cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.navDonateBtn:hover {
+  background: rgba(108,92,231,0.2);
+  border-color: rgba(108,92,231,0.4);
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .trigger { left: 16px; right: 16px; width: auto; transform: none; max-width: none; }
+  .triggerVisible { bottom: 16px; }
+  .amountGrid { gap: 6px; }
+  .methodGrid { grid-template-columns: 1fr 1fr; }
+  .thanksActions { flex-direction: column; }
+}

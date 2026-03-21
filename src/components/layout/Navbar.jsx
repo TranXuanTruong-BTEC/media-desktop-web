@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Download } from 'lucide-react'
+import { DonateNavBtn } from '../shared/DonateModal.jsx'
 import styles from './Navbar.module.css'
 
 const navLinks = [
@@ -78,6 +79,7 @@ export default function Navbar() {
 
         {/* Desktop CTA */}
         <div className={styles.actions}>
+          <DonateNavBtn />
           <Link to="/tools" className={styles.toolsBtn}>
             🧰 Tools
           </Link>

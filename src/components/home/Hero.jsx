@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import StatusBanner from '../shared/StatusBanner.jsx'
+import { DonateTrigger } from '../shared/DonateModal.jsx'
 import styles from './Hero.module.css'
 
 // ── API base — trỏ tới backend server ────────────────────────
@@ -90,6 +91,7 @@ export default function Hero() {
   const [errorMsg,    setErrorMsg]    = useState('')
   const [convertFile, setConvertFile] = useState(null) // for convert tab
   const [convertMode, setConvertMode]   = useState('url')  // 'url' | 'file'
+  const [donateOpen,  setDonateOpen]   = useState(false)
   const inputRef  = useRef(null)
   const timersRef = useRef([])
   const fileRef   = useRef(null)
@@ -444,6 +446,11 @@ export default function Hero() {
             <div className={`${styles.stateArea} animate-slide-up`}>
               <ResultCard results={results} onDownload={handleDownload} onReset={reset} />
             </div>
+          )}
+
+          {/* Show donate trigger after download */}
+          {phase === 'results' && !donateOpen && (
+            <DonateTrigger onOpen={() => setDonateOpen(true)} />
           )}
 
           {/* Trust strip */}
