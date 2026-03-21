@@ -34,7 +34,7 @@ export const desktopTools = [
     // Fallback download URL (direct)
     downloadUrl: 'https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaDesktopApp-Setup.exe',
 
-    screenshots: ['', '', ''],
+    screenshots: ['/images/yt2.png', '/images/yt2.png', '/images/yt2.png'],
 
     features: [
       'Download MP3 lên đến 320 kbps',
