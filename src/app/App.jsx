@@ -6,6 +6,7 @@ import Navbar from '../components/layout/Navbar.jsx'
 import Footer from '../components/layout/Footer.jsx'
 import ScrollTop from '../components/layout/ScrollTop.jsx'
 import Toast from '../components/shared/Toast.jsx'
+import Onboarding, { OnboardingTrigger } from '../components/shared/Onboarding.jsx'
 
 function ScrollToTop() {
   const { pathname } = useLocation()
@@ -19,6 +20,8 @@ export default function App() {
       <ScrollToTop />
       <ScrollTop />
       <Toast />
+      <Onboarding />
+      <OnboardingTrigger />
       <Navbar />
       <main>
         <Routes />
