@@ -1,337 +1,205 @@
 /* ════════════════════════════════════════════
-   ONBOARDING — Modal + Tour styles
+   ONBOARDING — Modal + Tour
 ════════════════════════════════════════════ */
 
-/* ── Modal overlay ── */
-.modalOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.78);
-  backdrop-filter: blur(10px);
+/* ── Overlay ── */
+.overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(12px);
   z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   padding: 20px;
   animation: fadeIn 0.3s ease;
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
 
 /* ── Modal box ── */
 .modal {
   background: var(--card);
   border: 1px solid var(--border2);
-  border-radius: var(--radius-xl);
-  width: 100%;
-  max-width: 500px;
+  border-radius: 24px;
+  width: 100%; max-width: 480px;
   position: relative;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(108,92,231,0.15);
-  animation: slideUp 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 32px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(108,92,231,0.12);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
 }
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(32px) scale(0.96); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
+@keyframes popIn {
+  from { opacity:0; transform: translateY(28px) scale(0.94); }
+  to   { opacity:1; transform: translateY(0) scale(1); }
 }
 
-/* Gradient top bar */
-.modal::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
+/* Rainbow top bar */
+.accentBar {
   height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--green));
+  background: linear-gradient(90deg, #6c5ce7, #a29bfe, #00cec9, #fdcb6e);
+  background-size: 200% 100%;
+  animation: gradientShift 3s linear infinite;
 }
+@keyframes gradientShift { 0%{background-position:0% 0%} 100%{background-position:200% 0%} }
 
 .skipBtn {
-  position: absolute;
-  top: 16px; right: 16px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid var(--border2);
-  border-radius: 50%;
-  width: 32px; height: 32px;
+  position: absolute; top: 14px; right: 14px;
+  background: rgba(255,255,255,0.06); border: 1px solid var(--border2);
+  border-radius: 50%; width: 30px; height: 30px;
   display: flex; align-items: center; justify-content: center;
-  color: var(--text3);
-  cursor: pointer;
-  transition: all 0.15s;
-  z-index: 1;
+  color: var(--text3); cursor: pointer; transition: all 0.15s; z-index: 2;
 }
 .skipBtn:hover { color: var(--text); background: rgba(255,255,255,0.1); }
 
-/* ── Dots nav ── */
+/* ── Dots ── */
 .dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  padding: 20px 24px 0;
+  display: flex; justify-content: center; gap: 6px;
+  padding: 16px 0 0;
 }
-
 .dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--border2);
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
-  padding: 0;
+  width: 6px; height: 6px; border-radius: 3px;
+  background: var(--border2); border: none; cursor: pointer; padding: 0;
+  transition: all 0.22s;
 }
-
-.dotActive {
-  background: var(--accent);
-  width: 20px;
-  border-radius: 3px;
-}
+.dotActive { background: var(--accent); width: 20px; }
+.dotDone   { background: var(--green); }
 
 /* ── Slide ── */
-.slide {
-  padding: 20px 28px 12px;
-  animation: slideIn 0.25s ease;
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(12px); }
-  to   { opacity: 1; transform: translateX(0); }
-}
+.slide { padding: 16px 28px 8px; animation: slideIn 0.22s ease; }
+@keyframes slideIn { from{opacity:0;transform:translateX(10px)} to{opacity:1;transform:translateX(0)} }
 
 .slideEmoji {
-  font-size: 40px;
-  text-align: center;
+  font-size: 42px; text-align: center; line-height: 1;
   margin-bottom: 12px;
-  line-height: 1;
   animation: float 3s ease-in-out infinite;
 }
-
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50%     { transform: translateY(-6px); }
-}
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-7px)} }
 
 .slideTitle {
   font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.6px;
-  text-align: center;
-  margin-bottom: 5px;
-  color: var(--text);
+  font-size: 21px; font-weight: 800; letter-spacing: -0.5px;
+  text-align: center; margin-bottom: 5px; color: var(--text);
 }
-
 .slideSub {
-  font-size: 14px;
-  color: var(--text2);
-  text-align: center;
-  margin-bottom: 20px;
-  font-weight: 300;
+  font-size: 13px; color: var(--text2);
+  text-align: center; margin-bottom: 18px; font-weight: 300; line-height: 1.6;
 }
 
-.slideContent { margin-bottom: 4px; }
-
-/* Feature grid (slide 1) */
-.featureGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+/* ── Lang slide ── */
+.langGrid { display: flex; flex-direction: column; gap: 8px; }
+.langBtn {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg3); border: 1.5px solid var(--border2);
+  border-radius: 12px; padding: 14px 18px;
+  cursor: pointer; transition: all 0.15s;
+  font-family: var(--font-body); text-align: left; width: 100%;
 }
+.langBtn:hover { border-color: var(--accent); background: rgba(108,92,231,0.07); transform: translateX(3px); }
+.langFlag  { font-size: 24px; flex-shrink: 0; }
+.langLabel { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+.langSub   { font-size: 12px; color: var(--text3); }
+.langArrow { color: var(--text3); flex-shrink: 0; transition: transform 0.15s; }
+.langBtn:hover .langArrow { transform: translateX(3px); color: var(--accent2); }
 
+/* ── Feature grid ── */
+.featureGrid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
 .featureItem {
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 16px 12px;
-  text-align: center;
-  transition: border-color 0.2s;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 12px; padding: 14px 10px; text-align: center;
+  transition: border-color 0.15s, transform 0.15s;
 }
-.featureItem:hover { border-color: var(--border2); }
-
+.featureItem:hover { border-color: var(--border2); transform: translateY(-2px); }
 .featureIcon {
-  width: 40px; height: 40px;
-  border-radius: 10px;
+  width: 40px; height: 40px; border-radius: 10px;
   display: flex; align-items: center; justify-content: center;
   margin: 0 auto 10px;
 }
+.featureLabel { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 3px; }
+.featureDesc  { font-size: 11px; color: var(--text3); line-height: 1.4; }
 
-.featureLabel {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 3px;
-}
-
-.featureDesc {
-  font-size: 11px;
-  color: var(--text3);
-}
-
-/* Steps list (slide 2) */
-.stepsList {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
+/* ── Steps ── */
+.stepsList { display: flex; flex-direction: column; gap: 8px; }
 .stepItem {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  background: var(--bg3);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 13px 16px;
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg3); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 14px;
 }
-
 .stepNum {
-  width: 26px; height: 26px;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font-size: 12px; font-weight: 800;
-  font-family: var(--font-display);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: 11px; font-weight: 800; font-family: var(--font-display);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
 }
+.stepEmoji { font-size: 18px; flex-shrink: 0; }
+.stepTitle { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 2px; }
+.stepDesc  { font-size: 12px; color: var(--text2); line-height: 1.5; }
 
-.stepEmoji { font-size: 20px; flex-shrink: 0; }
-
-.stepTitle {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 2px;
-}
-
-.stepDesc {
-  font-size: 12px;
-  color: var(--text2);
-  line-height: 1.5;
-}
-
-/* Platforms grid (slide 3) */
-.platformsGrid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  justify-content: center;
-}
-
+/* ── Platforms ── */
+.platformsGrid { display: flex; flex-wrap: wrap; gap: 7px; justify-content: center; margin-bottom: 14px; }
 .platformChip {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  background: var(--bg3);
-  border: 1px solid var(--border2);
-  border-radius: 40px;
-  padding: 6px 14px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text2);
+  display: flex; align-items: center; gap: 6px;
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: 40px; padding: 5px 12px;
+  font-size: 12px; font-weight: 500; color: var(--text2);
 }
+.platformDot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-.platformDot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-/* Desktop card (slide 4) */
-.desktopCard {
-  background: linear-gradient(135deg, rgba(108,92,231,0.12), rgba(0,206,201,0.06));
-  border: 1px solid rgba(108,92,231,0.25);
-  border-radius: var(--radius-lg);
-  padding: 20px;
-}
-
-.desktopLeft {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-}
-
-.desktopIcon {
-  width: 52px; height: 52px;
-  border-radius: 14px;
-  background: rgba(108,92,231,0.18);
+.trustRow {
   display: flex; align-items: center; justify-content: center;
-  font-size: 24px;
-  flex-shrink: 0;
+  gap: 14px; flex-wrap: wrap;
+  padding: 10px; background: var(--bg3); border-radius: 10px;
 }
+.trustItem { font-size: 12px; color: var(--text2); font-weight: 500; }
 
-.desktopName {
-  font-family: var(--font-display);
-  font-size: 16px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  margin-bottom: 6px;
-  color: var(--text);
+/* ── Desktop card ── */
+.desktopCard {
+  background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.06));
+  border: 1px solid rgba(108,92,231,0.22); border-radius: 14px; padding: 18px;
 }
-
-.desktopDesc {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.65;
-  margin-bottom: 10px;
+.desktopRow { display: flex; gap: 14px; align-items: flex-start; }
+.desktopIcon {
+  width: 50px; height: 50px; border-radius: 13px;
+  background: rgba(108,92,231,0.16);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; flex-shrink: 0;
 }
-
-.desktopBadges {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
+.desktopName { font-family: var(--font-display); font-size: 15px; font-weight: 800; letter-spacing:-0.3px; margin-bottom: 5px; }
+.desktopDesc { font-size: 12px; color: var(--text2); line-height: 1.65; margin-bottom: 10px; }
+.desktopBadges { display: flex; gap: 5px; flex-wrap: wrap; }
 .desktopBadge {
-  font-size: 10px;
-  font-weight: 700;
-  padding: 2px 9px;
-  border-radius: 40px;
-  background: rgba(108,92,231,0.14);
-  color: var(--accent2);
+  font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 40px;
+  background: rgba(108,92,231,0.14); color: var(--accent2);
   border: 1px solid rgba(108,92,231,0.2);
-  letter-spacing: 0.04em;
 }
 
 /* ── Modal footer ── */
 .modalFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 28px 22px;
-  gap: 10px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 24px 20px; gap: 8px;
 }
-
-.footerRight {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
+.footerCenter { display: flex; align-items: center; }
+.footerRight  { display: flex; align-items: center; gap: 8px; }
 
 .prevBtn {
-  display: flex; align-items: center; gap: 6px;
-  background: transparent;
-  border: 1.5px solid var(--border2);
-  border-radius: var(--radius-sm);
-  padding: 9px 16px;
-  font-family: var(--font-body);
-  font-size: 13px; font-weight: 600;
-  color: var(--text2);
-  cursor: pointer;
-  transition: all 0.15s;
+  display: flex; align-items: center; gap: 5px;
+  background: transparent; border: 1.5px solid var(--border2);
+  border-radius: 8px; padding: 8px 14px;
+  font-family: var(--font-body); font-size: 12px; font-weight: 600;
+  color: var(--text2); cursor: pointer; transition: all 0.15s;
 }
 .prevBtn:hover { border-color: var(--border3); color: var(--text); }
 
+.langSwitch {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.05); border: 1px solid var(--border2);
+  border-radius: 40px; padding: 5px 11px;
+  font-family: var(--font-body); font-size: 11px; font-weight: 700;
+  color: var(--text3); cursor: pointer; transition: all 0.15s;
+}
+.langSwitch:hover { color: var(--accent2); border-color: rgba(108,92,231,0.3); }
+
 .ctaLink {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: var(--green2);
-  border: 1px solid rgba(0,206,201,0.25);
-  border-radius: var(--radius-sm);
-  padding: 9px 16px;
-  font-size: 13px; font-weight: 700;
-  color: var(--green);
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--green2); border: 1px solid rgba(0,206,201,0.25);
+  border-radius: 8px; padding: 8px 13px;
+  font-size: 12px; font-weight: 700; color: var(--green); text-decoration: none;
   transition: background 0.15s;
 }
 .ctaLink:hover { background: rgba(0,206,201,0.2); }
@@ -339,226 +207,108 @@
 .nextBtn {
   display: flex; align-items: center; gap: 6px;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 10px 20px;
-  font-family: var(--font-body);
-  font-size: 13px; font-weight: 700;
-  color: #fff;
-  cursor: pointer;
+  border: none; border-radius: 8px; padding: 9px 18px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  color: #fff; cursor: pointer;
   box-shadow: 0 4px 16px rgba(108,92,231,0.4);
-  transition: opacity 0.15s, transform 0.12s;
+  transition: opacity 0.15s, transform 0.1s;
 }
 .nextBtn:hover { opacity: 0.88; transform: translateY(-1px); }
 .nextBtn:active { transform: scale(0.97); }
 
-/* ════════════════════════════════════════════
-   TOUR
-════════════════════════════════════════════ */
-
+/* ════ TOUR ════ */
 .tourOverlay {
-  position: fixed;
-  inset: 0;
-  z-index: 9998;
-  cursor: pointer;
-  /* Dark overlay with cut-out via box-shadow on spotlight */
-  background: transparent;
-  pointer-events: all;
+  position: fixed; inset: 0; z-index: 9998; cursor: pointer;
 }
-
-/* The spotlight cutout */
 .spotlight {
-  position: fixed;
-  border-radius: 10px;
-  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.72);
+  position: fixed; border-radius: 10px;
+  box-shadow: 0 0 0 9999px rgba(0,0,0,0.75);
   border: 2px solid var(--accent);
-  pointer-events: none;
-  z-index: 9999;
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none; z-index: 9999;
+  transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
   animation: spotPulse 2s ease-in-out infinite;
 }
-
 @keyframes spotPulse {
-  0%,100% { border-color: var(--accent); box-shadow: 0 0 0 9999px rgba(0,0,0,0.72), 0 0 0 3px rgba(108,92,231,0.2); }
-  50%     { border-color: var(--accent2); box-shadow: 0 0 0 9999px rgba(0,0,0,0.72), 0 0 0 6px rgba(108,92,231,0.15); }
+  0%,100% { border-color: var(--accent); box-shadow: 0 0 0 9999px rgba(0,0,0,0.75), 0 0 0 4px rgba(108,92,231,0.2); }
+  50%     { border-color: var(--accent2); box-shadow: 0 0 0 9999px rgba(0,0,0,0.75), 0 0 0 8px rgba(108,92,231,0.12); }
 }
 
-/* ── Tooltip ── */
 .tooltip {
-  position: fixed;
-  z-index: 10000;
-  background: var(--card);
-  border: 1px solid var(--border2);
-  border-radius: var(--radius-lg);
-  padding: 16px 18px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.6);
-  animation: tooltipIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: fixed; z-index: 10001;
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: 14px; padding: 16px 18px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6);
+  animation: tooltipIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
   pointer-events: all;
 }
-
 @keyframes tooltipIn {
-  from { opacity: 0; transform: scale(0.92) translateY(6px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
+  from { opacity:0; transform:scale(0.9) translateY(8px); }
+  to   { opacity:1; transform:scale(1) translateY(0); }
 }
 
-/* Arrow */
 .tooltipArrow {
-  position: absolute;
-  width: 10px; height: 10px;
-  background: var(--card);
-  border: 1px solid var(--border2);
+  position: absolute; width: 10px; height: 10px;
+  background: var(--card); border: 1px solid var(--border2);
   transform: rotate(45deg);
 }
+.arrowBottom { top:-6px; left:50%; margin-left:-5px; border-bottom:none; border-right:none; }
 
-.arrow_bottom {
-  top: -6px;
-  left: 50%;
-  margin-left: -5px;
-  border-bottom: none;
-  border-right: none;
-}
-
-.arrow_top {
-  bottom: -6px;
-  left: 50%;
-  margin-left: -5px;
-  border-top: none;
-  border-left: none;
-}
-
-.tooltipHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 8px;
-}
-
+.tooltipHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .tooltipStep {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent2);
-  background: rgba(108,92,231,0.12);
-  border-radius: 40px;
-  padding: 2px 9px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--accent2); background: rgba(108,92,231,0.12); border-radius: 40px; padding: 2px 9px;
 }
-
 .tooltipClose {
-  background: none; border: none;
-  color: var(--text3); cursor: pointer;
-  display: flex; align-items: center;
-  padding: 2px;
-  border-radius: 4px;
-  transition: color 0.15s;
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  display: flex; align-items: center; padding: 2px; border-radius: 4px; transition: color 0.15s;
 }
 .tooltipClose:hover { color: var(--text2); }
+.tooltipTitle { font-family: var(--font-display); font-size: 15px; font-weight: 800; letter-spacing:-0.3px; color: var(--text); margin-bottom: 5px; }
+.tooltipDesc  { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 14px; }
 
-.tooltipTitle {
-  font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 800;
-  letter-spacing: -0.3px;
-  color: var(--text);
-  margin-bottom: 5px;
-}
-
-.tooltipDesc {
-  font-size: 13px;
-  color: var(--text2);
-  line-height: 1.65;
-  margin-bottom: 14px;
-}
-
-.tooltipFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
+.tooltipFooter { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .tooltipSkip {
-  background: none; border: none;
-  font-family: var(--font-body);
-  font-size: 12px; font-weight: 500;
-  color: var(--text3);
-  cursor: pointer;
+  background: none; border: none; font-family: var(--font-body);
+  font-size: 12px; font-weight: 500; color: var(--text3); cursor: pointer; padding: 0;
   transition: color 0.15s;
-  padding: 0;
 }
 .tooltipSkip:hover { color: var(--text2); }
 
-/* Tour progress dots */
-.tourDots {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-}
-
-.tourDot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: var(--border2);
-  transition: all 0.2s;
-}
-
-.tourDotActive {
-  background: var(--accent);
-  width: 14px;
-  border-radius: 3px;
-}
-
-.tourDotDone {
-  background: var(--green);
-}
+.tourDots { display: flex; gap: 5px; align-items: center; }
+.tourDot { width: 6px; height: 6px; border-radius: 3px; background: var(--border2); transition: all 0.2s; }
+.tourDotActive { background: var(--accent); width: 14px; }
+.tourDotDone   { background: var(--green); }
 
 .tooltipNext {
   display: flex; align-items: center; gap: 5px;
-  background: var(--accent);
-  border: none;
-  border-radius: var(--radius-sm);
-  padding: 7px 14px;
-  font-family: var(--font-body);
-  font-size: 12px; font-weight: 700;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
+  background: var(--accent); border: none; border-radius: 7px;
+  padding: 7px 13px; font-family: var(--font-body); font-size: 12px; font-weight: 700;
+  color: #fff; cursor: pointer; transition: background 0.15s, transform 0.1s;
 }
 .tooltipNext:hover { background: var(--accent2); }
-.tooltipNext:active { transform: scale(0.97); }
 
-/* ════════════════════════════════════════════
-   HELP BUTTON (floating)
-════════════════════════════════════════════ */
+/* ── Help button ── */
 .helpBtn {
-  position: fixed;
-  bottom: 80px;
-  right: 28px;
-  z-index: 90;
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: var(--card);
-  border: 1.5px solid var(--border2);
-  color: var(--text2);
-  font-family: var(--font-display);
-  font-size: 16px; font-weight: 800;
-  cursor: pointer;
+  position: fixed; bottom: 80px; right: 28px; z-index: 90;
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--card); border: 1.5px solid var(--border2);
+  color: var(--text2); font-family: var(--font-display);
+  font-size: 16px; font-weight: 800; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 20px rgba(0,0,0,0.4);
   transition: all 0.2s;
 }
 .helpBtn:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: #fff;
-  transform: scale(1.08);
+  background: var(--accent); border-color: var(--accent);
+  color: #fff; transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(108,92,231,0.45);
 }
 
 /* ── Responsive ── */
 @media (max-width: 520px) {
-  .modal { border-radius: var(--radius-lg); }
-  .slide { padding: 16px 20px 8px; }
-  .modalFooter { padding: 12px 20px 18px; }
-  .featureGrid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .modal { border-radius: 18px; }
+  .slide { padding: 14px 20px 6px; }
+  .modalFooter { padding: 10px 18px 16px; }
+  .featureGrid { gap: 7px; }
   .tooltip { width: calc(100vw - 24px) !important; left: 12px !important; }
 }
