@@ -10,9 +10,9 @@ const DONATE_CONFIG = {
   thankMsg: 'Sự ủng hộ của bạn giúp mình có thêm động lực để tiếp tục phát triển SnapLoad và ra mắt thêm nhiều tool hữu ích.',
 
   amounts: [
-    { value: 20000,  label: '20.000đ', sub: 'Ly trà đá ☕' },
-    { value: 50000,  label: '50.000đ', sub: 'Ly cà phê', default: true },
-    { value: 100000, label: '100.000đ', sub: 'Bữa ăn trưa' },
+    { value: 2,  label: '$2',  sub: 'A coffee ☕' },
+    { value: 5,  label: '$5',  sub: 'A nice coffee', default: true },
+    { value: 10, label: '$10', sub: 'A meal' },
   ],
 
   methods: [
@@ -26,12 +26,11 @@ const DONATE_CONFIG = {
       qr:    null,
     },
     {
-      id:    'bank',
-      label: 'Chuyển khoản',
-      icon:  '🏦',
-      url:   null,
-      // Hiện thông tin tài khoản
-      info:  { bank: 'Vietcombank', account: '1234567890', name: 'TRAN XUAN TRUONG' },
+      id:    'stripe',
+      label: 'Credit Card',
+      icon:  '💳',
+      url:   'https://buy.stripe.com/your-link',
+      info:  null,
     },
     {
       id:    'buymeacoffee',
@@ -69,7 +68,7 @@ function hasDonated() {
 
 // ── Format currency ───────────────────────────────────────────
 function fmt(n) {
-  return new Intl.NumberFormat('vi-VN').format(n) + 'đ'
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0 }).format(n)
 }
 
 // ── Trigger Banner (shows after download) ────────────────────
@@ -189,7 +188,7 @@ export default function DonateModal({ open, onClose }) {
 
               <input
                 className={styles.customInput}
-                placeholder="Hoặc nhập số tiền khác (VND)..."
+                placeholder="Or enter custom amount (USD)..."
                 value={customAmount}
                 onChange={e => {
                   const raw = e.target.value.replace(/\D/g,'')
