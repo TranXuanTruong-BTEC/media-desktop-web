@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react'
-import { Download, AlertCircle, X, Music, Video, Repeat } from 'lucide-react'
+import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import styles from './Hero.module.css'
 
@@ -88,6 +88,7 @@ export default function Hero() {
   const [results,     setResults]     = useState(null)
   const [errorMsg,    setErrorMsg]    = useState('')
   const [convertFile, setConvertFile] = useState(null) // for convert tab
+  const [convertMode, setConvertMode]   = useState('url')  // 'url' | 'file'
   const inputRef  = useRef(null)
   const timersRef = useRef([])
   const fileRef   = useRef(null)
@@ -103,6 +104,7 @@ export default function Hero() {
     clearTimers()
     setPhase('idle'); setProgress(0); setProgressMsg('')
     setResults(null); setErrorMsg(''); setConvertFile(null)
+    setConvertMode('url')
     if (fileRef.current) fileRef.current.value = ''
   }
 
@@ -200,7 +202,7 @@ export default function Hero() {
   }
 
   function handleMainAction() {
-    if (format === 'convert') handleConvert()
+    if (format === 'convert' && convertMode === 'file') handleConvert()
     else handleFetch()
   }
 
@@ -258,7 +260,7 @@ export default function Hero() {
                 onClick={() => { setFormat(t.value); reset() }}
                 disabled={isLoading}
               >
-                {t.icon}
+                <span className={styles.formatTabIcon}>{t.icon}</span>
                 <span className={styles.formatTabLabel}>{t.label}</span>
                 <span className={styles.formatTabSub}>{t.sub}</span>
               </button>
@@ -286,57 +288,100 @@ export default function Hero() {
             </div>
           )}
 
-          {/* ── Convert tab: file picker ── */}
+          {/* ── Convert tab ── */}
           {format === 'convert' && (
             <div className={styles.convertArea}>
-              <div
-                className={`${styles.dropZone} ${convertFile ? styles.dropZoneFilled : ''}`}
-                onClick={() => fileRef.current?.click()}
-                onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add(styles.dropZoneDrag) }}
-                onDragLeave={e => e.currentTarget.classList.remove(styles.dropZoneDrag)}
-                onDrop={e => {
-                  e.preventDefault(); e.currentTarget.classList.remove(styles.dropZoneDrag)
-                  const f = e.dataTransfer.files[0]
-                  if (f?.type === 'video/mp4' || f?.name.endsWith('.mp4')) setConvertFile(f)
-                  else showToast('Please select an MP4 file', 'error')
-                }}
-              >
-                {convertFile ? (
-                  <>
-                    <Video size={22} style={{ color: 'var(--green)', flexShrink: 0 }} />
-                    <div className={styles.dropZoneFile}>
-                      <div className={styles.dropZoneFileName}>{convertFile.name}</div>
-                      <div className={styles.dropZoneFileSize}>{(convertFile.size / 1024 / 1024).toFixed(1)} MB</div>
-                    </div>
-                    <button className={styles.dropZoneClear} onClick={e => { e.stopPropagation(); setConvertFile(null) }}>
-                      <X size={14} />
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Repeat size={22} style={{ color: 'var(--text3)' }} />
-                    <div>
-                      <div className={styles.dropZoneText}>Drag & drop MP4 file here</div>
-                      <div className={styles.dropZoneSub}>or click to browse</div>
-                    </div>
-                  </>
-                )}
+
+              {/* Mode switcher: URL vs File */}
+              <div className={styles.convertModeSwitcher}>
+                <button
+                  className={`${styles.convertModeBtn} ${convertMode === 'url' ? styles.convertModeBtnActive : ''}`}
+                  onClick={() => { setConvertMode('url'); setConvertFile(null); reset() }}
+                >
+                  <Link size={13} /> Dán link video
+                </button>
+                <button
+                  className={`${styles.convertModeBtn} ${convertMode === 'file' ? styles.convertModeBtnActive : ''}`}
+                  onClick={() => { setConvertMode('file'); setUrl('') }}
+                >
+                  <FolderOpen size={13} /> Chọn file MP4
+                </button>
               </div>
-              <input ref={fileRef} type="file" accept=".mp4,video/mp4" style={{ display:'none' }}
-                onChange={e => setConvertFile(e.target.files[0] || null)} />
-              <button
-                className={styles.fetchBtn}
-                onClick={handleMainAction}
-                disabled={isLoading || !convertFile}
-                style={{ width: '100%', marginTop: 10, justifyContent: 'center' }}
-              >
-                {isLoading ? 'Converting…' : 'Convert to MP3'}
-              </button>
+
+              {/* URL mode */}
+              {convertMode === 'url' && (
+                <div className={styles.urlRow}>
+                  <input
+                    ref={inputRef}
+                    type="url"
+                    className={styles.urlInput}
+                    placeholder="Paste video URL (YouTube, TikTok…)"
+                    value={url}
+                    onChange={e => setUrl(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleMainAction()}
+                    autoComplete="off" spellCheck={false}
+                    disabled={isLoading}
+                  />
+                  <button className={styles.fetchBtn} onClick={handleMainAction} disabled={isLoading}>
+                    {isLoading ? 'Converting…' : 'Convert'}
+                  </button>
+                </div>
+              )}
+
+              {/* File mode */}
+              {convertMode === 'file' && (
+                <>
+                  <div
+                    className={`${styles.dropZone} ${convertFile ? styles.dropZoneFilled : ''}`}
+                    onClick={() => fileRef.current?.click()}
+                    onDragOver={e => { e.preventDefault(); e.currentTarget.classList.add(styles.dropZoneDrag) }}
+                    onDragLeave={e => e.currentTarget.classList.remove(styles.dropZoneDrag)}
+                    onDrop={e => {
+                      e.preventDefault(); e.currentTarget.classList.remove(styles.dropZoneDrag)
+                      const f = e.dataTransfer.files[0]
+                      if (f?.type === 'video/mp4' || f?.name.endsWith('.mp4') || f?.type.startsWith('video/')) setConvertFile(f)
+                      else showToast('Vui lòng chọn file video (MP4, MKV...)', 'error')
+                    }}
+                  >
+                    {convertFile ? (
+                      <>
+                        <Video size={20} style={{ color: 'var(--green)', flexShrink: 0 }} />
+                        <div className={styles.dropZoneFile}>
+                          <div className={styles.dropZoneFileName}>{convertFile.name}</div>
+                          <div className={styles.dropZoneFileSize}>{(convertFile.size / 1024 / 1024).toFixed(1)} MB</div>
+                        </div>
+                        <button className={styles.dropZoneClear} onClick={e => { e.stopPropagation(); setConvertFile(null) }}>
+                          <X size={14} />
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <FolderOpen size={20} style={{ color: 'var(--text3)' }} />
+                        <div>
+                          <div className={styles.dropZoneText}>Kéo thả file vào đây</div>
+                          <div className={styles.dropZoneSub}>hoặc click để chọn từ máy tính</div>
+                          <div className={styles.dropZoneSub} style={{ marginTop: 2 }}>MP4 · MKV · AVI · MOV</div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <input ref={fileRef} type="file" accept="video/*" style={{ display:'none' }}
+                    onChange={e => setConvertFile(e.target.files[0] || null)} />
+                  <button
+                    className={styles.fetchBtn}
+                    onClick={handleMainAction}
+                    disabled={isLoading || !convertFile}
+                    style={{ width: '100%', marginTop: 8, justifyContent: 'center' }}
+                  >
+                    {isLoading ? 'Đang convert…' : 'Convert sang MP3'}
+                  </button>
+                </>
+              )}
             </div>
           )}
 
           {/* Quality selector */}
-          {(format !== 'convert' || convertFile) && phase === 'idle' && (
+          {(format !== 'convert' || convertFile || convertMode === 'url') && phase === 'idle' && (
             <div className={styles.optionsRow}>
               <div className={styles.optionGroup}>
                 <label className={styles.optionLabel}>
