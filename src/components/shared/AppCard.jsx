@@ -13,6 +13,8 @@ export default function AppCard({ tool }) {
           </span>
         </div>
         {tool.featured && <span className={styles.badge}>Popular</span>}
+        {tool.status === 'coming_soon' && <span className={styles.badgeComingSoon}>🚧 Coming Soon</span>}
+        {tool.status === 'maintenance' && <span className={styles.badgeMaintenance}>🔧 Bảo trì</span>}
       </div>
 
       <h3 className={styles.name}>{tool.name}</h3>

@@ -115,3 +115,19 @@
   color: var(--accent2);
   transform: translateX(4px);
 }
+
+.badgeComingSoon {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 40px;
+  background: rgba(253,203,110,0.14);
+  color: var(--amber);
+  border: 1px solid rgba(253,203,110,0.25);
+}
+
+.badgeMaintenance {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 40px;
+  background: rgba(255,118,117,0.12);
+  color: var(--red);
+  border: 1px solid rgba(255,118,117,0.22);
+}

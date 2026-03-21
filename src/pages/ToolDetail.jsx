@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { getToolById, tools } from '../data/tools.js'
 import SEO from '../components/shared/SEO.jsx'
+import StatusBanner from '../components/shared/StatusBanner.jsx'
 import CTASection from '../components/shared/CTASection.jsx'
 import AppCard from '../components/shared/AppCard.jsx'
 import ToolHero from '../components/tool/ToolHero.jsx'
@@ -45,6 +46,9 @@ export default function ToolDetail() {
         </div>
       </div>
 
+      <div style={{ padding: '16px 0 0' }}>
+        <StatusBanner status={tool.status} toolName={tool.name} />
+      </div>
       <ToolHero tool={tool} />
       <SystemInfo tool={tool} />
       <ScreenshotSection tool={tool} />
