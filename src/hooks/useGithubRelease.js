@@ -1,22 +1,21 @@
 import { useState, useEffect } from 'react'
 
 /**
- * Tự động fetch latest release từ GitHub API
- * @param {string} repo - "owner/repo-name"
- * @param {string} assetName - tên file .exe cần tìm trong assets
- * @returns { version, downloadUrl, fileSize, releaseDate, changelog, loading, error }
+ * Fetch GitHub Releases data — version, download count (ALL releases), changelog
+ * @param {string} repo       - "owner/repo"
+ * @param {string} assetName  - exact .exe filename in assets
  */
 export function useGithubRelease(repo, assetName) {
-  const [data, setData]     = useState(null)
+  const [data,    setData]    = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError]   = useState(null)
+  const [error,   setError]   = useState(null)
 
   useEffect(() => {
     if (!repo) return
 
-    const cacheKey = `gh_release_${repo}`
+    // Cache per session — avoid hammering GitHub API on every render
+    const cacheKey = `gh_release_v2_${repo}`
     const cached   = sessionStorage.getItem(cacheKey)
-
     if (cached) {
       try {
         setData(JSON.parse(cached))
@@ -25,7 +24,8 @@ export function useGithubRelease(repo, assetName) {
       } catch (_) {}
     }
 
-    fetch(`https://api.github.com/repos/${repo}/releases?per_page=10`)
+    // Fetch up to 100 releases to sum all download counts
+    fetch(`https://api.github.com/repos/${repo}/releases?per_page=100`)
       .then(r => {
         if (!r.ok) throw new Error(`GitHub API ${r.status}`)
         return r.json()
@@ -35,30 +35,52 @@ export function useGithubRelease(repo, assetName) {
 
         const latest = releases[0]
 
-        // Tìm asset .exe theo tên
+        // Find the primary .exe asset in latest release
         const asset = latest.assets?.find(a =>
           assetName
             ? a.name === assetName
             : a.name.endsWith('.exe') && !a.name.includes('blockmap')
         )
 
-        // Build changelog từ tất cả releases
+        // ── Sum ALL download counts across ALL releases & ALL assets ──
+        // This is the real total downloads number
+        let totalDownloads = 0
+        releases.forEach(release => {
+          ;(release.assets || []).forEach(a => {
+            // Only count .exe files, skip .blockmap, .yml, source zips
+            if (
+              a.name.endsWith('.exe') ||
+              a.name.endsWith('.dmg') ||
+              a.name.endsWith('.AppImage') ||
+              a.name.endsWith('.deb')
+            ) {
+              totalDownloads += a.download_count || 0
+            }
+          })
+        })
+
+        // Build changelog from latest 5 releases
         const changelog = releases.slice(0, 5).map(r => ({
           version: r.tag_name.replace(/^v/, ''),
-          date: r.published_at?.slice(0, 10) || '',
-          notes: r.body
-            ? r.body.split('\n').find(l => l.trim())?.replace(/^[#\-*>\s]+/, '').slice(0, 120) || r.name
+          date:    r.published_at?.slice(0, 10) || '',
+          notes:   r.body
+            ? r.body.split('\n')
+                .find(l => l.trim() && !l.startsWith('#'))
+                ?.replace(/^[-*>\s]+/, '')
+                .slice(0, 120) || r.name
             : r.name || r.tag_name,
         }))
 
         const result = {
-          version:     latest.tag_name.replace(/^v/, ''),
-          releaseDate: latest.published_at?.slice(0, 10) || '',
-          downloadUrl: asset?.browser_download_url
-                       || `https://github.com/${repo}/releases/latest/download/${assetName || ''}`,
-          fileSize:    asset ? formatBytes(asset.size) : null,
-          downloadCount: asset?.download_count || 0,
+          version:       latest.tag_name.replace(/^v/, ''),
+          releaseDate:   latest.published_at?.slice(0, 10) || '',
+          downloadUrl:   asset?.browser_download_url
+                         || `https://github.com/${repo}/releases/latest/download/${assetName || ''}`,
+          fileSize:      asset ? formatBytes(asset.size) : null,
+          downloadCount: totalDownloads,
           changelog,
+          // Extra: star count available if needed
+          repoUrl: `https://github.com/${repo}`,
         }
 
         sessionStorage.setItem(cacheKey, JSON.stringify(result))
