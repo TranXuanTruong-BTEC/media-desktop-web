@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import SEO from '../components/shared/SEO.jsx'
 import { desktopTools, getAllCategories, formatDownloadCount } from '../data/desktopTools.js'
 import { useGithubRelease } from '../hooks/useGithubRelease.js'
+import { getEffectiveStatus, getDeviceType } from '../hooks/useDeviceStatus.js'
 import { showToast } from '../components/shared/Toast.jsx'
 import styles from './Tools.module.css'
 
@@ -165,15 +166,23 @@ function ToolRow({ tool }) {
 
         {/* ── DOWNLOAD BUTTON — status aware ── */}
         <div className={styles.rowActions}>
-          {tool.status === 'maintenance' ? (
-            <div className={styles.statusBlockBtn} style={{ background: 'rgba(255,118,117,0.12)', color: 'var(--red)', border: '1.5px solid rgba(255,118,117,0.3)' }}>
-              🔧 Đang bảo trì — tạm thời không khả dụng
-            </div>
-          ) : tool.status === 'coming_soon' ? (
-            <div className={styles.statusBlockBtn} style={{ background: 'rgba(253,203,110,0.12)', color: 'var(--amber)', border: '1.5px solid rgba(253,203,110,0.3)' }}>
-              🚧 Coming Soon — sắp ra mắt
-            </div>
-          ) : gh.loading ? (
+          {(() => {
+            const effStatus = getEffectiveStatus(tool)
+            const deviceType = getDeviceType()
+            const deviceLabel = deviceType === 'ios' ? 'iOS' : deviceType === 'android' ? 'Android' : null
+            if (effStatus === 'maintenance') return (
+              <div className={styles.statusBlockBtn} style={{ background: 'rgba(255,118,117,0.12)', color: 'var(--red)', border: '1.5px solid rgba(255,118,117,0.3)' }}>
+                🔧 {deviceLabel ? `${deviceLabel}: ` : ''}Đang bảo trì — tạm thời không khả dụng
+              </div>
+            )
+            if (effStatus === 'coming_soon') return (
+              <div className={styles.statusBlockBtn} style={{ background: 'rgba(253,203,110,0.12)', color: 'var(--amber)', border: '1.5px solid rgba(253,203,110,0.3)' }}>
+                🚧 {deviceLabel ? `${deviceLabel}: ` : ''}Coming Soon — sắp ra mắt
+              </div>
+            )
+            return null
+          })()}
+          {getEffectiveStatus(tool) === 'active' && gh.loading ? (
             <div className={styles.dlBtnLoading}>
               <Loader size={16} className={styles.spin} />
               Đang kiểm tra phiên bản mới nhất…
@@ -185,11 +194,13 @@ function ToolRow({ tool }) {
               <span className={styles.dlBadge}>{fileSize} · .{tool.ext}</span>
             </a>
           ) : (
-            <a href={downloadUrl} className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={handleDownload}>
-              <Download size={17} />
-              Tải xuống miễn phí
-              <span className={styles.dlBadge}>v{version} · {fileSize}</span>
-            </a>
+            getEffectiveStatus(tool) === 'active' ? (
+              <a href={downloadUrl} className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={handleDownload}>
+                <Download size={17} />
+                Tải xuống miễn phí
+                <span className={styles.dlBadge}>v{version} · {fileSize}</span>
+              </a>
+            ) : null
           )}
 
           <Link to={`/tools/${tool.id}`} className={styles.detailBtn}>

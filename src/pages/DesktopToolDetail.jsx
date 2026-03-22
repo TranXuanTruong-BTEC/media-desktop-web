@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { Download, ArrowLeft, Check, Clock, HardDrive, Monitor, Tag, Github, Loader, Star } from 'lucide-react'
 import { getDesktopToolById, desktopTools, formatDownloadCount } from '../data/desktopTools.js'
 import { useGithubRelease } from '../hooks/useGithubRelease.js'
+import { getEffectiveStatus, getDeviceType } from '../hooks/useDeviceStatus.js'
 import SEO from '../components/shared/SEO.jsx'
 import DesktopToolCard from '../components/desktop/DesktopToolCard.jsx'
 import { showToast } from '../components/shared/Toast.jsx'
@@ -97,15 +98,23 @@ export default function DesktopToolDetail() {
 
               {/* Download button — status aware */}
               <div className={styles.heroActions}>
-                {tool.status === 'maintenance' ? (
-                  <div className={styles.statusBanner} style={{ background:'rgba(255,118,117,0.12)', border:'1.5px solid rgba(255,118,117,0.3)', color:'var(--red)' }}>
-                    🔧 Đang bảo trì — tính năng tải về tạm thời không khả dụng
-                  </div>
-                ) : tool.status === 'coming_soon' ? (
-                  <div className={styles.statusBanner} style={{ background:'rgba(253,203,110,0.12)', border:'1.5px solid rgba(253,203,110,0.3)', color:'var(--amber)' }}>
-                    🚧 Coming Soon — ứng dụng sắp ra mắt, hãy quay lại sau!
-                  </div>
-                ) : gh.loading ? (
+                {(() => {
+                  const effSt = getEffectiveStatus(tool)
+                  const dType = getDeviceType()
+                  const dLabel = dType === 'ios' ? 'iOS' : dType === 'android' ? 'Android' : null
+                  if (effSt === 'maintenance') return (
+                    <div className={styles.statusBanner} style={{ background:'rgba(255,118,117,0.12)', border:'1.5px solid rgba(255,118,117,0.3)', color:'var(--red)' }}>
+                      🔧 {dLabel ? `${dLabel}: ` : ''}Đang bảo trì — tính năng tải về tạm thời không khả dụng
+                    </div>
+                  )
+                  if (effSt === 'coming_soon') return (
+                    <div className={styles.statusBanner} style={{ background:'rgba(253,203,110,0.12)', border:'1.5px solid rgba(253,203,110,0.3)', color:'var(--amber)' }}>
+                      🚧 {dLabel ? `${dLabel}: ` : ''}Coming Soon — sắp ra mắt!
+                    </div>
+                  )
+                  return null
+                })()}
+                {getEffectiveStatus(tool) === 'active' && gh.loading ? (
                   <div className={styles.dlBtnLoading}>
                     <Loader size={18} className={styles.spin} />
                     Đang tải thông tin phiên bản…
