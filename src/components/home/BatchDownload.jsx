@@ -3,6 +3,7 @@ import { Download, X, Plus, Loader, CheckCircle, AlertCircle, List } from 'lucid
 import { smartDownload, detectDevice } from '../../hooks/useDeviceDownload.js'
 import { showToast } from '../shared/Toast.jsx'
 import styles from './BatchDownload.module.css'
+import { downloaderConfig } from '../../data/downloaderConfig.js'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
@@ -21,11 +22,12 @@ export default function BatchDownload() {
 
   // Parse textarea → unique valid URLs
   function parseUrls() {
+    const maxUrls = downloaderConfig?.tabs?.batch?.maxUrls ?? 20
     return [...new Set(
       rawText.split(/[\n,\s]+/)
         .map(s => s.trim())
         .filter(isValidUrl)
-    )].slice(0, 20)
+    )].slice(0, maxUrls)
   }
 
   async function handleFetchAll() {

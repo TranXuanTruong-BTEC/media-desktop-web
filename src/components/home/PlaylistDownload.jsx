@@ -4,6 +4,7 @@ import { Download, Loader, CheckCircle, AlertCircle, List,
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice } from '../../hooks/useDeviceDownload.js'
 import styles from './PlaylistDownload.module.css'
+import { downloaderConfig } from '../../data/downloaderConfig.js'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
@@ -24,9 +25,10 @@ export default function PlaylistDownload() {
     setLoading(true); setError(''); setPlaylist(null)
     setSelected(new Set()); setDlStatus({})
     try {
+      const maxItems = downloaderConfig?.tabs?.playlist?.maxItems ?? 200
       const res  = await fetch(`${API_BASE}/api/playlist`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: url.trim() }),
+        body: JSON.stringify({ url: url.trim(), maxItems }),
       })
       const data = await res.json()
       if (!data.ok) throw new Error(data.error)
@@ -135,6 +137,8 @@ export default function PlaylistDownload() {
           </select>
         </div>
       )}
+
+}
 
       {playlist && (
         <div className={styles.playlistCard}>
