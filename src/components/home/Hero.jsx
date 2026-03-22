@@ -1,12 +1,14 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
+import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link, Layers, ListVideo } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
 import { downloaderConfig } from '../../data/downloaderConfig.js'
 import StatusBanner from '../shared/StatusBanner.jsx'
 import { DonateTrigger } from '../shared/DonateModal.jsx'
+import BatchDownload    from './BatchDownload.jsx'
+import PlaylistDownload from './PlaylistDownload.jsx'
 import styles from './Hero.module.css'
 
 // ── API base — trỏ tới backend server ────────────────────────
@@ -34,7 +36,7 @@ function getPlatformRedirect(url) {
 
 // ── Format tabs ───────────────────────────────────────────────
 // Build FORMAT_TABS — reads localStorage first (live admin changes), falls back to static file
-const ICON_MAP = { mp3: <Music size={14}/>, mp4: <Video size={14}/>, convert: <Repeat size={14}/> }
+const ICON_MAP = { mp3: <Music size={14}/>, mp4: <Video size={14}/>, convert: <Repeat size={14}/>, batch: <Layers size={14}/>, playlist: <ListVideo size={14}/> }
 
 function getLiveConfig() {
   try {
@@ -60,7 +62,7 @@ async function fetchLiveConfigFromAdmin() {
 }
 
 function buildFormatTabs(cfg) {
-  return Object.entries(cfg.tabs)
+  const configTabs = Object.entries(cfg.tabs)
     .filter(([, t]) => t.enabled !== false)
     .map(([key, t]) => ({
       value: key,
@@ -69,6 +71,12 @@ function buildFormatTabs(cfg) {
       sub:   t.sub,
       deviceStatus: t.deviceStatus,
     }))
+  // Always add Batch and Playlist tabs (not in downloaderConfig yet)
+  return [
+    ...configTabs,
+    { value: 'batch',    label: 'Batch',    icon: ICON_MAP.batch,    sub: 'Nhiều link cùng lúc', deviceStatus: null },
+    { value: 'playlist', label: 'Playlist', icon: ICON_MAP.playlist, sub: 'YouTube playlist',    deviceStatus: null },
+  ]
 }
 
 const QUALITY_OPTIONS = {
@@ -453,7 +461,7 @@ export default function Hero() {
           </div>
 
           {/* ── URL input (MP3 / MP4) ── */}
-          {format !== 'convert' && (
+          {format !== 'convert' && format !== 'batch' && format !== 'playlist' && (
             <div className={styles.urlRow}>
               <input
                 ref={inputRef}
@@ -481,7 +489,7 @@ export default function Hero() {
           )}
 
           {/* ── Convert tab ── */}
-          {format === 'convert' && (
+          {format === 'convert' && format !== 'batch' && format !== 'playlist' && (
             <div className={styles.convertArea}>
 
               {/* Mode switcher: URL vs File */}
@@ -583,7 +591,7 @@ export default function Hero() {
           )}
 
           {/* Quality selector */}
-          {(format !== 'convert' || convertFile || convertMode === 'url') && phase === 'idle' && (
+          {(format !== 'convert' || convertFile || convertMode === 'url') && phase === 'idle' && format !== 'batch' && format !== 'playlist' && (
             <div className={styles.optionsRow}>
               <div className={styles.optionGroup}>
                 <label className={styles.optionLabel}>
@@ -638,6 +646,16 @@ export default function Hero() {
           {/* Show donate trigger after download */}
           {phase === 'results' && !donateOpen && (
             <DonateTrigger onOpen={() => setDonateOpen(true)} />
+          )}
+
+          {/* ── Batch tab ── */}
+          {format === 'batch' && (
+            <BatchDownload />
+          )}
+
+          {/* ── Playlist tab ── */}
+          {format === 'playlist' && (
+            <PlaylistDownload />
           )}
 
           {/* Trust strip */}
