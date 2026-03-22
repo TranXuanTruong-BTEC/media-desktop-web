@@ -16,7 +16,7 @@ const DONATE_CONFIG = {
       type:  'momo',
       label: 'MoMo',
       qr:    '/images/momo-qr.png',
-      phone: '0394164857',
+      phone: '0912345678',
       name:  'TRAN XUAN TRUONG',
     },
     donateBtn:  'Đã chuyển khoản xong!',
@@ -26,7 +26,7 @@ const DONATE_CONFIG = {
   // International users — PayPal (coming soon)
   intl: {
     message:  'SnapLoad is built in my free time. Even a small contribution helps me keep improving it!',
-    thankMsg: 'Your support means a lot. I\'ll keep building great tools for you!',
+    thankMsg: 'Your support means a lot. I'll keep building great tools for you!',
     triggerTitle: 'Your file is ready!',
     triggerSub:   'SnapLoad is 100% free. Support the developer with a coffee? ☕',
     triggerBtn:   'Support',
@@ -47,14 +47,20 @@ const GEO_CACHE_KEY = 'snapload_geo'
 async function detectCountry() {
   try {
     const cached = sessionStorage.getItem(GEO_CACHE_KEY)
-    if (cached) return cached
+    // Validate cached value is a 2-letter country code
+    if (cached && /^[A-Z]{2}$/.test(cached)) return cached
 
-    const res  = await fetch('https://ipapi.co/country_code/')
-    const code = (await res.text()).trim()
-    sessionStorage.setItem(GEO_CACHE_KEY, code)
-    return code
+    const res  = await fetch('https://ipapi.co/country_code/', { signal: AbortSignal.timeout(3000) })
+    if (!res.ok) return 'VN'
+    const code = (await res.text()).trim().toUpperCase()
+    // Strict validation — must be exactly 2 uppercase letters
+    if (/^[A-Z]{2}$/.test(code)) {
+      sessionStorage.setItem(GEO_CACHE_KEY, code)
+      return code
+    }
+    return 'VN'
   } catch {
-    return 'VN' // fallback to VN if API fails
+    return 'VN' // safe fallback
   }
 }
 
