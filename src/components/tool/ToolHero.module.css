@@ -198,3 +198,38 @@
   .fetchBtn { width: 100%; }
   .optionsRow { flex-direction: column; }
 }
+
+/* ── Download progress ──────────────────────────────── */
+.dlProgressWrap {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg3); border-radius: var(--radius-sm);
+  padding: 8px 12px; margin-bottom: 8px;
+}
+.dlProgressBar {
+  height: 4px; min-width: 4px;
+  background: var(--accent); border-radius: 2px;
+  transition: width 0.3s ease; flex-shrink: 0;
+}
+.dlProgressMsg { font-size: 12px; color: var(--text2); }
+
+/* ── Result thumbnail ───────────────────────────────── */
+.resultThumb {
+  width: 100%; max-height: 140px;
+  object-fit: cover; border-radius: var(--radius-sm);
+  margin-bottom: 10px;
+}
+.resultMeta { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+/* ── Download button states ─────────────────────────── */
+.dlBtnLoading { opacity: 0.7; cursor: not-allowed !important; }
+.dlSpinner {
+  width: 11px; height: 11px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite; flex-shrink: 0;
+}
+.dlSize { font-size: 11px; color: var(--text3); }
+
+/* ── Spin ───────────────────────────────────────────── */
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
