@@ -4,26 +4,24 @@ import { Download } from 'lucide-react'
 import styles from './Footer.module.css'
 
 const footerLinks = {
-  Product: [
-    { label: 'Features', href: '/#features' },
-    { label: 'How it works', href: '/#how' },
-    { label: 'FAQ', href: '/#faq' },
+  'Sản phẩm': [
+    { label: 'Tính năng',    href: '/#features' },
+    { label: 'Cách dùng',    href: '/#how' },
+    { label: 'FAQ',          href: '/#faq' },
+    { label: 'Downloader',   href: '/#downloader' },
   ],
-  Downloaders: [
-    { label: 'YouTube to MP3', href: '/tool/youtube-downloader' },
-    { label: 'TikTok Downloader', href: '/tool/tiktok-downloader' },
+  'Công cụ tải': [
+    { label: 'YouTube Downloader',   href: '/tool/youtube-downloader' },
+    { label: 'TikTok Downloader',    href: '/tool/tiktok-downloader' },
     { label: 'Instagram Downloader', href: '/tool/instagram-downloader' },
-    { label: 'Video to MP3', href: '/tool/mp3-converter' },
+    { label: 'Video to MP3',         href: '/tool/audio-extractor' },
+    { label: 'Tất cả công cụ →',     href: '/tools' },
   ],
-  'Desktop Tools': [
-    { label: '🧰 Tất cả Tools', href: '/tools' },
-    { label: 'Media Downloader', href: '/tools/media-downloader' },
-    { label: 'Image Converter', href: '/tools/image-converter' },
-    { label: 'Screen Recorder', href: '/tools/screen-recorder' },
-  ],
-  Company: [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Service', href: '/terms' },
+  'Công ty': [
+    { label: 'Giới thiệu',           href: '/about' },
+    { label: 'Liên hệ',              href: '/contact' },
+    { label: 'Chính sách riêng tư',  href: '/privacy' },
+    { label: 'Điều khoản sử dụng',   href: '/terms' },
   ],
 }
 
@@ -56,8 +54,8 @@ export default function Footer() {
               Snap<span>Load</span>
             </Link>
             <p className={styles.brandDesc}>
-              The cleanest, fastest way to download MP3 and MP4 from any video link.
-              No sign-up, no ads, no nonsense.
+              Tải MP3 và MP4 từ YouTube, TikTok, Instagram và 50+ nền tảng.
+              Miễn phí, nhanh, không quảng cáo, không đăng ký.
             </p>
             <div className={styles.version}>v2.1.0</div>
           </div>

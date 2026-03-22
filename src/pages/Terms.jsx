@@ -6,47 +6,62 @@ export default function Terms() {
   return (
     <>
       <SEO
-        title="Terms of Service – SnapLoad"
-        description="SnapLoad's terms of service. Please read before using our video download tools."
+        title="Điều khoản sử dụng – SnapLoad"
+        description="Điều khoản sử dụng dịch vụ SnapLoad. Vui lòng đọc trước khi sử dụng."
       />
       <div className={styles.page}>
         <div className={`container ${styles.inner}`}>
           <div className={styles.header}>
-            <span className={styles.label}>Legal</span>
-            <h1 className={styles.title}>Terms of Service</h1>
-            <p className={styles.meta}>Last updated: March 1, 2025</p>
+            <span className={styles.label}>Pháp lý</span>
+            <h1 className={styles.title}>Điều khoản sử dụng</h1>
+            <p className={styles.meta}>Cập nhật lần cuối: 22 tháng 3, 2026</p>
           </div>
 
           <div className={styles.body}>
-            <p>By using SnapLoad ("the service"), you agree to the following terms. Please read them carefully. If you do not agree, do not use the service.</p>
+            <p>Bằng cách sử dụng SnapLoad ("dịch vụ"), bạn đồng ý với các điều khoản dưới đây. Vui lòng đọc kỹ. Nếu không đồng ý, hãy ngừng sử dụng dịch vụ.</p>
 
-            <h2>1. Acceptable use</h2>
+            <h2>1. Sử dụng hợp lệ</h2>
             <ul>
-              <li>You may use SnapLoad for personal, non-commercial downloading of content you have the right to access.</li>
-              <li>You may not use SnapLoad to download and redistribute copyrighted content without express authorization from the rights holder.</li>
-              <li>You may not use SnapLoad for any illegal purpose or in violation of applicable laws.</li>
-              <li>You may not attempt to reverse-engineer, scrape, abuse, or overload SnapLoad's infrastructure.</li>
-              <li>You may not use automated scripts or bots to access the service at scale without written permission.</li>
+              <li>Bạn có thể sử dụng SnapLoad để tải nội dung cho mục đích cá nhân, phi thương mại mà bạn có quyền truy cập.</li>
+              <li>Bạn không được tải và phân phối lại nội dung có bản quyền mà không có sự cho phép của chủ sở hữu.</li>
+              <li>Bạn không được sử dụng SnapLoad cho bất kỳ mục đích bất hợp pháp nào.</li>
+              <li>Bạn không được cố gắng đảo ngược kỹ thuật, scrape, lạm dụng hay làm quá tải hạ tầng của SnapLoad.</li>
+              <li>Bạn không được sử dụng script tự động hay bot để truy cập dịch vụ với số lượng lớn.</li>
             </ul>
 
-            <h2>2. Copyright and intellectual property</h2>
-            <p>SnapLoad is a tool that enables access to publicly available content. You are solely responsible for ensuring your downloads comply with applicable copyright law and the terms of service of each source platform. SnapLoad respects intellectual property rights and will respond to valid DMCA notices.</p>
-            <p>SnapLoad does not host, store, or distribute video content. We provide a processing service only.</p>
+            <h2>2. Bản quyền và sở hữu trí tuệ</h2>
+            <p>
+              SnapLoad là công cụ kỹ thuật. Chúng tôi không lưu trữ, phân phối hay sở hữu nội dung được tải xuống.
+              Người dùng hoàn toàn chịu trách nhiệm về việc đảm bảo tuân thủ luật bản quyền và
+              điều khoản sử dụng của từng nền tảng.
+            </p>
 
-            <h2>3. Disclaimer of warranties</h2>
-            <p>SnapLoad is provided "as is" and "as available" without warranties of any kind, express or implied. We do not guarantee that the service will be uninterrupted, error-free, or available at all times. Download availability depends on third-party platforms and may change at any time without notice.</p>
+            <h2>3. Tính khả dụng của dịch vụ</h2>
+            <p>
+              SnapLoad được cung cấp "nguyên trạng" và "theo khả năng có sẵn". Chúng tôi không đảm bảo dịch vụ
+              luôn hoạt động liên tục hay không có lỗi. Chúng tôi có quyền tạm ngừng hoặc thay đổi
+              dịch vụ bất kỳ lúc nào mà không cần thông báo trước.
+            </p>
 
-            <h2>4. Limitation of liability</h2>
-            <p>To the maximum extent permitted by law, SnapLoad and its operators shall not be liable for any direct, indirect, incidental, special, or consequential damages arising from your use of the service, including but not limited to loss of data, profits, or goodwill.</p>
+            <h2>4. Giới hạn trách nhiệm</h2>
+            <p>
+              SnapLoad không chịu trách nhiệm về bất kỳ thiệt hại trực tiếp, gián tiếp, ngẫu nhiên hay hậu quả
+              phát sinh từ việc sử dụng hoặc không thể sử dụng dịch vụ.
+            </p>
 
-            <h2>5. Service modifications</h2>
-            <p>We reserve the right to modify, suspend, or discontinue any part of the service at any time, with or without notice. We will make reasonable efforts to communicate significant changes in advance.</p>
+            <h2>5. Quyền riêng tư</h2>
+            <p>
+              Việc sử dụng dịch vụ cũng tuân theo <a href="/privacy">Chính sách quyền riêng tư</a> của chúng tôi.
+            </p>
 
-            <h2>6. Governing law</h2>
-            <p>These terms shall be governed by and construed in accordance with applicable law. Any disputes shall be resolved through binding arbitration or the courts of competent jurisdiction.</p>
+            <h2>6. Thay đổi điều khoản</h2>
+            <p>
+              Chúng tôi có thể cập nhật điều khoản này theo thời gian. Tiếp tục sử dụng dịch vụ sau khi
+              thay đổi đồng nghĩa với việc bạn chấp nhận điều khoản mới.
+            </p>
 
-            <h2>7. Contact</h2>
-            <p>Questions about these terms? Email <a href="mailto:legal@snapload.app">legal@snapload.app</a></p>
+            <h2>7. Liên hệ</h2>
+            <p>Thắc mắc về điều khoản? Liên hệ qua trang <a href="/contact">Liên hệ</a>.</p>
           </div>
         </div>
       </div>

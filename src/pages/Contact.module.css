@@ -1,0 +1,102 @@
+.page { padding: 60px 0 80px; min-height: 70vh; }
+.inner { max-width: 900px; }
+
+.header { text-align: center; margin-bottom: 48px; }
+.label  { display: inline-block; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent2); margin-bottom: 10px; }
+.title  { font-family: var(--font-display); font-size: clamp(28px, 5vw, 42px); font-weight: 800; letter-spacing: -1px; color: var(--text); margin-bottom: 10px; }
+.sub    { font-size: 16px; color: var(--text2); }
+
+.layout { display: grid; grid-template-columns: 1fr 280px; gap: 28px; align-items: start; }
+
+/* ── Form card ── */
+.formCard {
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: var(--radius-xl); padding: 32px;
+}
+
+.field { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.fieldLabel { font-size: 12px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--text3); }
+
+.topicGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.topicBtn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  background: var(--bg3); border: 1.5px solid var(--border2);
+  border-radius: var(--radius); padding: 12px 8px;
+  cursor: pointer; transition: all .15s; text-align: center;
+  color: var(--text2);
+}
+.topicBtn:hover { border-color: var(--border3); color: var(--text); }
+.topicBtnActive { border-color: var(--accent) !important; background: rgba(108,92,231,.08) !important; color: var(--accent2) !important; }
+.topicLabel { font-size: 12px; font-weight: 700; }
+.topicSub   { font-size: 10px; color: var(--text3); line-height: 1.3; }
+
+.input, .textarea {
+  background: var(--bg3); border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 10px 14px;
+  font-family: var(--font-body); font-size: 14px; color: var(--text);
+  outline: none; resize: none; width: 100%; box-sizing: border-box;
+  transition: border-color .15s;
+}
+.input:focus, .textarea:focus { border-color: var(--accent); }
+.input::placeholder, .textarea::placeholder { color: var(--text3); }
+
+.charCount { font-size: 11px; color: var(--text3); text-align: right; margin-top: -4px; }
+
+.errorMsg {
+  font-size: 13px; color: var(--red);
+  background: var(--red2); border-radius: var(--radius-sm);
+  padding: 10px 14px; margin-bottom: 12px;
+}
+
+.submitBtn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); font-family: var(--font-body);
+  font-size: 14px; font-weight: 700; cursor: pointer;
+  transition: background .15s, opacity .15s;
+}
+.submitBtn:hover:not(:disabled) { background: var(--accent2); }
+.submitBtn:disabled { opacity: .55; cursor: not-allowed; }
+
+.spinner {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Success state ── */
+.successState {
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 32px 16px; gap: 12px;
+}
+.successIcon { color: var(--green); }
+.successState h2 { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--text); }
+.successState p  { font-size: 14px; color: var(--text2); line-height: 1.6; }
+.resetBtn {
+  margin-top: 8px; padding: 10px 24px;
+  background: var(--bg3); border: 1.5px solid var(--border2);
+  border-radius: 40px; font-family: var(--font-body);
+  font-size: 13px; font-weight: 600; color: var(--text2);
+  cursor: pointer; transition: all .15s;
+}
+.resetBtn:hover { border-color: var(--border3); color: var(--text); }
+
+/* ── Info col ── */
+.infoCol { display: flex; flex-direction: column; gap: 12px; }
+.infoCard {
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: var(--radius); padding: 20px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.infoIcon { color: var(--accent2); margin-bottom: 4px; }
+.infoCard h3 { font-size: 14px; font-weight: 700; color: var(--text); }
+.infoCard p  { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.infoCard a  { color: var(--accent2); text-decoration: underline; }
+
+@media (max-width: 700px) {
+  .layout      { grid-template-columns: 1fr; }
+  .topicGrid   { grid-template-columns: 1fr; }
+  .formCard    { padding: 20px; }
+}
