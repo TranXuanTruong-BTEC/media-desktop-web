@@ -66,16 +66,7 @@ export default function DesktopToolDetail() {
               <div className={styles.heroBadgeRow}>
                 {tool.featured && <span className={styles.featuredBadge}><Star size={10} fill="currentColor" /> Featured</span>}
                 <span className={styles.catBadge}>{tool.category}</span>
-                {tool.githubRepo && (
-                  <a href={`https://github.com/${tool.githubRepo}`} target="_blank" rel="noopener noreferrer" className={styles.ghBadge}>
-                    <Github size={11} /> Open Source
-                  </a>
-                )}
-                {!gh.loading && !gh.error && (
-                  <span className={styles.liveBadge}>
-                    <span className={styles.liveDot} /> Live từ GitHub
-                  </span>
-                )}
+
               </div>
               <h1 className={styles.heroTitle}>{tool.name}</h1>
               <p className={styles.heroDesc}>{tool.description}</p>
@@ -134,7 +125,7 @@ export default function DesktopToolDetail() {
               </div>
 
               <p className={styles.safeNote}>
-                ✓ Mã nguồn mở &nbsp;·&nbsp; ✓ Không virus &nbsp;·&nbsp; ✓ Không adware &nbsp;·&nbsp; ✓ Không cần đăng ký
+                ✓ Không virus &nbsp;·&nbsp; ✓ Không adware &nbsp;·&nbsp; ✓ Không cần đăng ký
               </p>
             </div>
           </div>
@@ -163,15 +154,7 @@ export default function DesktopToolDetail() {
                   </div>
                 ))}
               </div>
-              {tool.githubRepo && (
-                <a
-                  href={`https://github.com/${tool.githubRepo}/releases`}
-                  target="_blank" rel="noopener noreferrer"
-                  className={styles.allReleasesLink}
-                >
-                  <Github size={13} /> Xem tất cả Releases
-                </a>
-              )}
+
             </div>
           </div>
 
@@ -200,7 +183,7 @@ export default function DesktopToolDetail() {
             <h2 className={styles.blockTitle}>Lịch sử cập nhật</h2>
             {gh.loading ? (
               <div className={styles.changelogLoading}>
-                <Loader size={16} className={styles.spin} /> Đang tải changelog từ GitHub…
+                <Loader size={16} className={styles.spin} /> Đang tải lịch sử cập nhật…
               </div>
             ) : (
               <div className={styles.changelog}>
@@ -214,15 +197,7 @@ export default function DesktopToolDetail() {
                     <p className={styles.logNotes}>{log.notes}</p>
                   </div>
                 ))}
-                {tool.githubRepo && (
-                  <a
-                    href={`https://github.com/${tool.githubRepo}/releases`}
-                    target="_blank" rel="noopener noreferrer"
-                    className={styles.moreReleasesLink}
-                  >
-                    Xem toàn bộ lịch sử →
-                  </a>
-                )}
+
               </div>
             )}
           </div>

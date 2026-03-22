@@ -66,21 +66,6 @@ function Screenshots({ tool }) {
   )
 }
 
-// ── Live GitHub data badge ────────────────────────────────────
-function LiveBadge({ loading, error }) {
-  if (loading) return (
-    <span className={styles.liveBadge} style={{ color: 'var(--text3)' }}>
-      <Loader size={10} className={styles.spin} /> Đang tải…
-    </span>
-  )
-  if (error) return null
-  return (
-    <span className={styles.liveBadge}>
-      <span className={styles.liveDot} /> Live từ GitHub
-    </span>
-  )
-}
-
 // ── Single tool row ──────────────────────────────────────────
 function ToolRow({ tool }) {
   // Fetch live data từ GitHub API
@@ -152,16 +137,6 @@ function ToolRow({ tool }) {
               : <><strong>v{version}</strong><span>· {releaseDate}</span></>
             }
           </div>
-          {tool.githubRepo && (
-            <a
-              href={`https://github.com/${tool.githubRepo}/releases`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.ghLink}
-            >
-              <Github size={12} /> GitHub
-            </a>
-          )}
         </div>
 
         {/* Description */}
@@ -224,7 +199,7 @@ function ToolRow({ tool }) {
         </div>
 
         <p className={styles.safeNote}>
-          ✓ Mã nguồn mở &nbsp;·&nbsp; ✓ Không virus &nbsp;·&nbsp; ✓ Không cần đăng ký
+          ✓ Không virus &nbsp;·&nbsp; ✓ Không cần đăng ký
         </p>
 
       </div>
@@ -278,7 +253,7 @@ export default function Tools() {
             <div className={styles.heroStatDiv} />
             <div className={styles.heroStat}>
               <span className={styles.heroStatNum}>100%</span>
-              <span className={styles.heroStatLabel}>Mã nguồn mở</span>
+              <span className={styles.heroStatLabel}>Bảo mật</span>
             </div>
           </div>
         </div>
@@ -324,16 +299,6 @@ export default function Tools() {
             <div>
               <h3 className={styles.bottomCtaTitle}>Muốn thêm tính năng hoặc báo lỗi?</h3>
               <p className={styles.bottomCtaDesc}>
-                Mở issue trực tiếp trên GitHub — tôi đọc và phản hồi mọi yêu cầu.
-              </p>
-              <a
-                href="https://github.com/TranXuanTruong-BTEC/media-desktop-app/issues"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.ghIssueBtn}
-              >
-                <Github size={14} /> Mở issue trên GitHub
-              </a>
             </div>
           </div>
 

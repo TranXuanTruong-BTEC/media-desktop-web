@@ -9,33 +9,18 @@ export default defineConfig({
     modules: { localsConvention: 'camelCase' },
   },
   build: {
-    // Minify với terser (mạnh hơn esbuild default)
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console:    true,   // xoá console.log
-        drop_debugger:   true,   // xoá debugger
-        pure_funcs:      ['console.log','console.info','console.debug'],
-        passes:          2,      // 2 lần compress
-      },
-      mangle: {
-        // Đổi tên biến/function thành ký tự ngắn
-        toplevel:   false,
-        properties: false,       // true sẽ break CSS modules
-      },
-      format: {
-        comments: false,         // xoá tất cả comments
-      },
-    },
+    // esbuild — built-in, không cần cài thêm gì
+    minify: 'esbuild',
 
-    // Code splitting tối ưu
+    // Xoá console.log qua esbuild
+    target: 'es2015',
+
     rollupOptions: {
       output: {
-        // Chunk tên ngẫu nhiên (khó đoán)
+        // Tên file hash ngẫu nhiên
         chunkFileNames:  'assets/[hash].js',
         entryFileNames:  'assets/[hash].js',
         assetFileNames:  'assets/[hash].[ext]',
-        // Manual chunks: tách vendor ra cache riêng
         manualChunks(id) {
           if (id.includes('node_modules')) {
             if (id.includes('react')) return 'r'
@@ -46,13 +31,13 @@ export default defineConfig({
       },
     },
 
-    // Tăng chunk size warning threshold
-    chunkSizeWarningLimit: 1000,
-
-    // Source map = false (không expose source)
-    sourcemap: false,
+    sourcemap:              false,
+    chunkSizeWarningLimit:  1000,
   },
 
-  // Xoá console trong dev mode nếu muốn
-  // esbuild: { drop: ['console', 'debugger'] },
+  esbuild: {
+    // Xoá console và debugger khi build
+    drop:          ['console', 'debugger'],
+    legalComments: 'none',
+  },
 })
