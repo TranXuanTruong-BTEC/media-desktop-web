@@ -343,3 +343,9 @@
   transition: color 0.2s;
 }
 .moreReleasesLink:hover { color: var(--accent3); }
+
+.statusBanner {
+  padding: 16px 20px; border-radius: var(--radius);
+  font-size: 15px; font-weight: 600; line-height: 1.5;
+  max-width: 420px;
+}

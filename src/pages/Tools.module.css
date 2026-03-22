@@ -536,3 +536,9 @@
   transition: border-color 0.2s, color 0.2s;
 }
 .ghIssueBtn:hover { border-color: var(--border3); color: var(--text); }
+
+.statusBlockBtn {
+  display: flex; align-items: center;
+  padding: 13px 20px; border-radius: var(--radius);
+  font-size: 14px; font-weight: 600; line-height: 1.4;
+}

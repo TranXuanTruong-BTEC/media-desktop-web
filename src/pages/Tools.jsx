@@ -189,34 +189,29 @@ function ToolRow({ tool }) {
           </div>
         )}
 
-        {/* ── DOWNLOAD BUTTON ── */}
+        {/* ── DOWNLOAD BUTTON — status aware ── */}
         <div className={styles.rowActions}>
-          {gh.loading ? (
+          {tool.status === 'maintenance' ? (
+            <div className={styles.statusBlockBtn} style={{ background: 'rgba(255,118,117,0.12)', color: 'var(--red)', border: '1.5px solid rgba(255,118,117,0.3)' }}>
+              🔧 Đang bảo trì — tạm thời không khả dụng
+            </div>
+          ) : tool.status === 'coming_soon' ? (
+            <div className={styles.statusBlockBtn} style={{ background: 'rgba(253,203,110,0.12)', color: 'var(--amber)', border: '1.5px solid rgba(253,203,110,0.3)' }}>
+              🚧 Coming Soon — sắp ra mắt
+            </div>
+          ) : gh.loading ? (
             <div className={styles.dlBtnLoading}>
               <Loader size={16} className={styles.spin} />
               Đang kiểm tra phiên bản mới nhất…
             </div>
           ) : gh.error ? (
-            /* Fallback khi API lỗi */
-            <a
-              href={tool.downloadUrl}
-              className={styles.dlBtn}
-              style={{ '--tool-color': tool.color }}
-              onClick={handleDownload}
-              download
-            >
+            <a href={tool.downloadUrl} className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={handleDownload} download>
               <Download size={17} />
               Tải xuống v{version}
               <span className={styles.dlBadge}>{fileSize} · .{tool.ext}</span>
             </a>
           ) : (
-            /* Nút download chính với URL thật từ GitHub */
-            <a
-              href={downloadUrl}
-              className={styles.dlBtn}
-              style={{ '--tool-color': tool.color }}
-              onClick={handleDownload}
-            >
+            <a href={downloadUrl} className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={handleDownload}>
               <Download size={17} />
               Tải xuống miễn phí
               <span className={styles.dlBadge}>v{version} · {fileSize}</span>

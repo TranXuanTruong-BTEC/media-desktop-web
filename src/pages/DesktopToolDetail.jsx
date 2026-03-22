@@ -104,9 +104,17 @@ export default function DesktopToolDetail() {
                 </div>
               </div>
 
-              {/* Download button */}
+              {/* Download button — status aware */}
               <div className={styles.heroActions}>
-                {gh.loading ? (
+                {tool.status === 'maintenance' ? (
+                  <div className={styles.statusBanner} style={{ background:'rgba(255,118,117,0.12)', border:'1.5px solid rgba(255,118,117,0.3)', color:'var(--red)' }}>
+                    🔧 Đang bảo trì — tính năng tải về tạm thời không khả dụng
+                  </div>
+                ) : tool.status === 'coming_soon' ? (
+                  <div className={styles.statusBanner} style={{ background:'rgba(253,203,110,0.12)', border:'1.5px solid rgba(253,203,110,0.3)', color:'var(--amber)' }}>
+                    🚧 Coming Soon — ứng dụng sắp ra mắt, hãy quay lại sau!
+                  </div>
+                ) : gh.loading ? (
                   <div className={styles.dlBtnLoading}>
                     <Loader size={18} className={styles.spin} />
                     Đang tải thông tin phiên bản…
