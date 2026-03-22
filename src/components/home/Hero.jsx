@@ -2,6 +2,7 @@ import React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
+import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
 import StatusBanner from '../shared/StatusBanner.jsx'
 import { DonateTrigger } from '../shared/DonateModal.jsx'
 import styles from './Hero.module.css'
@@ -99,7 +100,10 @@ export default function Hero() {
   const [errorMsg,    setErrorMsg]    = useState('')
   const [convertFile, setConvertFile] = useState(null) // for convert tab
   const [convertMode, setConvertMode]   = useState('url')  // 'url' | 'file'
-  const [donateOpen,  setDonateOpen]   = useState(false)
+  const [donateOpen,     setDonateOpen]     = useState(false)
+  const [dlProgress,     setDlProgress]     = useState(null)   // null | 'fetching' | 0-100 | 'saving'
+  const [iosInstruction, setIosInstruction] = useState(null)   // null | { show, steps }
+  const device = detectDevice()
   const inputRef  = useRef(null)
   const timersRef = useRef([])
   const fileRef   = useRef(null)
@@ -234,18 +238,49 @@ export default function Hero() {
     }, 80)
   }
 
-  // ── Trigger real download ─────────────────────────────────
-  function handleDownload(option) {
+  // ── Smart download — handles iOS / Android / Desktop ─────────
+  async function handleDownload(option) {
     const rawUrl = option.downloadUrl || buildDownloadUrl((inputRef.current?.value || url).trim(), option.format, option.value)
     const dlUrl  = rawUrl.startsWith('/') ? API_BASE + rawUrl : rawUrl
-    const link  = document.createElement('a')
-    link.href     = dlUrl
-    link.download = ''
-    link.target   = '_blank'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    showToast(`⬇ Starting ${option.quality} ${option.format.toUpperCase()} download…`)
+    const title  = results?.title || 'snapload'
+    const fname  = title.replace(/[^\w\s-]/g, '').trim().slice(0, 60) || 'snapload'
+
+    setIosInstruction(null)
+
+    await smartDownload({
+      url:      dlUrl,
+      filename: fname,
+      format:   option.format,
+
+      onProgress: (stage, pct) => {
+        if (stage === 'fetching' || stage === 'opening') {
+          setDlProgress('fetching')
+          showToast(`⏳ Đang chuẩn bị tải ${option.format.toUpperCase()}…`)
+        } else if (stage === 'saving') {
+          setDlProgress('saving')
+        } else if (typeof pct === 'number') {
+          setDlProgress(pct)
+        }
+      },
+
+      onSuccess: ({ device: dev }) => {
+        setDlProgress(null)
+        if (dev === 'ios') {
+          showToast('📂 Đã mở — làm theo hướng dẫn để lưu file')
+        } else {
+          showToast(`✅ Đã tải ${option.quality} ${option.format.toUpperCase()} thành công!`)
+        }
+      },
+
+      onError: (msg) => {
+        setDlProgress(null)
+        showToast(`❌ ${msg || 'Tải thất bại, thử lại nhé'}`, 'error')
+      },
+
+      onIOSInstruction: (inst) => {
+        setIosInstruction(inst)
+      },
+    })
   }
 
   const isLoading = phase === 'loading'
@@ -452,7 +487,15 @@ export default function Hero() {
 
           {phase === 'results' && results && (
             <div className={`${styles.stateArea} animate-slide-up`}>
-              <ResultCard results={results} onDownload={handleDownload} onReset={reset} />
+              <ResultCard
+                results={results}
+                onDownload={handleDownload}
+                onReset={reset}
+                dlProgress={dlProgress}
+                iosInstruction={iosInstruction}
+                onCloseIOS={() => setIosInstruction(null)}
+                device={device}
+              />
             </div>
           )}
 
@@ -486,39 +529,124 @@ export default function Hero() {
   )
 }
 
-/* ── Result card ─────────────────────────────────────────────── */
-function ResultCard({ results, onDownload, onReset }) {
+/* ── iOS instruction modal ───────────────────────────────────── */
+function IOSModal({ instruction, onClose }) {
+  if (!instruction) return null
+  const isSafari = instruction.browser === 'safari'
+  const steps    = isSafari ? instruction.safariSteps : instruction.chromeSteps
+
   return (
-    <div className={styles.resultCard}>
-      <div className={styles.resultMeta}>
-        {results.thumb ? (
-          <img src={results.thumb} alt="" className={styles.resultThumbImg} />
-        ) : (
-          <div className={styles.resultThumb}><Download size={18} color="var(--text3)" /></div>
-        )}
-        <div className={styles.resultInfo}>
-          <div className={styles.resultTitle}>{results.title}</div>
-          <div className={styles.resultPlatform}>{results.platform} · Ready to download</div>
-        </div>
-        <button className={styles.resultClose} onClick={onReset} title="Start over"><X size={16} /></button>
-      </div>
-
-      <div className={styles.resultDivider} />
-
-      <div className={styles.downloadList}>
-        {results.options.map(opt => (
-          <div key={opt.value} className={styles.downloadRow}>
-            <div className={styles.downloadLeft}>
-              <span className={`${styles.fmtBadge} ${styles[opt.format]}`}>{opt.format.toUpperCase()}</span>
-              <span className={styles.dlQuality}>{opt.quality}</span>
-              {opt.size && <span className={styles.dlSize}>{opt.size}</span>}
+    <div className={styles.iosOverlay} onClick={onClose}>
+      <div className={styles.iosModal} onClick={e => e.stopPropagation()}>
+        <div className={styles.iosHeader}>
+          <span className={styles.iosLogo}>{isSafari ? '🧭' : '🌐'}</span>
+          <div>
+            <div className={styles.iosTitle}>Lưu file trên iOS</div>
+            <div className={styles.iosSub}>
+              {isSafari ? 'Safari' : 'Chrome'} · Làm theo các bước sau
             </div>
-            <button className={styles.dlBtn} onClick={() => onDownload(opt)}>
-              <Download size={13} /> Download
-            </button>
           </div>
-        ))}
+          <button className={styles.iosClose} onClick={onClose}><X size={16}/></button>
+        </div>
+
+        <div className={styles.iosSteps}>
+          {steps.map((s, i) => (
+            <div key={i} className={styles.iosStep}>
+              <div className={styles.iosStepNum}>{i + 1}</div>
+              <div className={styles.iosStepIcon}>{s.icon}</div>
+              <div className={styles.iosStepText}>{s.text}</div>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.iosNote}>
+          💡 File đang mở trong tab mới. Nếu không thấy → kiểm tra thanh tab phía trên.
+        </div>
+
+        <button className={styles.iosBtn} onClick={onClose}>Đã hiểu</button>
       </div>
     </div>
+  )
+}
+
+/* ── Result card ─────────────────────────────────────────────── */
+function ResultCard({ results, onDownload, onReset, dlProgress, iosInstruction, onCloseIOS, device }) {
+  return (
+    <>
+      <div className={styles.resultCard}>
+        <div className={styles.resultMeta}>
+          {results.thumb ? (
+            <img src={results.thumb} alt="" className={styles.resultThumbImg} />
+          ) : (
+            <div className={styles.resultThumb}><Download size={18} color="var(--text3)" /></div>
+          )}
+          <div className={styles.resultInfo}>
+            <div className={styles.resultTitle}>{results.title}</div>
+            <div className={styles.resultPlatform}>
+              {results.platform} · {device?.isIOS ? '📱 iOS' : device?.isAndroid ? '📱 Android' : '💻 Desktop'}
+            </div>
+          </div>
+          <button className={styles.resultClose} onClick={onReset} title="Start over"><X size={16} /></button>
+        </div>
+
+        {/* Download progress bar */}
+        {dlProgress !== null && (
+          <div className={styles.dlProgressWrap}>
+            <div
+              className={styles.dlProgressBar}
+              style={{
+                width: typeof dlProgress === 'number' ? `${dlProgress}%`
+                     : dlProgress === 'saving' ? '100%' : '30%'
+              }}
+            />
+            <span className={styles.dlProgressLabel}>
+              {dlProgress === 'connecting' ? 'Đang kết nối…'
+               : dlProgress === 'opening'  ? 'Đang mở file…'
+               : dlProgress === 'saving'   ? 'Đang lưu…'
+               : typeof dlProgress === 'number' ? `Đang tải ${dlProgress}%`
+               : 'Đang xử lý…'}
+            </span>
+          </div>
+        )}
+
+        {/* iOS notice banner */}
+        {device?.isIOS && (
+          <div className={styles.iosBanner}>
+            <span>📱</span>
+            <span>iOS: File sẽ mở trong tab mới → dùng nút Chia sẻ để lưu</span>
+          </div>
+        )}
+
+        <div className={styles.resultDivider} />
+
+        <div className={styles.downloadList}>
+          {results.options.map(opt => {
+            const isActive = dlProgress !== null
+            return (
+              <div key={opt.value} className={styles.downloadRow}>
+                <div className={styles.downloadLeft}>
+                  <span className={`${styles.fmtBadge} ${styles[opt.format]}`}>{opt.format.toUpperCase()}</span>
+                  <span className={styles.dlQuality}>{opt.quality}</span>
+                  {opt.size && <span className={styles.dlSize}>{opt.size}</span>}
+                </div>
+                <button
+                  className={`${styles.dlBtn} ${isActive ? styles.dlBtnLoading : ''}`}
+                  onClick={() => !isActive && onDownload(opt)}
+                  disabled={isActive}
+                >
+                  {isActive
+                    ? <><span className={styles.dlSpinner}/> {device?.isIOS ? 'Đang mở…' : 'Đang tải…'}</>
+                    : <><Download size={13}/> {device?.isIOS ? 'Mở & Lưu' : 'Download'}</>
+                  }
+                </button>
+              </div>
+            )
+          })}
+        </div>
+      </div>
+
+      {/* iOS step-by-step modal */}
+      <IOSModal instruction={iosInstruction} onClose={onCloseIOS} />
+    </>
   )
 }
