@@ -289,7 +289,7 @@
 
 /* ── Help button ── */
 .helpBtn {
-  position: fixed; bottom: 80px; right: 28px; z-index: 90;
+  position: fixed; bottom: 148px; right: 28px; z-index: 90;
   width: 40px; height: 40px; border-radius: 50%;
   background: var(--card); border: 1.5px solid var(--border2);
   color: var(--text2); font-family: var(--font-display);
