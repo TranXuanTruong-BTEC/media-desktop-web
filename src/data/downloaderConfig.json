@@ -1,7 +1,7 @@
 {
   "tabs": {
     "mp3": {
-      "enabled": false,
+      "enabled": true,
       "label": "MP3",
       "sub": "Audio only",
       "deviceStatus": {
@@ -11,7 +11,7 @@
       }
     },
     "mp4": {
-      "enabled": false,
+      "enabled": true,
       "label": "MP4",
       "sub": "Video + Audio",
       "deviceStatus": {
@@ -21,7 +21,7 @@
       }
     },
     "convert": {
-      "enabled": false,
+      "enabled": true,
       "label": "Convert",
       "sub": "MP4 → MP3",
       "deviceStatus": {
