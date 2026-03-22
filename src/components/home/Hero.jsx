@@ -140,6 +140,13 @@ export default function Hero() {
   const [liveConfig,  setLiveConfig]  = useState(() => getLiveConfig())
   const FORMAT_TABS = buildFormatTabs(liveConfig)
 
+  // Computed: effective status of currently selected tab for this device
+  function getActiveTabStatus() {
+    const tab = FORMAT_TABS.find(t => t.value === format)
+    const deviceKey = device.isIOS ? 'ios' : device.isAndroid ? 'android' : 'desktop'
+    return tab?.deviceStatus?.[deviceKey] || 'active'
+  }
+
   // Sync config: localStorage (same-origin) + admin server poll (local dev)
   useEffect(() => {
     // 1. localStorage events (production: Cloudflare same origin)
@@ -429,8 +436,15 @@ export default function Hero() {
                 autoComplete="off" spellCheck={false}
                 disabled={isLoading}
               />
-              <button className={styles.fetchBtn} onClick={handleMainAction} disabled={isLoading}>
-                {isLoading ? 'Fetching…' : 'Get File'}
+              <button
+                className={`${styles.fetchBtn} ${getActiveTabStatus() !== 'active' ? styles.fetchBtnBlocked : ''}`}
+                onClick={handleMainAction}
+                disabled={isLoading || getActiveTabStatus() !== 'active'}
+              >
+                {isLoading ? 'Fetching…'
+                  : getActiveTabStatus() === 'maintenance' ? '🔧 Đang bảo trì'
+                  : getActiveTabStatus() === 'coming_soon'  ? '🚧 Coming Soon'
+                  : 'Get File'}
               </button>
             </div>
           )}
@@ -469,8 +483,15 @@ export default function Hero() {
                     autoComplete="off" spellCheck={false}
                     disabled={isLoading}
                   />
-                  <button className={styles.fetchBtn} onClick={handleMainAction} disabled={isLoading}>
-                    {isLoading ? 'Converting…' : 'Convert'}
+                  <button
+                    className={`${styles.fetchBtn} ${getActiveTabStatus() !== 'active' ? styles.fetchBtnBlocked : ''}`}
+                    onClick={handleMainAction}
+                    disabled={isLoading || getActiveTabStatus() !== 'active'}
+                  >
+                    {isLoading ? 'Converting…'
+                      : getActiveTabStatus() === 'maintenance' ? '🔧 Đang bảo trì'
+                      : getActiveTabStatus() === 'coming_soon'  ? '🚧 Coming Soon'
+                      : 'Convert'}
                   </button>
                 </div>
               )}
@@ -515,12 +536,15 @@ export default function Hero() {
                   <input ref={fileRef} type="file" accept="video/*" style={{ display:'none' }}
                     onChange={e => setConvertFile(e.target.files[0] || null)} />
                   <button
-                    className={styles.fetchBtn}
+                    className={`${styles.fetchBtn} ${getActiveTabStatus() !== 'active' ? styles.fetchBtnBlocked : ''}`}
                     onClick={handleMainAction}
-                    disabled={isLoading || !convertFile}
+                    disabled={isLoading || !convertFile || getActiveTabStatus() !== 'active'}
                     style={{ width: '100%', marginTop: 8, justifyContent: 'center' }}
                   >
-                    {isLoading ? 'Đang convert…' : 'Convert sang MP3'}
+                    {isLoading ? 'Đang convert…'
+                      : getActiveTabStatus() === 'maintenance' ? '🔧 Đang bảo trì'
+                      : getActiveTabStatus() === 'coming_soon'  ? '🚧 Coming Soon'
+                      : 'Convert sang MP3'}
                   </button>
                 </>
               )}
