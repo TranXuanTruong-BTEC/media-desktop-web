@@ -205,3 +205,41 @@ img { max-width: 100%; display: block; }
 @media (min-width: 769px) {
   .hide-desktop { display: none !important; }
 }
+
+/* ── Mobile fixes ─────────────────────────────── */
+@media (max-width: 768px) {
+  /* Fix: buttons/links need larger touch targets on mobile */
+  button, a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Fix: prevent horizontal overflow */
+  .container {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  /* Fix: text too large on mobile */
+  h1 { font-size: clamp(28px, 8vw, 48px) !important; }
+  h2 { font-size: clamp(22px, 6vw, 36px) !important; }
+}
+
+/* Fix: prevent iOS Safari zoom on input focus */
+@media (max-width: 768px) {
+  input[type="text"],
+  input[type="url"],
+  input[type="email"],
+  textarea,
+  select {
+    font-size: 16px !important;  /* prevents iOS auto-zoom */
+  }
+}
+
+/* Fix: safe area for notch/home indicator */
+@supports (padding-bottom: env(safe-area-inset-bottom)) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

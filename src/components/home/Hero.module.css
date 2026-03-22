@@ -502,12 +502,19 @@
 
 @media (max-width: 560px) {
   .hero { padding: 72px 0 60px; }
-  .card { padding: 20px 16px 16px; }
+  .card { padding: 20px 16px 16px; width: calc(100vw - 32px); }
   .urlRow { flex-direction: column; }
-  .fetchBtn { width: 100%; }
+  .urlInput { font-size: 16px; }  /* prevent iOS zoom */
+  .fetchBtn { width: 100%; justify-content: center; }
   .optionsRow { flex-direction: column; }
-  .trustStrip { gap: 12px; }
+  .trustStrip { gap: 10px; flex-wrap: wrap; justify-content: center; }
+  .trustItem { font-size: 11px; }
   .dlSize { display: none; }
+  .formatTabs { gap: 4px; }
+  .formatTab { padding: 8px 4px; }
+  .formatTabSub { display: none; }
+  .platforms { gap: 6px; }
+  .chip { font-size: 11px; padding: 5px 10px; }
 }
 
 /* ── Convert mode switcher ── */

@@ -1,4 +1,5 @@
 import React from 'react'
+import { usePageView } from '../hooks/usePageView.js'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import Routes from './routes.jsx'
@@ -13,6 +14,7 @@ import { DonateNavBtn } from '../components/shared/DonateModal.jsx'
 function ScrollToTop() {
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  usePageView()  // track every page visit
   return null
 }
 

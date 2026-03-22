@@ -1,6 +1,9 @@
 /* ── FAB ── */
 .fab {
-  position: fixed; bottom: 88px; right: 28px; z-index: 80;
+  position: fixed;
+  bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  right: max(28px, env(safe-area-inset-right, 28px));
+  z-index: 80;
   width: 52px; height: 52px; border-radius: 50%;
   background: var(--accent); color: #fff; border: none;
   display: flex; align-items: center; justify-content: center;
