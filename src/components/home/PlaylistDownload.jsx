@@ -136,8 +136,6 @@ export default function PlaylistDownload() {
         </div>
       )}
 
-}
-
       {playlist && (
         <div className={styles.playlistCard}>
           <div className={styles.plHeader} onClick={() => setExpanded(e => !e)}>
