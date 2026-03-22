@@ -64,21 +64,24 @@ async function fetchLiveConfigFromAdmin() {
 }
 
 function buildFormatTabs(cfg) {
-  const configTabs = Object.entries(cfg.tabs)
-    .filter(([, t]) => t.enabled !== false)
-    .map(([key, t]) => ({
-      value: key,
-      label: t.label,
-      icon:  ICON_MAP[key],
-      sub:   t.sub,
-      deviceStatus: t.deviceStatus,
+  const tabOrder = ['mp3', 'mp4', 'convert', 'batch', 'playlist']
+  const allTabs = {
+    // Defaults for tabs not in config
+    batch:    { enabled: true, label: 'Batch',    sub: 'Nhiều link cùng lúc', deviceStatus: null },
+    playlist: { enabled: true, label: 'Playlist', sub: 'YouTube playlist',    deviceStatus: null },
+    // Override with config values
+    ...(cfg.tabs || {}),
+  }
+  // Render in fixed order, dedup by key
+  return tabOrder
+    .filter(key => allTabs[key]?.enabled !== false)
+    .map(key => ({
+      value:        key,
+      label:        allTabs[key]?.label || key,
+      icon:         ICON_MAP[key],
+      sub:          allTabs[key]?.sub || '',
+      deviceStatus: allTabs[key]?.deviceStatus || null,
     }))
-  // Always add Batch and Playlist tabs (not in downloaderConfig yet)
-  return [
-    ...configTabs,
-    { value: 'batch',    label: 'Batch',    icon: ICON_MAP.batch,    sub: 'Nhiều link cùng lúc', deviceStatus: null },
-    { value: 'playlist', label: 'Playlist', icon: ICON_MAP.playlist, sub: 'YouTube playlist',    deviceStatus: null },
-  ]
 }
 
 const QUALITY_OPTIONS = {
