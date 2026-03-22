@@ -80,9 +80,18 @@ function ToolRow({ tool }) {
   const dlCount      = gh.downloadCount > 0 ? gh.downloadCount : tool.downloadCount
   const changelog    = gh.changelog?.length ? gh.changelog : tool.changelog
 
-  function handleDownload(e) {
-    // Không e.preventDefault() — để link hoạt động bình thường
+  function handleDownload(e, url) {
+    e?.preventDefault()
     showToast(`🚀 Đang tải ${tool.name} v${version} (${fileSize})…`)
+    setTimeout(() => {
+      const a = document.createElement('a')
+      a.href   = url
+      a.target = '_blank'
+      a.rel    = 'noopener noreferrer'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }, 150)
   }
 
   return (
@@ -188,18 +197,18 @@ function ToolRow({ tool }) {
               Đang kiểm tra phiên bản mới nhất…
             </div>
           ) : gh.error ? (
-            <a href={tool.downloadUrl} className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={handleDownload} download>
+            <button className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={(e) => handleDownload(e, tool.downloadUrl)}>
               <Download size={17} />
               Tải xuống v{version}
               <span className={styles.dlBadge}>{fileSize} · .{tool.ext}</span>
-            </a>
+            </button>
           ) : (
             getEffectiveStatus(tool) === 'active' ? (
-              <a href={downloadUrl} className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={handleDownload}>
+              <button className={styles.dlBtn} style={{ '--tool-color': tool.color }} onClick={(e) => handleDownload(e, downloadUrl)}>
                 <Download size={17} />
                 Tải xuống miễn phí
                 <span className={styles.dlBadge}>v{version} · {fileSize}</span>
-              </a>
+              </button>
             ) : null
           )}
 

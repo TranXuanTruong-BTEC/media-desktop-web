@@ -1,6 +1,6 @@
 import React from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { Download, ArrowLeft, Check, Clock, HardDrive, Monitor, Tag, Github, Loader, Star } from 'lucide-react'
+import { Download, ArrowLeft, Check, Clock, HardDrive, Monitor, Tag, Loader, Star } from 'lucide-react'
 import { getDesktopToolById, desktopTools, formatDownloadCount } from '../data/desktopTools.js'
 import { useGithubRelease } from '../hooks/useGithubRelease.js'
 import { getEffectiveStatus, getDeviceType } from '../hooks/useDeviceStatus.js'
@@ -22,7 +22,7 @@ export default function DesktopToolDetail() {
     )
   }
 
-  const gh = useGithubRelease(tool.githubRepo, tool.assetName)
+  const gh = useGithubRelease(tool._r || tool.githubRepo, tool.assetName)
 
   const version     = gh.version      || tool.version
   const downloadUrl = gh.downloadUrl  || tool.downloadUrl
@@ -34,7 +34,19 @@ export default function DesktopToolDetail() {
   const otherTools = desktopTools.filter(t => t.id !== tool.id).slice(0, 3)
 
   function handleDownload() {
+    // Navigate programmatically — URL never appears in DOM href
     showToast(`🚀 Đang tải ${tool.name} v${version}…`)
+    // Small delay so toast shows first
+    setTimeout(() => {
+      const a = document.createElement('a')
+      a.href     = downloadUrl
+      a.download = ''
+      a.target   = '_blank'
+      a.rel      = 'noopener noreferrer'
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+    }, 200)
   }
 
   return (
@@ -114,22 +126,24 @@ export default function DesktopToolDetail() {
                   )
                   return null
                 })()}
-                {getEffectiveStatus(tool) === 'active' && gh.loading ? (
-                  <div className={styles.dlBtnLoading}>
-                    <Loader size={18} className={styles.spin} />
-                    Đang tải thông tin phiên bản…
-                  </div>
-                ) : (
-                  <a
-                    href={downloadUrl}
-                    className={styles.downloadBtn}
-                    style={{ background: tool.color || 'var(--accent)' }}
-                    onClick={handleDownload}
-                  >
-                    <Download size={20} />
-                    Tải xuống miễn phí
-                    <span className={styles.dlMeta}>v{version} · {fileSize} · .{tool.ext}</span>
-                  </a>
+                {getEffectiveStatus(tool) === 'active' && (
+                  gh.loading ? (
+                    <div className={styles.dlBtnLoading}>
+                      <Loader size={18} className={styles.spin} />
+                      Đang tải thông tin phiên bản…
+                    </div>
+                  ) : (
+                    <a
+                      href="#download"
+                      className={styles.downloadBtn}
+                      style={{ background: tool.color || 'var(--accent)' }}
+                      onClick={(e) => { e.preventDefault(); handleDownload() }}
+                    >
+                      <Download size={20} />
+                      Tải xuống miễn phí
+                      <span className={styles.dlMeta}>v{version} · {fileSize} · .{tool.ext}</span>
+                    </a>
+                  )
                 )}
               </div>
 
