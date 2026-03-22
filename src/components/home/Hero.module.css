@@ -777,3 +777,34 @@
   cursor: pointer;
 }
 .iosBtn:active { opacity: 0.85; transform: scale(0.98); }
+
+/* ── Tab unavailable (coming soon / maintenance) ─────────────── */
+.formatTabUnavailable {
+  opacity: 0.55;
+  cursor: default;
+  position: relative;
+}
+.formatTabUnavailable::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 4px,
+    rgba(0,0,0,0.06) 4px,
+    rgba(0,0,0,0.06) 8px
+  );
+  pointer-events: none;
+}
+
+/* ── Tab device status banner ─────────────────────────────────── */
+.tabStatusBanner {
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  margin-bottom: 4px;
+}

@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react'
 import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
+import { downloaderConfig } from '../../data/downloaderConfig.js'
 import StatusBanner from '../shared/StatusBanner.jsx'
 import { DonateTrigger } from '../shared/DonateModal.jsx'
 import styles from './Hero.module.css'
@@ -11,11 +12,17 @@ import styles from './Hero.module.css'
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
 // ── Format tabs ───────────────────────────────────────────────
-const FORMAT_TABS = [
-  { value: 'mp3',     label: 'MP3',     icon: <Music  size={14}/>, sub: 'Audio only'   },
-  { value: 'mp4',     label: 'MP4',     icon: <Video  size={14}/>, sub: 'Video + Audio'},
-  { value: 'convert', label: 'Convert', icon: <Repeat size={14}/>, sub: 'MP4 → MP3'    },
-]
+// Build FORMAT_TABS from admin config (device-status-aware)
+const ICON_MAP = { mp3: <Music size={14}/>, mp4: <Video size={14}/>, convert: <Repeat size={14}/> }
+const FORMAT_TABS = Object.entries(downloaderConfig.tabs)
+  .filter(([, t]) => t.enabled !== false)
+  .map(([key, t]) => ({
+    value: key,
+    label: t.label,
+    icon:  ICON_MAP[key],
+    sub:   t.sub,
+    deviceStatus: t.deviceStatus,
+  }))
 
 const QUALITY_OPTIONS = {
   mp3: [
@@ -309,6 +316,23 @@ export default function Hero() {
 
         {/* ── Downloader Card ── */}
         <div className={styles.card} id="downloader" style={{ position: 'relative' }}>
+
+          {/* ── Device tab status banner ── */}
+          {(() => {
+            const activeTab = FORMAT_TABS.find(t => t.value === format)
+            const tabDevStatus = activeTab?.deviceStatus?.[device.isIOS ? 'ios' : device.isAndroid ? 'android' : 'desktop']
+            if (tabDevStatus === 'coming_soon') return (
+              <div className={styles.tabStatusBanner} style={{ background:'rgba(253,203,110,0.12)', border:'1px solid rgba(253,203,110,0.3)', color:'var(--amber)' }}>
+                🚧 {format.toUpperCase()} trên {device.isIOS ? 'iOS' : 'Android'} — Coming Soon. Dùng thiết bị khác hoặc thử lại sau.
+              </div>
+            )
+            if (tabDevStatus === 'maintenance') return (
+              <div className={styles.tabStatusBanner} style={{ background:'rgba(255,118,117,0.12)', border:'1px solid rgba(255,118,117,0.3)', color:'var(--red)' }}>
+                🔧 {format.toUpperCase()} đang bảo trì. Vui lòng thử lại sau.
+              </div>
+            )
+            return null
+          })()}
 
           {/* ── Status overlay (set via Admin dashboard) ── */}
           {typeof window !== 'undefined' && (() => {
