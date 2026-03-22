@@ -5,9 +5,9 @@
       "label": "MP3",
       "sub": "Audio only",
       "deviceStatus": {
-        "desktop": "maintenance",
-        "android": "maintenance",
-        "ios": "maintenance"
+        "desktop": "active",
+        "android": "active",
+        "ios": "active"
       }
     },
     "mp4": {
@@ -16,7 +16,7 @@
       "sub": "Video + Audio",
       "deviceStatus": {
         "desktop": "active",
-        "android": "coming_soon",
+        "android": "active",
         "ios": "coming_soon"
       }
     },
@@ -25,9 +25,9 @@
       "label": "Convert",
       "sub": "MP4 → MP3",
       "deviceStatus": {
-        "desktop": "maintenance",
-        "android": "maintenance",
-        "ios": "maintenance"
+        "desktop": "active",
+        "android": "coming_soon",
+        "ios": "coming_soon"
       }
     }
   },
