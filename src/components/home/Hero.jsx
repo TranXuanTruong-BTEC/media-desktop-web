@@ -561,19 +561,24 @@ export default function Hero() {
             </div>
           )}
 
-          {phase === 'results' && results && (
-            <div className={`${styles.stateArea} animate-slide-up`}>
-              <ResultCard
-                results={results}
-                onDownload={handleDownload}
-                onReset={reset}
-                dlProgress={dlProgress}
-                iosInstruction={iosInstruction}
-                onCloseIOS={() => setIosInstruction(null)}
-                device={device}
-              />
-            </div>
-          )}
+          {phase === 'results' && results && (() => {
+            const activeTab = FORMAT_TABS.find(t => t.value === format)
+            const tabDevStatus = activeTab?.deviceStatus?.[device.isIOS ? 'ios' : device.isAndroid ? 'android' : 'desktop'] || 'active'
+            if (tabDevStatus !== 'active') return null  // hide results if tab unavailable
+            return (
+              <div className={`${styles.stateArea} animate-slide-up`}>
+                <ResultCard
+                  results={results}
+                  onDownload={handleDownload}
+                  onReset={reset}
+                  dlProgress={dlProgress}
+                  iosInstruction={iosInstruction}
+                  onCloseIOS={() => setIosInstruction(null)}
+                  device={device}
+                />
+              </div>
+            )
+          })()}
 
           {/* Show donate trigger after download */}
           {phase === 'results' && !donateOpen && (

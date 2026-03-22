@@ -808,3 +808,11 @@
   line-height: 1.5;
   margin-bottom: 4px;
 }
+
+.fetchBtnBlocked {
+  opacity: 0.5 !important;
+  cursor: not-allowed !important;
+  background: var(--bg3) !important;
+  color: var(--text3) !important;
+  border: 1.5px solid var(--border2) !important;
+}
