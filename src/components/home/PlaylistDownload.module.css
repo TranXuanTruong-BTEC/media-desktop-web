@@ -3,6 +3,7 @@
 .urlInput{flex:1;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:10px 14px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
 .urlInput:focus{border-color:var(--accent)}
 .urlInput::placeholder{color:var(--text3)}
+
 .fetchBtn{display:flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:10px 18px;font-family:var(--font-body);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s,opacity .15s}
 .fetchBtn:hover:not(:disabled){background:var(--accent2)}
 .fetchBtn:disabled{opacity:.5;cursor:not-allowed}
@@ -13,15 +14,18 @@
 .optRow{display:flex;gap:8px}
 .select{flex:1;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:8px 10px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none}
 
-/* ZIP progress box */
-/* Playlist card */
 .playlistCard{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden}
 .plHeader{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;background:var(--card);border-bottom:1px solid var(--border)}
 .plTitle{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--text)}
 .donePill{font-size:10px;background:rgba(29,158,117,.15);color:var(--green);padding:2px 7px;border-radius:40px}
-.plActions{display:flex;align-items:center;gap:6px}
+
+.plActions{display:flex;align-items:center;gap:8px}
 .selectAllBtn{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;white-space:nowrap}
-.selectAllBtn:hover{background:var(--bg3);color:var(--text2)}
+.selectAllBtn:hover{background:var(--bg2);color:var(--text2)}
+
+.dlAllBtn{display:flex;align-items:center;gap:6px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:7px 14px;font-family:var(--font-body);font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;transition:background .15s,opacity .15s}
+.dlAllBtn:hover:not(:disabled){background:var(--accent2)}
+.dlAllBtn:disabled{opacity:.5;cursor:not-allowed}
 
 .plList{max-height:380px;overflow-y:auto}
 .plItem{display:flex;align-items:center;gap:8px;padding:7px 14px;border-bottom:1px solid var(--border);transition:background .1s}
@@ -29,6 +33,7 @@
 .plItem:hover{background:var(--bg2)}
 .plDone{opacity:.55}
 .plDeselected{opacity:.4}
+
 .checkbox{width:14px;height:14px;flex-shrink:0;cursor:pointer;accent-color:var(--accent)}
 .plNum{font-size:10px;color:var(--text3);min-width:18px;text-align:right;flex-shrink:0}
 .plThumb{width:46px;height:26px;object-fit:cover;border-radius:3px;flex-shrink:0}
@@ -48,6 +53,5 @@
   .urlRow{flex-direction:column}
   .plActions{gap:4px}
   .selectAllBtn{display:none}
-  .dlZipBtn{padding:5px 8px}
-  .dlAllBtn{padding:5px 8px}
+  .dlAllBtn{padding:6px 10px;font-size:11px}
 }
