@@ -22,7 +22,7 @@ export default function PlaylistDownload() {
   async function handleFetch() {
     if (!url.trim()) return
     setLoading(true); setError(''); setPlaylist(null)
-    setSelected(new Set()); setDlStatus({}); setZipPhase('idle')
+    setSelected(new Set()); setDlStatus({})
     try {
       const res  = await fetch(`${API_BASE}/api/playlist`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
