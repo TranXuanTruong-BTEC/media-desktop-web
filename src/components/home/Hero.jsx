@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
@@ -10,6 +11,26 @@ import styles from './Hero.module.css'
 
 // ── API base — trỏ tới backend server ────────────────────────
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+
+// ── Platform → Tool slug mapping ─────────────────────────────
+const PLATFORM_REDIRECTS = [
+  { match: ['tiktok.com'],                   slug: 'tiktok-downloader' },
+  { match: ['instagram.com'],                slug: 'instagram-downloader' },
+  { match: ['twitter.com', 'x.com'],         slug: 'twitter-downloader' },
+  { match: ['facebook.com', 'fb.watch'],     slug: 'facebook-downloader' },
+  { match: ['vimeo.com'],                    slug: 'audio-extractor' },
+  { match: ['reddit.com'],                   slug: 'audio-extractor' },
+]
+
+function getPlatformRedirect(url) {
+  try {
+    const host = new URL(url).hostname.toLowerCase().replace('www.', '')
+    for (const { match, slug } of PLATFORM_REDIRECTS) {
+      if (match.some(m => host.includes(m))) return slug
+    }
+  } catch {}
+  return null // YouTube or unknown → stay on hero
+}
 
 // ── Format tabs ───────────────────────────────────────────────
 // Build FORMAT_TABS — reads localStorage first (live admin changes), falls back to static file
@@ -136,7 +157,8 @@ export default function Hero() {
   const [donateOpen,     setDonateOpen]     = useState(false)
   const [dlProgress,     setDlProgress]     = useState(null)   // null | 'fetching' | 0-100 | 'saving'
   const [iosInstruction, setIosInstruction] = useState(null)   // null | { show, steps }
-  const device = detectDevice()
+  const device   = detectDevice()
+  const navigate  = useNavigate()
   const [liveConfig,  setLiveConfig]  = useState(() => getLiveConfig())
   const FORMAT_TABS = buildFormatTabs(liveConfig)
 
@@ -206,6 +228,15 @@ export default function Hero() {
     if (trimmed) setUrl(trimmed) // sync state
     if (!trimmed) { setErrorMsg('Vui lòng dán link video vào ô trên.'); setPhase('error'); return }
     if (!isValidUrl(trimmed)) { setErrorMsg('Link không hợp lệ. Hãy đảm bảo link bắt đầu bằng https://'); setPhase('error'); return }
+
+    // ── Redirect non-YouTube URLs to the matching tool page ──
+    const redirectSlug = getPlatformRedirect(trimmed)
+    if (redirectSlug) {
+      showToast('🔀 Đang chuyển bạn đến công cụ phù hợp…')
+      // Encode URL so tool page can auto-fill it
+      navigate(`/tool/${redirectSlug}?url=${encodeURIComponent(trimmed)}`)
+      return
+    }
 
     clearTimers()
     animateProgress()

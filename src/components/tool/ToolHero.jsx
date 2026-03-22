@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Download, AlertCircle, X, Loader } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
@@ -52,13 +53,25 @@ export default function ToolHero({ tool }) {
   const [results,     setResults]     = useState(null)
   const [error,       setError]       = useState('')
   const [dlProgress,  setDlProgress]  = useState(null)
-  const inputRef = useRef()
-  const timers   = useRef([])
+  const inputRef     = useRef()
+  const timers       = useRef([])
+  const [searchParams] = useSearchParams()
 
   useEffect(() => {
     const opts = QUALITY_OPTIONS[format]
     if (opts) setQuality(opts[0].v)
   }, [format])
+
+  // Auto-fill URL from ?url= query param (e.g. redirected from hero)
+  useEffect(() => {
+    const paramUrl = searchParams.get('url')
+    if (paramUrl && isValidUrl(paramUrl)) {
+      setUrl(paramUrl)
+      if (inputRef.current) inputRef.current.value = paramUrl
+      // Auto-fetch after a short delay
+      setTimeout(() => handleFetch(), 300)
+    }
+  }, []) // run once on mount
 
   // Auto-refetch when format changes if URL is already entered and results shown
   const urlRef = useRef('')
