@@ -365,3 +365,137 @@
   .methodGrid { grid-template-columns: 1fr 1fr; }
   .thanksActions { flex-direction: column; }
 }
+
+/* ── MoMo QR section ── */
+.qrSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.qrHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+}
+
+.qrMethodIcon { font-size: 18px; }
+.qrMethodLabel { color: var(--text2); }
+
+.qrBox {
+  width: 200px;
+  height: 200px;
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--border2);
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.qrImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  padding: 8px;
+}
+
+/* Placeholder when no QR image yet */
+.qrPlaceholder {
+  display: none;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px;
+  background: var(--bg3);
+}
+
+.qrPlaceholderGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+  width: 80px;
+}
+
+.qrDot {
+  width: 12px;
+  height: 12px;
+  background: var(--text2);
+  border-radius: 2px;
+}
+
+.qrPlaceholderText {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  line-height: 1.5;
+}
+
+.qrPhone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qrPhoneLabel {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.qrPhoneNum {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent2);
+  cursor: pointer;
+  transition: color 0.15s;
+  font-family: var(--font-mono);
+}
+.qrPhoneNum:hover { color: var(--accent3); }
+
+.qrName {
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 0.04em;
+}
+
+/* ── PayPal unavailable notice ── */
+.paypalNotice {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(253,203,110,0.08);
+  border: 1px solid rgba(253,203,110,0.25);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.paypalNoticeIcon {
+  color: var(--amber);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.paypalNoticeContent {}
+
+.paypalNoticeTitle {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 5px;
+}
+
+.paypalNoticeDesc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+}
