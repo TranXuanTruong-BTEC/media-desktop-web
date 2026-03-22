@@ -29,6 +29,28 @@
         "android": "coming_soon",
         "ios": "coming_soon"
       }
+    },
+    "batch": {
+      "enabled": true,
+      "label": "Batch",
+      "sub": "Nhiều link cùng lúc",
+      "deviceStatus": {
+        "desktop": "active",
+        "android": "active",
+        "ios": "coming_soon"
+      },
+      "maxUrls": 20
+    },
+    "playlist": {
+      "enabled": true,
+      "label": "Playlist",
+      "sub": "YouTube playlist",
+      "deviceStatus": {
+        "desktop": "active",
+        "android": "active",
+        "ios": "coming_soon"
+      },
+      "maxItems": 200
     }
   },
   "defaultQuality": {
