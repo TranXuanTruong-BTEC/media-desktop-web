@@ -63,31 +63,59 @@ export default function PlaylistDownload() {
     if (!toDownload.length) return
 
     setDlAll(true)
+    let successCount = 0
+
     for (const item of toDownload) {
       setDlStatus(p => ({ ...p, [item.id]: 'downloading' }))
-      const enc    = encodeURIComponent(item.url)
-      const dlUrl  = `${API_BASE}/api/download?url=${enc}&format=${format}&quality=${quality}`
+      const enc   = encodeURIComponent(item.url)
+      const dlUrl = `${API_BASE}/api/download?url=${enc}&format=${format}&quality=${quality}`
+
       try {
-        // Use <a download> — works cross-browser without blob fetch timeout
-        await new Promise((resolve, reject) => {
-          const a = document.createElement('a')
-          a.href     = dlUrl
-          a.download = `${item.title.slice(0,60).replace(/[^\w\s-]/g,'')}.${format}`
-          a.target   = '_blank'
-          a.rel      = 'noopener noreferrer'
+        if (device.isIOS) {
+          // iOS: open each file, user saves manually
+          window.open(dlUrl, '_blank', 'noopener,noreferrer')
+          await new Promise(r => setTimeout(r, 3000))
+          setDlStatus(p => ({ ...p, [item.id]: 'done' }))
+        } else {
+          // Desktop/Android: fetch blob → save file → wait until done
+          const res = await fetch(dlUrl)
+          if (!res.ok) {
+            const err = await res.json().catch(() => ({}))
+            throw new Error(err.error || `HTTP ${res.status}`)
+          }
+          const blob     = await res.blob()
+          const safeName = item.title.slice(0, 60).replace(/[^\w\s\-().]/g, '').trim()
+          const objUrl   = URL.createObjectURL(blob)
+          const a        = Object.assign(document.createElement('a'), {
+            href:     objUrl,
+            download: `${safeName || item.id}.${format}`,
+          })
           document.body.appendChild(a)
           a.click()
           document.body.removeChild(a)
-          // Wait between downloads to avoid rate limit
-          setTimeout(resolve, device.isIOS ? 2500 : 1500)
-        })
-        setDlStatus(p => ({ ...p, [item.id]: 'done' }))
-      } catch {
+          // Small delay to let browser start the save dialog
+          await new Promise(r => setTimeout(r, 800))
+          URL.revokeObjectURL(objUrl)
+          setDlStatus(p => ({ ...p, [item.id]: 'done' }))
+        }
+        successCount++
+      } catch (err) {
+        console.error('Playlist DL error:', item.title, err.message)
         setDlStatus(p => ({ ...p, [item.id]: 'error' }))
       }
+
+      // Gap between videos — avoids concurrent limit on backend
+      if (toDownload.indexOf(item) < toDownload.length - 1) {
+        await new Promise(r => setTimeout(r, 1200))
+      }
     }
+
     setDlAll(false)
-    showToast(`✅ Hoàn tất tải ${toDownload.length} video!`)
+    if (successCount === toDownload.length) {
+      showToast(`✅ Đã tải xong ${successCount} video!`)
+    } else {
+      showToast(`⚠️ Tải xong ${successCount}/${toDownload.length} — ${toDownload.length - successCount} lỗi`)
+    }
   }
 
   const doneCount = Object.values(dlStatus).filter(s => s === 'done').length
