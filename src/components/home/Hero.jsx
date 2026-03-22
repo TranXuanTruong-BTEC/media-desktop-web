@@ -12,17 +12,43 @@ import styles from './Hero.module.css'
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
 // ── Format tabs ───────────────────────────────────────────────
-// Build FORMAT_TABS from admin config (device-status-aware)
+// Build FORMAT_TABS — reads localStorage first (live admin changes), falls back to static file
 const ICON_MAP = { mp3: <Music size={14}/>, mp4: <Video size={14}/>, convert: <Repeat size={14}/> }
-const FORMAT_TABS = Object.entries(downloaderConfig.tabs)
-  .filter(([, t]) => t.enabled !== false)
-  .map(([key, t]) => ({
-    value: key,
-    label: t.label,
-    icon:  ICON_MAP[key],
-    sub:   t.sub,
-    deviceStatus: t.deviceStatus,
-  }))
+
+function getLiveConfig() {
+  try {
+    // Same-origin localStorage (works on production Cloudflare Pages)
+    const stored = localStorage.getItem('snapload_dl_config')
+    if (stored) {
+      const parsed = JSON.parse(stored)
+      if (parsed?.tabs) return parsed
+    }
+  } catch {}
+  return downloaderConfig
+}
+
+// Background fetch from admin server (works in local dev)
+async function fetchLiveConfigFromAdmin() {
+  try {
+    const res = await fetch('http://localhost:3001/api/dl-config', { signal: AbortSignal.timeout(1000) })
+    if (!res.ok) return null
+    const data = await res.json()
+    if (data?.ok && data?.config?.tabs) return data.config
+  } catch {}
+  return null
+}
+
+function buildFormatTabs(cfg) {
+  return Object.entries(cfg.tabs)
+    .filter(([, t]) => t.enabled !== false)
+    .map(([key, t]) => ({
+      value: key,
+      label: t.label,
+      icon:  ICON_MAP[key],
+      sub:   t.sub,
+      deviceStatus: t.deviceStatus,
+    }))
+}
 
 const QUALITY_OPTIONS = {
   mp3: [
@@ -111,6 +137,32 @@ export default function Hero() {
   const [dlProgress,     setDlProgress]     = useState(null)   // null | 'fetching' | 0-100 | 'saving'
   const [iosInstruction, setIosInstruction] = useState(null)   // null | { show, steps }
   const device = detectDevice()
+  const [liveConfig,  setLiveConfig]  = useState(() => getLiveConfig())
+  const FORMAT_TABS = buildFormatTabs(liveConfig)
+
+  // Sync config: localStorage (same-origin) + admin server poll (local dev)
+  useEffect(() => {
+    // 1. localStorage events (production: Cloudflare same origin)
+    function onStorage(e) {
+      if (e.key === 'snapload_dl_config') setLiveConfig(getLiveConfig())
+    }
+    window.addEventListener('storage', onStorage)
+
+    // 2. Poll admin server every 3s (local dev: different ports)
+    let interval = null
+    fetchLiveConfigFromAdmin().then(cfg => {
+      if (cfg) setLiveConfig(cfg)
+    })
+    interval = setInterval(async () => {
+      const cfg = await fetchLiveConfigFromAdmin()
+      if (cfg) setLiveConfig(cfg)
+    }, 3000)
+
+    return () => {
+      window.removeEventListener('storage', onStorage)
+      clearInterval(interval)
+    }
+  }, [])
   const inputRef  = useRef(null)
   const timersRef = useRef([])
   const fileRef   = useRef(null)
