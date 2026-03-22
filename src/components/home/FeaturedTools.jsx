@@ -1,5 +1,6 @@
 import React from 'react'
 import AppCard from '../shared/AppCard.jsx'
+import { getEffectiveStatus } from '../../hooks/useDeviceStatus.js'
 import { tools } from '../../data/tools.js'
 import styles from './FeaturedTools.module.css'
 
@@ -16,9 +17,14 @@ export default function FeaturedTools() {
         </div>
 
         <div className={styles.grid}>
-          {tools.map(tool => (
-            <AppCard key={tool.id} tool={tool} />
-          ))}
+          {[...tools]
+            .sort((a, b) => {
+              const order = { active: 0, coming_soon: 1, maintenance: 2 }
+              return (order[getEffectiveStatus(a)] || 0) - (order[getEffectiveStatus(b)] || 0)
+            })
+            .map(tool => (
+              <AppCard key={tool.id} tool={tool} />
+            ))}
         </div>
       </div>
     </section>

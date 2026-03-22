@@ -6,6 +6,7 @@ import SEO from '../components/shared/SEO.jsx'
 import StatusBanner from '../components/shared/StatusBanner.jsx'
 import CTASection from '../components/shared/CTASection.jsx'
 import AppCard from '../components/shared/AppCard.jsx'
+import { getEffectiveStatus } from '../hooks/useDeviceStatus.js'
 import ToolHero from '../components/tool/ToolHero.jsx'
 import FeatureGrid from '../components/tool/FeatureGrid.jsx'
 import ScreenshotSection from '../components/tool/ScreenshotSection.jsx'
@@ -47,8 +48,8 @@ export default function ToolDetail() {
       </div>
 
       {/* If tool is not active, show full replacement block + disable ToolHero */}
-      <StatusBanner status={tool.status} toolName={tool.name} mode="page" />
-      {(!tool.status || tool.status === 'active') && <ToolHero tool={tool} />}
+      <StatusBanner status={getEffectiveStatus(tool)} toolName={tool.name} mode="page" />
+      {getEffectiveStatus(tool) === 'active' && <ToolHero tool={tool} />}
       <SystemInfo tool={tool} />
       <ScreenshotSection tool={tool} />
       <FeatureGrid tool={tool} />

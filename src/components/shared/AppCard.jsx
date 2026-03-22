@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Clock, Wrench } from 'lucide-react'
-import { ArrowRight } from 'lucide-react'
+import { Clock, Wrench, ArrowRight } from 'lucide-react'
+import { getEffectiveStatus } from '../../hooks/useDeviceStatus.js'
 import styles from './AppCard.module.css'
 
 export default function AppCard({ tool }) {
-  const isLocked = tool.status === 'coming_soon' || tool.status === 'maintenance'
+  const effStatus = getEffectiveStatus(tool)  // reads deviceStatus for current device
+  const isLocked  = effStatus === 'coming_soon' || effStatus === 'maintenance'
 
   return (
     <Link
@@ -19,16 +20,22 @@ export default function AppCard({ tool }) {
             {tool.icon}
           </span>
         </div>
-        {tool.featured && <span className={styles.badge}>Popular</span>}
-        {tool.status === 'coming_soon' && <span className={styles.badgeComingSoon}>🚧 Coming Soon</span>}
-        {tool.status === 'maintenance' && <span className={styles.badgeMaintenance}>🔧 Bảo trì</span>}
+        {tool.featured && effStatus === 'active' && (
+          <span className={styles.badge}>Popular</span>
+        )}
+        {effStatus === 'coming_soon' && (
+          <span className={styles.badgeComingSoon}>🚧 Coming Soon</span>
+        )}
+        {effStatus === 'maintenance' && (
+          <span className={styles.badgeMaintenance}>🔧 Bảo trì</span>
+        )}
       </div>
 
       <h3 className={styles.name}>{tool.name}</h3>
       <p className={styles.tagline}>{tool.tagline}</p>
 
       <div className={styles.formats}>
-        {tool.formats.map(f => (
+        {(tool.formats || []).map(f => (
           <span key={f} className={`${styles.format} ${styles[f]}`}>
             {f.toUpperCase()}
           </span>
@@ -36,17 +43,22 @@ export default function AppCard({ tool }) {
       </div>
 
       <div className={styles.arrow}>
-        <ArrowRight size={16} />
+        {isLocked
+          ? effStatus === 'maintenance'
+            ? <Wrench size={15} style={{ color: 'var(--red)' }} />
+            : <Clock  size={15} style={{ color: 'var(--amber)' }} />
+          : <ArrowRight size={16} />
+        }
       </div>
 
-      {/* Status overlay */}
-      {tool.status === 'coming_soon' && (
+      {/* Status overlay on locked cards */}
+      {effStatus === 'coming_soon' && (
         <div className={styles.statusOverlay}>
           <Clock size={16} />
           <span>Coming Soon</span>
         </div>
       )}
-      {tool.status === 'maintenance' && (
+      {effStatus === 'maintenance' && (
         <div className={`${styles.statusOverlay} ${styles.statusOverlayRed}`}>
           <Wrench size={16} />
           <span>Đang bảo trì</span>
