@@ -7,7 +7,7 @@ import styles from './Navbar.module.css'
 const navLinks = [
   { label: 'Downloader', href: '/#downloader' },
   { label: 'Tính năng',  href: '/#features' },
-  // { label: 'Tools',      href: '/tools', isPage: true },
+  { label: 'Tools',      href: '/tools', isPage: true },
   { label: 'FAQ',        href: '/#faq' },
 ]
 
@@ -80,9 +80,9 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className={styles.actions}>
           <DonateNavBtn />
-          {/* <Link to="/tools" className={styles.toolsBtn}>
+          <Link to="/tools" className={styles.toolsBtn}>
             🧰 Tools
-          </Link> */}
+          </Link>
           <button
             className={styles.ctaBtn}
             onClick={() => handleAnchor('/#downloader')}
