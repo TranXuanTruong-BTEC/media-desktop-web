@@ -7,7 +7,7 @@ import styles from './Navbar.module.css'
 const navLinks = [
   { label: 'Downloader', href: '/#downloader' },
   { label: 'Tính năng',  href: '/#features' },
-  { label: 'Tools',      href: '/tools', isPage: true },
+  // { label: 'Tools',      href: '/tools', isPage: true },
   { label: 'FAQ',        href: '/#faq' },
 ]
 
