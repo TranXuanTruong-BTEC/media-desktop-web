@@ -172,6 +172,7 @@ export default function Hero() {
 
   // Computed: effective status of currently selected tab for this device
   function getActiveTabStatus() {
+    if (format === 'batch' || format === 'playlist') return 'active'
     const tab = FORMAT_TABS.find(t => t.value === format)
     const deviceKey = device.isIOS ? 'ios' : device.isAndroid ? 'android' : 'desktop'
     return tab?.deviceStatus?.[deviceKey] || 'active'
@@ -206,7 +207,7 @@ export default function Hero() {
 
   // Sync quality when format changes
   useEffect(() => {
-    setQuality(QUALITY_OPTIONS[format][0].value)
+    if (QUALITY_OPTIONS[format]) setQuality(QUALITY_OPTIONS[format][0].value)
   }, [format])
 
   function clearTimers() { timersRef.current.forEach(clearTimeout); timersRef.current = [] }
@@ -416,7 +417,7 @@ export default function Hero() {
         <div className={styles.card} id="downloader" style={{ position: 'relative' }}>
 
           {/* ── Device tab status banner ── */}
-          {(() => {
+          {format !== 'batch' && format !== 'playlist' && (() => {
             const activeTab = FORMAT_TABS.find(t => t.value === format)
             const tabDevStatus = activeTab?.deviceStatus?.[device.isIOS ? 'ios' : device.isAndroid ? 'android' : 'desktop']
             if (tabDevStatus === 'coming_soon') return (
@@ -598,7 +599,7 @@ export default function Hero() {
                   {format === 'mp4' ? 'Resolution' : 'Audio Quality'}
                 </label>
                 <select className={styles.select} value={quality} onChange={e => setQuality(e.target.value)} disabled={isLoading}>
-                  {QUALITY_OPTIONS[format].map(o => (
+                  {(QUALITY_OPTIONS[format] || []).map(o => (
                     <option key={o.value} value={o.value}>{o.label} — {o.detail}</option>
                   ))}
                 </select>
@@ -607,7 +608,7 @@ export default function Hero() {
           )}
 
           {/* ── States ── */}
-          {phase === 'loading' && (
+          {format !== 'batch' && format !== 'playlist' && phase === 'loading' && (
             <div className={`${styles.stateArea} animate-fade-in`}>
               <div className={styles.progressWrap}>
                 <div className={styles.progressBar} style={{ width: `${progress}%` }} />
@@ -616,7 +617,7 @@ export default function Hero() {
             </div>
           )}
 
-          {phase === 'error' && (
+          {format !== 'batch' && format !== 'playlist' && phase === 'error' && (
             <div className={`${styles.stateArea} ${styles.errorBox} animate-slide-up`}>
               <AlertCircle size={16} className={styles.errorIcon} />
               <span>{errorMsg}</span>
@@ -624,7 +625,7 @@ export default function Hero() {
             </div>
           )}
 
-          {phase === 'results' && results && (() => {
+          {format !== 'batch' && format !== 'playlist' && phase === 'results' && results && (() => {
             const activeTab = FORMAT_TABS.find(t => t.value === format)
             const tabDevStatus = activeTab?.deviceStatus?.[device.isIOS ? 'ios' : device.isAndroid ? 'android' : 'desktop'] || 'active'
             if (tabDevStatus !== 'active') return null  // hide results if tab unavailable
@@ -644,7 +645,7 @@ export default function Hero() {
           })()}
 
           {/* Show donate trigger after download */}
-          {phase === 'results' && !donateOpen && (
+          {format !== 'batch' && format !== 'playlist' && phase === 'results' && !donateOpen && (
             <DonateTrigger onOpen={() => setDonateOpen(true)} />
           )}
 
