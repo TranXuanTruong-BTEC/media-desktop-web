@@ -11,7 +11,6 @@ const footerLinks = {
     { label: 'Downloader',   href: '/#downloader' },
   ],
   'Công cụ tải': [
-    { label: 'YouTube Downloader',   href: '/tool/youtube-downloader' },
     { label: 'TikTok Downloader',    href: '/tool/tiktok-downloader' },
     { label: 'Instagram Downloader', href: '/tool/instagram-downloader' },
     { label: 'Video to MP3',         href: '/tool/audio-extractor' },
@@ -54,7 +53,7 @@ export default function Footer() {
               Snap<span>Load</span>
             </Link>
             <p className={styles.brandDesc}>
-              Tải MP3 và MP4 từ YouTube, TikTok, Instagram và 50+ nền tảng.
+              Tải MP3 và MP4 từ TikTok, Facebook, Instagram, Twitter/X và nhiều hơn nữa.
               Miễn phí, nhanh, không quảng cáo, không đăng ký.
             </p>
             <div className={styles.version}>v2.1.0</div>

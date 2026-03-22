@@ -239,8 +239,8 @@ export default function Tools() {
     <>
       <SEO
         title="Tools – Ứng dụng Desktop miễn phí"
-        description="Tải xuống Media Desktop App và các ứng dụng miễn phí. Download MP3/MP4 từ YouTube, TikTok, Instagram."
-        keywords="media desktop app, download mp3 mp4, youtube downloader windows, free windows app"
+        description="Tải xuống SnapLoad Desktop App và các ứng dụng miễn phí. Download MP3/MP4 từ TikTok, Instagram."
+        keywords="media desktop app, download mp3 mp4, video downloader windows, free windows app"
       />
 
       {/* ── HERO ── */}

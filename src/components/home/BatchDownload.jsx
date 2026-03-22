@@ -100,7 +100,7 @@ export default function BatchDownload() {
         </label>
         <textarea
           className={styles.textarea}
-          placeholder={`https://www.youtube.com/watch?v=xxx\nhttps://www.tiktok.com/@user/video/xxx\nhttps://www.instagram.com/reel/xxx`}
+          placeholder={`https://www.tiktok.com/@user/video/xxx\nhttps://www.facebook.com/watch?v=xxx\nhttps://www.instagram.com/reel/xxx`}
           value={rawText}
           onChange={e => setRawText(e.target.value)}
           rows={5}

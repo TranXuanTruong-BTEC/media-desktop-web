@@ -12,8 +12,8 @@ const STEPS = {
     {
       num: '1', icon: '🔗',
       title: 'Sao chép link video',
-      desc: 'Vào YouTube, TikTok, Instagram... Sao chép link từ thanh địa chỉ trình duyệt hoặc nút "Chia sẻ" → "Sao chép liên kết".',
-      tip: 'Hỗ trợ 50+ nền tảng: YouTube, TikTok, Instagram, Facebook, Twitter/X, Vimeo, Reddit...',
+      desc: 'Vào TikTok, Facebook, Instagram, Twitter/X... Sao chép link từ thanh địa chỉ trình duyệt hoặc nút "Chia sẻ" → "Sao chép liên kết".',
+      tip: 'Hỗ trợ nhiều nền tảng: TikTok, Facebook, Instagram, Twitter/X, Vimeo, Reddit...',
     },
     {
       num: '2', icon: '📋',
@@ -32,8 +32,8 @@ const STEPS = {
     {
       num: '1', icon: '📤',
       title: 'Copy link từ app',
-      desc: 'Mở video trên app TikTok, Instagram, YouTube... Nhấn nút "Chia sẻ" rồi chọn "Sao chép liên kết".',
-      tip: 'YouTube: nhấn chia sẻ → Sao chép. TikTok: nhấn mũi tên → Sao chép liên kết.',
+      desc: 'Mở video trên app TikTok, Instagram, Facebook... Nhấn nút "Chia sẻ" rồi chọn "Sao chép liên kết".',
+      tip: 'TikTok: nhấn mũi tên → Sao chép liên kết. Instagram: nhấn ⋯ → Sao chép liên kết.',
     },
     {
       num: '2', icon: '🌍',

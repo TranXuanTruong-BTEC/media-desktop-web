@@ -42,7 +42,7 @@ const features = [
     icon: '🌐',
     iconBg: 'rgba(29,161,242,0.1)',
     title: '50+ nền tảng',
-    desc: 'YouTube, TikTok, Instagram, Facebook, Twitter/X, Vimeo, Reddit và nhiều hơn nữa. Dán link — SnapLoad tự nhận diện.',
+    desc: 'TikTok, Facebook, Instagram, Twitter/X, Vimeo, Reddit và nhiều hơn nữa. Dán link — SnapLoad tự nhận diện.',
   },
   {
     icon: '🚫',

@@ -9,7 +9,7 @@ const faqs = [
   },
   {
     q: 'Hỗ trợ những nền tảng nào?',
-    a: 'SnapLoad hỗ trợ 50+ nền tảng: YouTube, TikTok, Instagram (Reels, Stories), Facebook, Twitter/X, Vimeo, Reddit, Dailymotion và nhiều hơn nữa. Dán link vào ô tìm kiếm — SnapLoad tự nhận diện và chuyển bạn đến công cụ phù hợp.',
+    a: 'SnapLoad hỗ trợ nhiều nền tảng: TikTok, Facebook, Instagram (Reels, Stories), Twitter/X, Vimeo, Reddit và nhiều hơn nữa. Dán link vào ô tìm kiếm — SnapLoad tự nhận diện và chuyển bạn đến công cụ phù hợp.',
   },
   {
     q: 'Tải được định dạng và chất lượng nào?',

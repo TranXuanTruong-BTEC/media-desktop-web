@@ -98,7 +98,7 @@ export default function PlaylistDownload() {
       <div className={styles.urlRow}>
         <input
           className={styles.urlInput} type="url"
-          placeholder="Paste link playlist YouTube (có ?list=...) hoặc channel"
+          placeholder="Dán link playlist (hỗ trợ nhiều nền tảng)"
           value={url} onChange={e => setUrl(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleFetch()}
           disabled={loading || isZipping}
@@ -114,7 +114,7 @@ export default function PlaylistDownload() {
       {error && (
         <div className={styles.errorBox}>
           <AlertCircle size={14}/> {error}
-          <div className={styles.errorHint}>Tip: Link phải có dạng youtube.com/playlist?list=PLxxx</div>
+          <div className={styles.errorHint}>Tip: Dán link playlist đầy đủ từ nền tảng hỗ trợ</div>
         </div>
       )}
 
@@ -137,6 +137,8 @@ export default function PlaylistDownload() {
           </select>
         </div>
       )}
+
+}
 
       {playlist && (
         <div className={styles.playlistCard}>

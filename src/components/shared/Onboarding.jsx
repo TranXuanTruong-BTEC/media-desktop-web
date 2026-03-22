@@ -32,7 +32,7 @@ const T = {
     howTitle:  '3 bước siêu đơn giản',
     howSub:    'Không cần đăng ký, không cần cài đặt',
     steps: [
-      { n:'1', e:'🔗', t:'Copy link',   d:'Copy link video từ YouTube, TikTok, Instagram...'        },
+      { n:'1', e:'🔗', t:'Copy link',   d:'Copy link video từ TikTok, Facebook, Instagram...'        },
       { n:'2', e:'📋', t:'Dán vào đây', d:'Dán link vào ô nhập, chọn định dạng MP3 hoặc MP4'        },
       { n:'3', e:'⬇',  t:'Tải về ngay', d:'Bấm Get File — file tải về trong vài giây'              },
     ],
@@ -51,7 +51,7 @@ const T = {
     continue: 'Tiếp',
     tour: [
       { t: 'Chọn định dạng',  d: 'Chọn MP3 (âm thanh), MP4 (video) hoặc Convert để chuyển đổi file.' },
-      { t: 'Dán link vào đây', d: 'Copy link từ YouTube, TikTok... rồi dán vào đây. Hệ thống tự nhận diện.' },
+      { t: 'Dán link vào đây', d: 'Copy link từ TikTok, Facebook... rồi dán vào đây. Hệ thống tự nhận diện.' },
       { t: 'Bấm Get File',    d: 'Hệ thống xử lý và hiển thị các tùy chọn chất lượng để bạn chọn tải.' },
     ],
   },
@@ -69,7 +69,7 @@ const T = {
     howTitle:  '3 simple steps',
     howSub:    'No sign-up, no installation needed',
     steps: [
-      { n:'1', e:'🔗', t:'Copy the link',  d:'Copy a video link from YouTube, TikTok, Instagram...' },
+      { n:'1', e:'🔗', t:'Copy the link',  d:'Copy a video link from TikTok, Facebook, Instagram...' },
       { n:'2', e:'📋', t:'Paste it here',  d:'Paste the link, choose MP3 or MP4 format'              },
       { n:'3', e:'⬇',  t:'Download',       d:'Hit Get File — your file is ready in seconds'          },
     ],
@@ -95,7 +95,7 @@ const T = {
 }
 
 const PLATFORMS = [
-  { name: 'YouTube', dot: '#ff4d4d' }, { name: 'TikTok', dot: '#69C9D0' },
+  { name: 'TikTok', dot: '#69C9D0' },
   { name: 'Instagram', dot: '#e1306c' }, { name: 'Facebook', dot: '#1877f2' },
   { name: 'Twitter/X', dot: '#1da1f2' }, { name: 'Reddit', dot: '#ff4500' },
   { name: 'Vimeo', dot: '#6772e5' }, { name: '+40 more', dot: '#5c5a78' },

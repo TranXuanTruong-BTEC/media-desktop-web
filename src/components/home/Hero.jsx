@@ -32,7 +32,7 @@ function getPlatformRedirect(url) {
       if (match.some(m => host.includes(m))) return slug
     }
   } catch {}
-  return null // YouTube or unknown → stay on hero
+  return null // unknown platform → stay on hero
 }
 
 // ── Format tabs ───────────────────────────────────────────────
@@ -68,7 +68,7 @@ function buildFormatTabs(cfg) {
   const allTabs = {
     // Defaults for tabs not in config
     batch:    { enabled: true, label: 'Batch',    sub: 'Nhiều link cùng lúc', deviceStatus: null },
-    playlist: { enabled: true, label: 'Playlist', sub: 'YouTube playlist',    deviceStatus: null },
+    playlist: { enabled: true, label: 'Playlist', sub: 'Tải cả playlist',    deviceStatus: null },
     // Override with config values
     ...(cfg.tabs || {}),
   }
@@ -105,7 +105,6 @@ const QUALITY_OPTIONS = {
 }
 
 const PLATFORMS = [
-  { name: 'YouTube',   dot: '#ff4d4d' },
   { name: 'TikTok',    dot: '#69C9D0' },
   { name: 'Instagram', dot: '#e1306c' },
   { name: 'Facebook',  dot: '#1877f2' },
@@ -414,7 +413,7 @@ export default function Hero() {
         </h1>
 
         <p className={styles.sub}>
-          Paste a link from YouTube, TikTok, Instagram, or 50+ platforms.
+          Dán link TikTok, Facebook, Instagram, Twitter/X...
           <br className={styles.brHide} /> Get high-quality audio or video instantly — for free.
         </p>
 
@@ -521,7 +520,7 @@ export default function Hero() {
                     ref={inputRef}
                     type="url"
                     className={styles.urlInput}
-                    placeholder="Paste video URL (YouTube, TikTok…)"
+                    placeholder="Dán link TikTok, Facebook, Instagram, Twitter/X..."
                     value={url}
                     onChange={e => setUrl(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && handleMainAction()}
@@ -619,6 +618,29 @@ export default function Hero() {
                 <div className={styles.progressBar} style={{ width: `${progress}%` }} />
               </div>
               <p className={styles.progressMsg}>{progressMsg}</p>
+            </div>
+          )}
+
+          {/* YouTube blocked — DMCA warning */}
+          {phase === 'youtube-blocked' && (
+            <div className={`${styles.stateArea} animate-slide-up`}
+              style={{ background:'rgba(253,203,110,0.08)', border:'1.5px solid rgba(253,203,110,0.3)', borderRadius:'var(--radius-sm)', padding:'14px 16px' }}>
+              <div style={{ fontSize:14, fontWeight:700, color:'var(--amber)', marginBottom:8 }}>
+                ⚠️ Nội dung này không được hỗ trợ trên web
+              </div>
+              <div style={{ fontSize:13, color:'var(--text2)', lineHeight:1.6, marginBottom:12 }}>
+                Web chỉ hỗ trợ TikTok, Facebook, Instagram và Twitter/X.<br/>
+                Để tải từ nguồn này, hãy tải app SnapLoad về máy tính — app hỗ trợ hàng trăm nguồn mà web không có.
+              </div>
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                <a href="/tools" style={{ display:'inline-flex', alignItems:'center', gap:6, background:'var(--amber)', color:'#000', borderRadius:'var(--radius-sm)', padding:'8px 16px', fontSize:13, fontWeight:700, textDecoration:'none' }}>
+                  📥 Tải app SnapLoad
+                </a>
+                <button style={{ background:'none', border:'none', color:'var(--text3)', fontSize:12, cursor:'pointer' }}
+                  onClick={() => { setPhase('idle'); setUrl('') }}>
+                  Đóng
+                </button>
+              </div>
             </div>
           )}
 

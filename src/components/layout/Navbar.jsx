@@ -6,8 +6,7 @@ import { tools } from '../../data/tools.js'
 import styles from './Navbar.module.css'
 
 const TOOL_ICONS = {
-  'youtube-downloader':  { icon: '▶', color: '#ff4d4d' },
-  'tiktok-downloader':   { icon: '♪', color: '#69C9D0' },
+    'tiktok-downloader':   { icon: '♪', color: '#69C9D0' },
   'instagram-downloader':{ icon: '◈', color: '#e1306c' },
   'twitter-downloader':  { icon: '✕', color: '#1da1f2' },
   'facebook-downloader': { icon: 'f', color: '#1877f2' },
@@ -16,7 +15,7 @@ const TOOL_ICONS = {
 
 const WEB_TOOLS = [
   { label: 'Batch Download',   sub: 'Nhiều link cùng lúc',  icon: '📋', href: '/#downloader', tab: 'batch' },
-  { label: 'Playlist YouTube', sub: 'Tải cả playlist',      icon: '📜', href: '/#downloader', tab: 'playlist' },
+  { label: 'Playlist',         sub: 'Tải cả playlist',       icon: '📜', href: '/#downloader', tab: 'playlist' },
   { label: 'Convert MP4→MP3',  sub: 'Upload file convert',  icon: '🔄', href: '/#downloader', tab: 'convert' },
   { label: 'ID3 Tag Editor',   sub: 'Ghi thông tin bài hát',icon: '🏷',  href: '/#downloader', tab: 'mp3' },
 ]

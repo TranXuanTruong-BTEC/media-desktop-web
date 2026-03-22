@@ -16,6 +16,7 @@ const DONATE_CONFIG = {
       type:  'momo',
       label: 'MoMo',
       qr:    '/images/momo-qr.png',
+      phone: '0912345678',
       name:  'TRAN XUAN TRUONG',
     },
     donateBtn:  'Đã chuyển khoản xong!',
@@ -25,7 +26,7 @@ const DONATE_CONFIG = {
   // International users — PayPal (coming soon)
   intl: {
     message:  'SnapLoad is built in my free time. Even a small contribution helps me keep improving it!',
-    thankMsg: 'Your support means a lot.I\'ll keep building great tools for you!',
+    thankMsg: "Your support means a lot. I'll keep building great tools for you!",
     triggerTitle: 'Your file is ready!',
     triggerSub:   'SnapLoad is 100% free. Support the developer with a coffee? ☕',
     triggerBtn:   'Support',
@@ -161,7 +162,7 @@ export default function DonateModal({ open, onClose }) {
     if (navigator.share) {
       navigator.share({
         title: 'SnapLoad — Download video miễn phí',
-        text: 'Tool download MP3/MP4 từ YouTube, TikTok... miễn phí và nhanh!',
+        text: 'Tool download MP3/MP4 từ TikTok, Facebook... miễn phí và nhanh!',
         url: window.location.origin,
       })
     } else {

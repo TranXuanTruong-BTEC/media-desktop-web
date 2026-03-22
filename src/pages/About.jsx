@@ -22,7 +22,7 @@ export default function About() {
             <h2>SnapLoad là gì?</h2>
             <p>
               SnapLoad là công cụ web miễn phí giúp bạn tải MP3 và MP4 từ hơn 50 nền tảng video
-              bao gồm YouTube, TikTok, Instagram, Facebook, Twitter/X và nhiều hơn nữa — chỉ cần
+              bao gồm TikTok, Facebook, Instagram, Twitter/X và nhiều hơn nữa — chỉ cần
               dán link, chọn định dạng và nhấn tải xuống.
             </p>
 
@@ -60,7 +60,7 @@ export default function About() {
             <p>
               SnapLoad được xây dựng bằng React (frontend), Node.js + Express (backend),
               triển khai trên Cloudflare Pages (website) và Railway (server xử lý).
-              Xử lý video sử dụng yt-dlp và ffmpeg — hai công cụ mã nguồn mở hàng đầu.
+              Xử lý video sử dụng các công cụ mã nguồn mở.
             </p>
 
             <h2>Liên hệ & Phản hồi</h2>

@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async'
 
 export default function SEO({
   title = 'SnapLoad – Free MP3 & MP4 Downloader',
-  description = 'Download MP3 and MP4 from YouTube, TikTok, Instagram and 50+ platforms. Free, fast, no sign-up. High quality audio & video downloads.',
-  keywords = 'mp3 downloader, mp4 downloader, youtube downloader, video to mp3, free video downloader, tiktok downloader, instagram downloader',
+  description = 'Download MP3 and MP4 from TikTok, Facebook, Instagram, Twitter/X and more. Free, fast, no sign-up. High quality audio & video downloads.',
+  keywords = 'mp3 downloader, mp4 downloader, tiktok downloader, video to mp3, free video downloader, tiktok downloader, instagram downloader',
   canonical,
 }) {
   const fullTitle = title.includes('SnapLoad') ? title : `${title} | SnapLoad`
