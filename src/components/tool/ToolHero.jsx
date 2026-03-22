@@ -202,7 +202,17 @@ export default function ToolHero({ tool }) {
               ref={inputRef}
               type="url"
               className={styles.urlInput}
-              placeholder={`Paste ${tool.platforms?.[0] || 'video'} link here…`}
+              placeholder={
+                tool.platforms?.[0] === 'Instagram'
+                  ? 'https://www.instagram.com/reel/...'
+                  : tool.platforms?.[0] === 'TikTok'
+                  ? 'https://www.tiktok.com/@user/video/...'
+                  : tool.platforms?.[0] === 'YouTube'
+                  ? 'https://www.youtube.com/watch?v=...'
+                  : tool.platforms?.[0] === 'Facebook'
+                  ? 'https://www.facebook.com/watch?v=...'
+                  : (tool.platforms?.[0] ? `Paste ${tool.platforms[0]} link here…` : 'Paste video URL here…')
+              }
               value={url}
               onChange={e => setUrl(e.target.value)}
               onPaste={e => {
