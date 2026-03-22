@@ -68,20 +68,19 @@ export default function PlaylistDownload() {
       const enc    = encodeURIComponent(item.url)
       const dlUrl  = `${API_BASE}/api/download?url=${enc}&format=${format}&quality=${quality}`
       try {
-        if (device.isIOS) {
-          window.open(dlUrl, '_blank', 'noopener,noreferrer')
-          await new Promise(r => setTimeout(r, 2000))
-        } else {
-          const resp = await fetch(dlUrl)
-          if (!resp.ok) throw new Error()
-          const blob = new Blob([await resp.arrayBuffer()])
-          const a    = Object.assign(document.createElement('a'), {
-            href: URL.createObjectURL(blob),
-            download: `${item.title.slice(0,60)}.${format}`,
-          })
-          document.body.appendChild(a); a.click(); document.body.removeChild(a)
-          await new Promise(r => setTimeout(r, 1000))
-        }
+        // Use <a download> — works cross-browser without blob fetch timeout
+        await new Promise((resolve, reject) => {
+          const a = document.createElement('a')
+          a.href     = dlUrl
+          a.download = `${item.title.slice(0,60).replace(/[^\w\s-]/g,'')}.${format}`
+          a.target   = '_blank'
+          a.rel      = 'noopener noreferrer'
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          // Wait between downloads to avoid rate limit
+          setTimeout(resolve, device.isIOS ? 2500 : 1500)
+        })
         setDlStatus(p => ({ ...p, [item.id]: 'done' }))
       } catch {
         setDlStatus(p => ({ ...p, [item.id]: 'error' }))

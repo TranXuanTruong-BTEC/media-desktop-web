@@ -50,8 +50,9 @@ function getLiveConfig() {
   return downloaderConfig
 }
 
-// Background fetch from admin server (works in local dev)
+// Background fetch from admin server (local dev only)
 async function fetchLiveConfigFromAdmin() {
+  if (location.hostname !== 'localhost') return null  // skip on production
   try {
     const res = await fetch('http://localhost:3001/api/dl-config', { signal: AbortSignal.timeout(1000) })
     if (!res.ok) return null
