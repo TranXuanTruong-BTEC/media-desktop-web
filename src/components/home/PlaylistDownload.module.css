@@ -14,18 +14,6 @@
 .select{flex:1;background:var(--bg3);border:1.5px solid var(--border2);border-radius:var(--radius-sm);padding:8px 10px;font-family:var(--font-body);font-size:13px;color:var(--text);outline:none}
 
 /* ZIP progress box */
-.zipBox{border-radius:var(--radius-sm);padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.zipBox.preparing,.zipBox.downloading{background:rgba(108,92,231,.08);border:1px solid rgba(108,92,231,.25)}
-.zipBox.done{background:rgba(29,158,117,.08);border:1px solid rgba(29,158,117,.25)}
-.zipBox.error{background:rgba(255,118,117,.08);border:1px solid rgba(255,118,117,.25)}
-.zipHeader{display:flex;align-items:center;gap:8px}
-.zipMsg{flex:1;font-size:13px;font-weight:600;color:var(--text)}
-.cancelBtn{background:none;border:none;cursor:pointer;color:var(--text3);padding:2px;display:flex;align-items:center}
-.cancelBtn:hover{color:var(--red)}
-.zipBarTrack{position:relative;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
-.zipBarFill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s ease}
-.zipPct{position:absolute;right:0;top:-16px;font-size:10px;color:var(--text3)}
-
 /* Playlist card */
 .playlistCard{background:var(--bg3);border:1px solid var(--border2);border-radius:var(--radius);overflow:hidden}
 .plHeader{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;cursor:pointer;background:var(--card);border-bottom:1px solid var(--border)}
@@ -34,12 +22,6 @@
 .plActions{display:flex;align-items:center;gap:6px}
 .selectAllBtn{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;padding:4px 8px;border-radius:4px;white-space:nowrap}
 .selectAllBtn:hover{background:var(--bg3);color:var(--text2)}
-
-.dlZipBtn{display:flex;align-items:center;gap:5px;background:var(--accent);color:#fff;border:none;border-radius:var(--radius-sm);padding:6px 12px;font-family:var(--font-body);font-size:11px;font-weight:700;cursor:pointer;transition:opacity .15s;white-space:nowrap}
-.dlZipBtn:disabled{opacity:.5;cursor:not-allowed}
-.dlOneBtn{display:flex;align-items:center;gap:4px;background:var(--bg3);color:var(--text2);border:1px solid var(--border2);border-radius:var(--radius-sm);padding:5px 10px;font-family:var(--font-body);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap}
-.dlOneBtn:hover:not(:disabled){border-color:var(--accent);color:var(--accent2)}
-.dlOneBtn:disabled{opacity:.5;cursor:not-allowed}
 
 .plList{max-height:380px;overflow-y:auto}
 .plItem{display:flex;align-items:center;gap:8px;padding:7px 14px;border-bottom:1px solid var(--border);transition:background .1s}
@@ -67,5 +49,5 @@
   .plActions{gap:4px}
   .selectAllBtn{display:none}
   .dlZipBtn{padding:5px 8px}
-  .dlOneBtn{padding:5px 8px}
+  .dlAllBtn{padding:5px 8px}
 }

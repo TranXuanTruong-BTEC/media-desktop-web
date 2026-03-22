@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { Download, Loader, CheckCircle, AlertCircle, List,
-         ChevronDown, ChevronUp, Package, X } from 'lucide-react'
+         ChevronDown, ChevronUp } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice } from '../../hooks/useDeviceDownload.js'
 import styles from './PlaylistDownload.module.css'
@@ -9,8 +9,6 @@ const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:4000'
 
 export default function PlaylistDownload() {
   const device   = detectDevice()
-  const abortRef = useRef(null)
-
   const [url,         setUrl]         = useState('')
   const [format,      setFormat]      = useState('mp3')
   const [quality,     setQuality]     = useState('320')
@@ -19,9 +17,6 @@ export default function PlaylistDownload() {
   const [selected,    setSelected]    = useState(new Set())
   const [expanded,    setExpanded]    = useState(true)
   const [error,       setError]       = useState('')
-  const [zipPhase,    setZipPhase]    = useState('idle')
-  const [zipProgress, setZipProgress] = useState(0)
-  const [zipMsg,      setZipMsg]      = useState('')
   const [dlStatus,    setDlStatus]    = useState({})
 
   async function handleFetch() {
@@ -56,71 +51,6 @@ export default function PlaylistDownload() {
   function toggleAll() {
     if (selected.size === playlist.items.length) setSelected(new Set())
     else setSelected(new Set(playlist.items.map(i => i.id)))
-  }
-
-  // Strategy 1: ZIP — server downloads all, returns single ZIP file
-  async function downloadAsZip() {
-    if (!playlist || !selected.size) return
-    const urls  = playlist.items.filter(i => selected.has(i.id)).map(i => i.url)
-    const total = urls.length
-
-    setZipPhase('preparing'); setZipProgress(0)
-    setZipMsg(`⚙️ Server đang xử lý ${total} video…`)
-
-    const controller = new AbortController()
-    abortRef.current = controller
-
-    try {
-      const res = await fetch(`${API_BASE}/api/playlist-zip`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        signal: controller.signal,
-        body: JSON.stringify({ urls, format, quality, title: playlist.title || 'playlist' }),
-      })
-      if (!res.ok) {
-        const e = await res.json().catch(() => ({}))
-        throw new Error(e.error || `Server error ${res.status}`)
-      }
-
-      setZipPhase('downloading'); setZipMsg(`📦 Đang tải file ZIP ${total} video…`)
-
-      const contentLength = res.headers.get('Content-Length')
-      const reader  = res.body.getReader()
-      const chunks  = []
-      let received  = 0
-
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        chunks.push(value); received += value.length
-        if (contentLength) {
-          setZipProgress(Math.round((received / Number(contentLength)) * 100))
-        } else {
-          setZipProgress(p => Math.min(p + 1, 92))
-        }
-      }
-
-      setZipProgress(100); setZipMsg('💾 Đang lưu file…')
-      const blob   = new Blob(chunks, { type: 'application/zip' })
-      const objUrl = URL.createObjectURL(blob)
-      const a      = Object.assign(document.createElement('a'), {
-        href: objUrl,
-        download: `${(playlist.title || 'playlist').replace(/[^\w\s-]/g, '').slice(0,40)}.zip`,
-      })
-      document.body.appendChild(a); a.click(); document.body.removeChild(a)
-      setTimeout(() => URL.revokeObjectURL(objUrl), 15000)
-
-      setZipPhase('done')
-      setZipMsg(`✅ Đã tải xong ${total} file về máy!`)
-      showToast(`🎉 ZIP tải xong — ${total} ${format.toUpperCase()} files`)
-    } catch (err) {
-      if (err.name === 'AbortError') {
-        setZipPhase('idle'); setZipMsg('')
-      } else {
-        setZipPhase('error')
-        setZipMsg(`❌ Lỗi: ${err.message || 'Không tải được'}`)
-      }
-    }
   }
 
   // Strategy 2: Individual — sequential one-by-one
@@ -158,12 +88,7 @@ export default function PlaylistDownload() {
     showToast('✅ Tải xong tất cả!')
   }
 
-  function cancelZip() {
-    abortRef.current?.abort()
-    setZipPhase('idle'); setZipProgress(0); setZipMsg('')
-  }
-
-  const isZipping = zipPhase === 'preparing' || zipPhase === 'downloading'
+  const isZipping = false
   const doneCount = Object.values(dlStatus).filter(s => s === 'done').length
 
   return (
@@ -211,27 +136,7 @@ export default function PlaylistDownload() {
         </div>
       )}
 
-      {zipPhase !== 'idle' && (
-        <div className={`${styles.zipBox} ${styles[zipPhase]}`}>
-          <div className={styles.zipHeader}>
-            {isZipping && <Loader size={14} className={styles.spin}/>}
-            {zipPhase === 'done'  && <CheckCircle size={14}/>}
-            {zipPhase === 'error' && <AlertCircle size={14}/>}
-            <span className={styles.zipMsg}>{zipMsg}</span>
-            {isZipping && (
-              <button className={styles.cancelBtn} onClick={cancelZip} title="Huỷ">
-                <X size={12}/>
-              </button>
-            )}
-          </div>
-          {isZipping && (
-            <div className={styles.zipBarTrack}>
-              <div className={styles.zipBarFill} style={{ width: `${zipProgress}%` }}/>
-              <span className={styles.zipPct}>{zipProgress}%</span>
-            </div>
-          )}
-        </div>
-      )}
+}
 
       {playlist && (
         <div className={styles.playlistCard}>
@@ -245,13 +150,7 @@ export default function PlaylistDownload() {
               <button className={styles.selectAllBtn} onClick={toggleAll}>
                 {selected.size === playlist.items.length ? 'Bỏ chọn tất cả' : 'Chọn tất cả'}
               </button>
-              <button className={styles.dlZipBtn} disabled={!selected.size || isZipping}
-                onClick={downloadAsZip} title="Tải tất cả thành 1 file ZIP">
-                {isZipping
-                  ? <><Loader size={12} className={styles.spin}/> Đang tạo…</>
-                  : <><Package size={12}/> Tải ZIP ({selected.size})</>}
-              </button>
-              <button className={styles.dlOneBtn} disabled={!selected.size || isZipping}
+              <button className={styles.dlAllBtn} disabled={!selected.size || isZipping}
                 onClick={downloadOneByOne} title="Tải từng file riêng lẻ">
                 <Download size={12}/> Từng file
               </button>
@@ -291,7 +190,7 @@ export default function PlaylistDownload() {
 
           <div className={styles.plFooter}>
             <span>Đã chọn {selected.size}/{playlist.total}</span>
-            <span className={styles.hint}>📦 ZIP = 1 lần tải &nbsp;·&nbsp; Từng file = lần lượt</span>
+            <span className={styles.hint}>Tải lần lượt từng file</span>
           </div>
         </div>
       )}
