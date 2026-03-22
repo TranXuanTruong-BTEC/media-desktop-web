@@ -70,7 +70,7 @@ function Screenshots({ tool }) {
 // ── Single tool row ──────────────────────────────────────────
 function ToolRow({ tool }) {
   // Fetch live data từ GitHub API
-  const gh = useGithubRelease(tool.githubRepo, tool.assetName)
+  const gh = useGithubRelease(tool._r || tool.githubRepo, tool.assetName)
 
   // Merge: ưu tiên GitHub data, fallback về data tĩnh
   const version      = gh.version      || tool.version

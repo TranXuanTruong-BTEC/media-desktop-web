@@ -22,7 +22,7 @@ export default function DesktopToolDetail() {
     )
   }
 
-  const gh = useGithubRelease(tool._r || tool.githubRepo, tool.assetName)
+  const gh = useGithubRelease(tool._r || tool._r || tool.githubRepo, tool.assetName)
 
   const version     = gh.version      || tool.version
   const downloadUrl = gh.downloadUrl  || tool.downloadUrl

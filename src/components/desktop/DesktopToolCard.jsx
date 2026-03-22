@@ -7,7 +7,7 @@ import { showToast } from '../shared/Toast.jsx'
 import styles from './DesktopToolCard.module.css'
 
 export default function DesktopToolCard({ tool }) {
-  const gh = useGithubRelease(tool.githubRepo, tool.assetName)
+  const gh = useGithubRelease(tool._r || tool.githubRepo, tool.assetName)
 
   const version     = gh.version     || tool.version
   const downloadUrl = gh.downloadUrl || tool.downloadUrl
