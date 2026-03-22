@@ -48,8 +48,16 @@ const PLATFORMS = [
 ]
 
 function isValidUrl(str) {
-  try { const u = new URL(str); return u.protocol === 'http:' || u.protocol === 'https:' }
-  catch { return false }
+  try {
+    const u = new URL(str)
+    if (u.protocol !== 'http:' && u.protocol !== 'https:') return false
+    const h = u.hostname.toLowerCase()
+    // Block private/local addresses
+    if (h === 'localhost' || h === '127.0.0.1' || h === '0.0.0.0') return false
+    if (/^10\./.test(h) || /^192\.168\./.test(h)) return false
+    if (!h.includes('.')) return false // must have a TLD
+    return true
+  } catch { return false }
 }
 
 // ── REAL download logic ───────────────────────────────────────
