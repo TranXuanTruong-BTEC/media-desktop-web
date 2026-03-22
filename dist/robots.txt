@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mytools-9ns.pages.dev/sitemap.xml
