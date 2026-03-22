@@ -1,0 +1,39 @@
+{
+  "tabs": {
+    "mp3": {
+      "enabled": true,
+      "label": "MP3",
+      "sub": "Audio only",
+      "deviceStatus": {
+        "desktop": "maintenance",
+        "android": "maintenance",
+        "ios": "maintenance"
+      }
+    },
+    "mp4": {
+      "enabled": true,
+      "label": "MP4",
+      "sub": "Video + Audio",
+      "deviceStatus": {
+        "desktop": "active",
+        "android": "coming_soon",
+        "ios": "coming_soon"
+      }
+    },
+    "convert": {
+      "enabled": false,
+      "label": "Convert",
+      "sub": "MP4 → MP3",
+      "deviceStatus": {
+        "desktop": "active",
+        "android": "active",
+        "ios": "active"
+      }
+    }
+  },
+  "defaultQuality": {
+    "mp3": "320",
+    "mp4": "1080",
+    "convert": "320"
+  }
+}
