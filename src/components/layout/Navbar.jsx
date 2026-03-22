@@ -80,9 +80,9 @@ export default function Navbar() {
         {/* Desktop CTA */}
         <div className={styles.actions}>
           <DonateNavBtn />
-          <Link to="/tools" className={styles.toolsBtn}>
+          {/* <Link to="/tools" className={styles.toolsBtn}>
             🧰 Tools
-          </Link>
+          </Link> */}
           <button
             className={styles.ctaBtn}
             onClick={() => handleAnchor('/#downloader')}
