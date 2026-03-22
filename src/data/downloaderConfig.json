@@ -21,13 +21,13 @@
       }
     },
     "convert": {
-      "enabled": false,
+      "enabled": true,
       "label": "Convert",
       "sub": "MP4 → MP3",
       "deviceStatus": {
-        "desktop": "active",
-        "android": "active",
-        "ios": "active"
+        "desktop": "maintenance",
+        "android": "maintenance",
+        "ios": "maintenance"
       }
     }
   },
