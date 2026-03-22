@@ -107,7 +107,6 @@ function ToolRow({ tool }) {
               </span>
               <span className={styles.extBadge}>.{tool.ext}</span>
               <span className={styles.catBadge}>{tool.category}</span>
-              <LiveBadge loading={gh.loading} error={gh.error} />
             </div>
             <h2 className={styles.rowName}>{tool.name}</h2>
             <p className={styles.rowTagline}>{tool.tagline}</p>
