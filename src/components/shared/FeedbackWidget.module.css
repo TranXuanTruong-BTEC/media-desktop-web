@@ -1,0 +1,110 @@
+/* ── FAB ── */
+.fab {
+  position: fixed; bottom: 28px; right: 28px; z-index: 80;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--accent); color: #fff; border: none;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 4px 20px rgba(108,92,231,.45);
+  transition: all .2s;
+}
+.fab:hover  { transform: scale(1.08); background: var(--accent2); }
+.fabOpen    { background: var(--bg2) !important; color: var(--text2) !important;
+              border: 1.5px solid var(--border2); box-shadow: 0 4px 16px rgba(0,0,0,.3); }
+
+/* ── Panel ── */
+.panel {
+  position: fixed; bottom: 90px; right: 28px; z-index: 81;
+  width: 340px; max-width: calc(100vw - 40px);
+  background: var(--card); border: 1px solid var(--border2);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 16px 60px rgba(0,0,0,.6);
+  animation: slideUp .25s cubic-bezier(.34,1.56,.64,1);
+  overflow: hidden;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(16px) scale(.96)} to{opacity:1;transform:none} }
+
+/* Top accent */
+.panel::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2), var(--green));
+}
+
+/* ── Header ── */
+.header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 16px 12px; border-bottom: 1px solid var(--border);
+}
+.headerLeft { display: flex; align-items: center; gap: 10px; }
+.avatar {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: rgba(108,92,231,.14); display: flex; align-items: center;
+  justify-content: center; font-size: 18px; flex-shrink: 0;
+}
+.headerTitle { font-size: 14px; font-weight: 700; color: var(--text); }
+.headerSub   { font-size: 11px; color: var(--text3); margin-top: 1px; }
+.closeBtn {
+  background: none; border: none; color: var(--text3); cursor: pointer;
+  padding: 4px; border-radius: 6px; transition: color .15s;
+}
+.closeBtn:hover { color: var(--text2); }
+
+/* ── Body ── */
+.body { padding: 14px 16px 16px; display: flex; flex-direction: column; gap: 10px; }
+
+.typeRow { display: flex; gap: 6px; }
+.typeBtn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+  background: var(--bg3); border: 1.5px solid var(--border2);
+  border-radius: var(--radius-sm); padding: 7px 6px;
+  font-family: var(--font-body); font-size: 11px; font-weight: 600;
+  color: var(--text2); cursor: pointer; transition: all .15s;
+}
+.typeBtn:hover { border-color: var(--border3); color: var(--text); }
+.typeBtnActive { border-color: var(--accent) !important; color: var(--accent2) !important; background: rgba(108,92,231,.08) !important; }
+.typeBtn:disabled { opacity: .5; cursor: not-allowed; }
+
+.input, .textarea {
+  width: 100%; background: var(--bg3);
+  border: 1.5px solid var(--border2); border-radius: var(--radius-sm);
+  padding: 9px 12px; color: var(--text);
+  font-family: var(--font-body); font-size: 13px;
+  outline: none; resize: none; transition: border-color .15s;
+  box-sizing: border-box;
+}
+.input::placeholder, .textarea::placeholder { color: var(--text3); }
+.input:focus, .textarea:focus { border-color: var(--accent); }
+.input:disabled, .textarea:disabled { opacity: .6; }
+
+.charCount { font-size: 10px; color: var(--text3); text-align: right; margin-top: -6px; }
+
+.errorMsg {
+  font-size: 12px; color: var(--red);
+  background: var(--red2); border-radius: var(--radius-sm);
+  padding: 8px 12px;
+}
+
+.submitBtn {
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: 11px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: background .15s, opacity .15s;
+}
+.submitBtn:hover:not(:disabled) { background: var(--accent2); }
+.submitBtn:disabled { opacity: .5; cursor: not-allowed; }
+
+.spinner {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.3); border-top-color: #fff;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Done state ── */
+.done {
+  padding: 32px 20px; display: flex; flex-direction: column;
+  align-items: center; text-align: center; gap: 10px;
+}
+.doneIcon { color: var(--green); }
+.doneTitle { font-family: var(--font-display); font-size: 18px; font-weight: 800; letter-spacing: -.3px; }
+.doneSub   { font-size: 13px; color: var(--text2); line-height: 1.65; }
