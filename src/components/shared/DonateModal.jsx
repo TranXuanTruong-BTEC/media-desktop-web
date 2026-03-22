@@ -16,7 +16,6 @@ const DONATE_CONFIG = {
       type:  'momo',
       label: 'MoMo',
       qr:    '/images/momo-qr.png',
-      phone: '0912345678',
       name:  'TRAN XUAN TRUONG',
     },
     donateBtn:  'Đã chuyển khoản xong!',
