@@ -8,6 +8,7 @@ import { downloaderConfig } from '../../data/downloaderConfig.js'
 import StatusBanner from '../shared/StatusBanner.jsx'
 import { DonateTrigger } from '../shared/DonateModal.jsx'
 import BatchDownload    from './BatchDownload.jsx'
+import ID3Editor       from './ID3Editor.jsx'
 import PlaylistDownload from './PlaylistDownload.jsx'
 import styles from './Hero.module.css'
 
