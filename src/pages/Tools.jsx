@@ -299,6 +299,8 @@ export default function Tools() {
             <div>
               <h3 className={styles.bottomCtaTitle}>Muốn thêm tính năng hoặc báo lỗi?</h3>
               <p className={styles.bottomCtaDesc}>
+                Gửi phản hồi qua nút chat ở góc phải màn hình — chúng tôi đọc và phản hồi mọi yêu cầu.
+              </p>
             </div>
           </div>
 
