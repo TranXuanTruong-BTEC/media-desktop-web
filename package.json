@@ -10,15 +10,15 @@
     "build:analyze": "vite build --mode production && npx vite-bundle-visualizer"
   },
   "dependencies": {
+    "lucide-react": "^0.441.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2",
     "react-helmet-async": "^2.0.5",
-    "lucide-react": "^0.441.0"
+    "react-router-dom": "^6.26.2"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.3.1",
-    "vite": "^5.4.8",
-    "terser": "^5.27.0"
+    "terser": "^5.46.1",
+    "vite": "^5.4.8"
   }
 }
