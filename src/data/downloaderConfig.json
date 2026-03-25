@@ -39,7 +39,7 @@
         "android": "active",
         "ios": "coming_soon"
       },
-      "maxUrls": 20
+      "maxUrls": 10
     },
     "playlist": {
       "enabled": true,
@@ -50,7 +50,7 @@
         "android": "active",
         "ios": "coming_soon"
       },
-      "maxItems": 200
+      "maxItems": 20
     }
   },
   "defaultQuality": {
