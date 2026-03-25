@@ -35,6 +35,14 @@ function getPlatformRedirect(url) {
   return null // unknown platform → stay on hero
 }
 
+// ── YouTube detection ─────────────────────────────────────────
+function isYouTubeUrl(url) {
+  try {
+    const host = new URL(url).hostname.toLowerCase().replace('www.', '')
+    return host === 'youtube.com' || host === 'youtu.be' || host === 'm.youtube.com' || host === 'music.youtube.com'
+  } catch { return false }
+}
+
 // ── Format tabs ───────────────────────────────────────────────
 // Build FORMAT_TABS — reads localStorage first (live admin changes), falls back to static file
 const ICON_MAP = { mp3: <Music size={14}/>, mp4: <Video size={14}/>, convert: <Repeat size={14}/>, batch: <Layers size={14}/>, playlist: <ListVideo size={14}/> }
@@ -242,6 +250,13 @@ export default function Hero() {
     if (!trimmed) { setErrorMsg('Vui lòng dán link video vào ô trên.'); setPhase('error'); return }
     if (!isValidUrl(trimmed)) { setErrorMsg('Link không hợp lệ. Hãy đảm bảo link bắt đầu bằng https://'); setPhase('error'); return }
 
+    // ── Block YouTube — hiện thông báo DMCA ──────────────────
+    if (isYouTubeUrl(trimmed)) {
+      clearTimers()
+      setPhase('youtube-blocked')
+      return
+    }
+
     // ── Redirect non-YouTube URLs to the matching tool page ──
     const redirectSlug = getPlatformRedirect(trimmed)
     if (redirectSlug) {
@@ -343,6 +358,11 @@ export default function Hero() {
       const finalVal = inputRef.current?.value?.trim() || val
       if (isValidUrl(finalVal)) {
         setUrl(finalVal)
+        if (isYouTubeUrl(finalVal)) {
+          clearTimers()
+          setPhase('youtube-blocked')
+          return
+        }
         handleFetch()
       }
     }, 80)
@@ -624,23 +644,25 @@ export default function Hero() {
           {/* YouTube blocked — DMCA warning */}
           {phase === 'youtube-blocked' && (
             <div className={`${styles.stateArea} animate-slide-up`}
-              style={{ background:'rgba(253,203,110,0.08)', border:'1.5px solid rgba(253,203,110,0.3)', borderRadius:'var(--radius-sm)', padding:'14px 16px' }}>
-              <div style={{ fontSize:14, fontWeight:700, color:'var(--amber)', marginBottom:8 }}>
-                ⚠️ Nội dung này không được hỗ trợ trên web
+              style={{ background:'rgba(253,203,110,0.08)', border:'1.5px solid rgba(253,203,110,0.3)', borderRadius:'var(--radius-sm)', padding:'16px 18px' }}>
+              <div style={{ fontSize:15, fontWeight:700, color:'var(--amber)', marginBottom:8 }}>
+                ⚠️ YouTube không được hỗ trợ trên web
               </div>
-              <div style={{ fontSize:13, color:'var(--text2)', lineHeight:1.6, marginBottom:12 }}>
-                Web chỉ hỗ trợ TikTok, Facebook, Instagram và Twitter/X.<br/>
-                Để tải từ nguồn này, hãy tải app SnapLoad về máy tính — app hỗ trợ hàng trăm nguồn mà web không có.
+              <div style={{ fontSize:13, color:'var(--text2)', lineHeight:1.7, marginBottom:14 }}>
+                Trang web không hỗ trợ tải video từ YouTube do chính sách bản quyền (DMCA).<br/>
+                Nếu bạn muốn tải YouTube, hãy dùng <strong style={{ color:'var(--text1)' }}>ứng dụng SnapLoad</strong> — app chạy trực tiếp trên máy tính,
+                không bị giới hạn bởi DMCA và hỗ trợ hàng trăm nguồn khác.
               </div>
-              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-                <a href="/tools" style={{ display:'inline-flex', alignItems:'center', gap:6, background:'var(--amber)', color:'#000', borderRadius:'var(--radius-sm)', padding:'8px 16px', fontSize:13, fontWeight:700, textDecoration:'none' }}>
-                  📥 Tải app SnapLoad
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap', alignItems:'center' }}>
+                <a href="/tools" style={{ display:'inline-flex', alignItems:'center', gap:6, background:'var(--amber)', color:'#000', borderRadius:'var(--radius-sm)', padding:'9px 18px', fontSize:13, fontWeight:700, textDecoration:'none' }}>
+                  📥 Tải app SnapLoad miễn phí
                 </a>
-                <button style={{ background:'none', border:'none', color:'var(--text3)', fontSize:12, cursor:'pointer' }}
-                  onClick={() => { setPhase('idle'); setUrl('') }}>
-                  Đóng
-                </button>
+                <span style={{ fontSize:12, color:'var(--text3)' }}>Windows · macOS · Không cần đăng ký</span>
               </div>
+              <button style={{ marginTop:12, background:'none', border:'none', color:'var(--text3)', fontSize:12, cursor:'pointer', padding:0 }}
+                onClick={() => { setPhase('idle'); setUrl('') }}>
+                ← Thử link khác
+              </button>
             </div>
           )}
 
