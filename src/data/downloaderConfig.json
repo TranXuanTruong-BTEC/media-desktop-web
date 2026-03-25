@@ -6,8 +6,8 @@
       "sub": "Audio only",
       "deviceStatus": {
         "desktop": "active",
-        "android": "active",
-        "ios": "active"
+        "android": "maintenance",
+        "ios": "maintenance"
       }
     },
     "mp4": {
