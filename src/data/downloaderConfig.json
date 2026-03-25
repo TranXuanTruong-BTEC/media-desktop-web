@@ -16,7 +16,7 @@
       "sub": "Video + Audio",
       "deviceStatus": {
         "desktop": "active",
-        "android": "active",
+        "android": "maintenance",
         "ios": "coming_soon"
       }
     },
@@ -26,7 +26,7 @@
       "sub": "MP4 → MP3",
       "deviceStatus": {
         "desktop": "active",
-        "android": "coming_soon",
+        "android": "maintenance",
         "ios": "coming_soon"
       }
     },
@@ -36,7 +36,7 @@
       "sub": "Nhiều link cùng lúc",
       "deviceStatus": {
         "desktop": "active",
-        "android": "active",
+        "android": "maintenance",
         "ios": "coming_soon"
       },
       "maxUrls": 10
@@ -47,7 +47,7 @@
       "sub": "YouTube playlist",
       "deviceStatus": {
         "desktop": "active",
-        "android": "active",
+        "android": "maintenance",
         "ios": "coming_soon"
       },
       "maxItems": 20
