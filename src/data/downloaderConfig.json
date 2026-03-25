@@ -6,7 +6,7 @@
       "sub": "Audio only",
       "deviceStatus": {
         "desktop": "active",
-        "android": "maintenance",
+        "android": "active",
         "ios": "maintenance"
       }
     },
