@@ -16,7 +16,7 @@
       "sub": "Video + Audio",
       "deviceStatus": {
         "desktop": "active",
-        "android": "maintenance",
+        "android": "active",
         "ios": "coming_soon"
       }
     },
@@ -26,7 +26,7 @@
       "sub": "MP4 → MP3",
       "deviceStatus": {
         "desktop": "active",
-        "android": "maintenance",
+        "android": "active",
         "ios": "coming_soon"
       }
     },
