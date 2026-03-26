@@ -56,7 +56,26 @@ export async function smartDownload({ url, filename, format, onProgress, onSucce
     return
   }
 
-  // ── Android / Desktop: fetch with progress → blob save ───────
+  // ── Android: direct anchor download (native browser download manager) ──
+  if (device.isAndroid) {
+    onProgress?.('downloading', 0)
+    try {
+      const a = Object.assign(document.createElement('a'), {
+        href: url, download: fname, style: 'display:none'
+      })
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      onSuccess?.({ device: 'android' })
+    } catch (err) {
+      // Fallback: open in new tab — Android Chrome will download automatically
+      window.open(url, '_blank', 'noopener,noreferrer')
+      onSuccess?.({ device: 'android-tab' })
+    }
+    return
+  }
+
+  // ── Desktop: fetch with progress → blob save ──────────────────
   onProgress?.('connecting', 0)
   try {
     const res = await fetch(url)
@@ -83,12 +102,11 @@ export async function smartDownload({ url, filename, format, onProgress, onSucce
 
     onProgress?.('saving', 100)
 
-    // Assemble blob
     const all = new Uint8Array(received)
     let pos = 0
     for (const c of chunks) { all.set(c, pos); pos += c.length }
-    const mime   = format === 'mp4' ? 'video/mp4' : 'audio/mpeg'
-    const blob   = new Blob([all], { type: mime })
+    const mime    = format === 'mp4' ? 'video/mp4' : 'audio/mpeg'
+    const blob    = new Blob([all], { type: mime })
     const blobUrl = URL.createObjectURL(blob)
 
     const a = Object.assign(document.createElement('a'), {
@@ -99,10 +117,9 @@ export async function smartDownload({ url, filename, format, onProgress, onSucce
     document.body.removeChild(a)
     setTimeout(() => URL.revokeObjectURL(blobUrl), 15000)
 
-    onSuccess?.({ device: device.isAndroid ? 'android' : 'desktop', bytes: received })
+    onSuccess?.({ device: 'desktop', bytes: received })
 
   } catch (err) {
-    // Last resort fallback — plain anchor (works for simple cases)
     try {
       const a = Object.assign(document.createElement('a'), {
         href: url, download: fname, target: '_blank'
