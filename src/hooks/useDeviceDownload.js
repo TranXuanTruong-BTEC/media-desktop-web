@@ -56,21 +56,69 @@ export async function smartDownload({ url, filename, format, onProgress, onSucce
     return
   }
 
-  // ── Android: direct anchor download (native browser download manager) ──
+  // ── Android: fetch → blob → anchor (vì cross-origin anchor download bị bỏ qua) ──
   if (device.isAndroid) {
-    onProgress?.('downloading', 0)
+    onProgress?.('fetching', 0)
     try {
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`Server error ${res.status}`)
+
+      // Đọc filename từ header nếu có
+      const disposition = res.headers.get('content-disposition') || ''
+      const xFilename   = res.headers.get('x-filename') || ''
+      let serverName = xFilename
+      if (!serverName) {
+        const match = disposition.match(/filename\*?=(?:UTF-8'')?["']?([^"';\n]+)/i)
+        if (match) serverName = decodeURIComponent(match[1].replace(/['"]/g, '').trim())
+      }
+      const finalName = serverName || fname
+
+      const total  = parseInt(res.headers.get('content-length') || '0')
+      const reader = res.body?.getReader()
+      const chunks = []
+      let received = 0
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+          chunks.push(value)
+          received += value.length
+          if (total > 0) onProgress?.('downloading', Math.min(99, Math.round((received / total) * 100)))
+        }
+      } else {
+        const blob = await res.blob()
+        chunks.push(new Uint8Array(await blob.arrayBuffer()))
+        received = chunks[0].length
+      }
+
+      onProgress?.('saving', 100)
+
+      const all = new Uint8Array(received)
+      let pos = 0
+      for (const c of chunks) { all.set(c, pos); pos += c.length }
+      const mime    = ext === 'mp4' ? 'video/mp4' : 'audio/mpeg'
+      const blob    = new Blob([all], { type: mime })
+      const blobUrl = URL.createObjectURL(blob)
+
+      // Blob URL là same-origin → download attribute hoạt động bình thường
       const a = Object.assign(document.createElement('a'), {
-        href: url, download: fname, style: 'display:none'
+        href: blobUrl, download: finalName, style: 'display:none'
       })
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 30000)
+
       onSuccess?.({ device: 'android' })
     } catch (err) {
-      // Fallback: open in new tab — Android Chrome will download automatically
-      window.open(url, '_blank', 'noopener,noreferrer')
-      onSuccess?.({ device: 'android-tab' })
+      // Fallback: mở tab mới — Android Chrome sẽ tự download
+      try {
+        window.open(url, '_blank', 'noopener,noreferrer')
+        onSuccess?.({ device: 'android-tab' })
+      } catch {
+        onError?.(err.message || 'Tải thất bại, vui lòng thử lại')
+      }
     }
     return
   }
