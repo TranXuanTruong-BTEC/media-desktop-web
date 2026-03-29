@@ -10,7 +10,7 @@ export const desktopTools = [
     name: 'MediaGet-Setup',
     tagline: 'Download MP3/MP4 từ YouTube, TikTok',
     description: 'Ứng dụng Windows mạnh mẽ giúp bạn download nhạc và video.',
-    githubRepo: 'TranXuanTruong-BTEC/media-desktop-app',
+    _r: 'TranXuanTruong-BTEC/media-desktop-app',
     assetName: 'MediaGet-Setup.exe',
     icon: '⬇',
     iconBg: 'rgba(51,38,151,0.15)',
@@ -26,7 +26,6 @@ export const desktopTools = [
     releaseDate: '2025-03-19',
     fileSize: '135 MB',
     downloadCount: 0,
-    downloadUrl: 'https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest/download/MediaGet-Setup.exe',
     screenshots: [
       '/images/Screenshot_2026-03-21_162700.png',
       '/images/Screenshot_2026-03-21_164119.png',
@@ -39,18 +38,6 @@ export const desktopTools = [
       'Tự động đặt tên file theo tiêu đề video'
     ],
     requirements: 'Windows 10/11 (64-bit)',
-    changelog: [
-      {
-        version: '1.2.4',
-        date: '2025-03-19',
-        notes: 'Update blockmap, cải thiện tốc độ cài đặt'
-      },
-      {
-        version: '1.2.3',
-        date: '2025-03-19',
-        notes: 'Update engine, fix lỗi nhỏ'
-      }
-    ],
     featured: true,
     tags: [
       'media',

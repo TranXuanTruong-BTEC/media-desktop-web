@@ -78,7 +78,6 @@ function ToolRow({ tool }) {
   const fileSize     = gh.fileSize     || tool.fileSize
   const releaseDate  = gh.releaseDate  || tool.releaseDate
   const dlCount      = gh.downloadCount > 0 ? gh.downloadCount : tool.downloadCount
-  const changelog    = gh.changelog?.length ? gh.changelog : tool.changelog
 
   function handleDownload(e, url) {
     e?.preventDefault()
@@ -162,16 +161,6 @@ function ToolRow({ tool }) {
             </li>
           ))}
         </ul>
-
-        {/* Latest changelog */}
-        {changelog?.[0] && !gh.loading && (
-          <div className={styles.changelogSnippet} style={{ borderColor: `${tool.color}30`, background: `${tool.color}0d` }}>
-            <span className={styles.changelogLabel} style={{ color: tool.iconColor }}>
-              <Clock size={10} /> v{changelog[0].version} · {changelog[0].date}
-            </span>
-            <span className={styles.changelogNote}>{changelog[0].notes}</span>
-          </div>
-        )}
 
         {/* ── DOWNLOAD BUTTON — status aware ── */}
         <div className={styles.rowActions}>

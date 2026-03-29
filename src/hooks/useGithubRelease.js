@@ -59,18 +59,6 @@ export function useGithubRelease(repo, assetName) {
           })
         })
 
-        // Build changelog from latest 5 releases
-        const changelog = releases.slice(0, 5).map(r => ({
-          version: r.tag_name.replace(/^v/, ''),
-          date:    r.published_at?.slice(0, 10) || '',
-          notes:   r.body
-            ? r.body.split('\n')
-                .find(l => l.trim() && !l.startsWith('#'))
-                ?.replace(/^[-*>\s]+/, '')
-                .slice(0, 120) || r.name
-            : r.name || r.tag_name,
-        }))
-
         const result = {
           version:       latest.tag_name.replace(/^v/, ''),
           releaseDate:   latest.published_at?.slice(0, 10) || '',
@@ -78,9 +66,6 @@ export function useGithubRelease(repo, assetName) {
                          || `https://github.com/${repo}/releases/latest/download/${assetName || ''}`,
           fileSize:      asset ? formatBytes(asset.size) : null,
           downloadCount: totalDownloads,
-          changelog,
-          // Extra: star count available if needed
-          repoUrl: `https://github.com/${repo}`,
         }
 
         sessionStorage.setItem(cacheKey, JSON.stringify(result))

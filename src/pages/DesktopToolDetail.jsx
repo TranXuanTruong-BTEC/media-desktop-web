@@ -22,15 +22,13 @@ export default function DesktopToolDetail() {
     )
   }
 
-  const gh = useGithubRelease(tool._r || tool._r || tool.githubRepo, tool.assetName)
+  const gh = useGithubRelease(tool._r || tool.githubRepo, tool.assetName)
 
   const version     = gh.version      || tool.version
   const downloadUrl = gh.downloadUrl  || tool.downloadUrl
   const fileSize    = gh.fileSize     || tool.fileSize
   const releaseDate = gh.releaseDate  || tool.releaseDate
   const dlCount     = gh.downloadCount > 0 ? gh.downloadCount : tool.downloadCount
-  const changelog   = gh.changelog?.length ? gh.changelog : tool.changelog
-
   const otherTools = desktopTools.filter(t => t.id !== tool.id).slice(0, 3)
 
   function handleDownload() {
@@ -202,28 +200,7 @@ export default function DesktopToolDetail() {
             </ul>
           </div>
 
-          <div className={styles.block}>
-            <h2 className={styles.blockTitle}>Lịch sử cập nhật</h2>
-            {gh.loading ? (
-              <div className={styles.changelogLoading}>
-                <Loader size={16} className={styles.spin} /> Đang tải lịch sử cập nhật…
-              </div>
-            ) : (
-              <div className={styles.changelog}>
-                {changelog.map((log, i) => (
-                  <div key={log.version} className={`${styles.logItem} ${i === 0 ? styles.logLatest : ''}`}>
-                    <div className={styles.logHeader}>
-                      <span className={styles.logVersion}>v{log.version}</span>
-                      {i === 0 && <span className={styles.logNew}>Mới nhất</span>}
-                      <span className={styles.logDate}>{log.date}</span>
-                    </div>
-                    <p className={styles.logNotes}>{log.notes}</p>
-                  </div>
-                ))}
 
-              </div>
-            )}
-          </div>
 
         </div>
       </div>
