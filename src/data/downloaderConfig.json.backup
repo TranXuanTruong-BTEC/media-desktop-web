@@ -37,7 +37,7 @@
       "deviceStatus": {
         "desktop": "active",
         "android": "active",
-        "ios": "maintenance"
+        "ios": "coming_soon"
       },
       "maxUrls": 10
     },
@@ -48,7 +48,7 @@
       "deviceStatus": {
         "desktop": "active",
         "android": "active",
-        "ios": "maintenance"
+        "ios": "coming_soon"
       },
       "maxItems": 20
     }
