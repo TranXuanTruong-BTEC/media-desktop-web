@@ -99,6 +99,43 @@
   color: var(--bg);
 }
 
+.searchBanner {
+  background: var(--accent3);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.searchBanner > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--accent2);
+}
+.searchBanner b {
+  font-weight: 700;
+}
+.searchBanner button {
+  background: none;
+  border: none;
+  color: var(--accent2);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.searchBanner button:hover {
+  background: rgba(54,84,255,0.12);
+}
+
+.noResults {
+  text-align: center;
+  color: var(--text3);
+  font-size: 14px;
+  padding: 40px 0;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

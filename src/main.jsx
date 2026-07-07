@@ -5,6 +5,7 @@ import { HelmetProvider } from 'react-helmet-async'
 import App from './app/App.jsx'
 import { ThemeProvider } from './context/ThemeContext.jsx'
 import { LanguageProvider } from './context/LanguageContext.jsx'
+import { SearchProvider } from './context/SearchContext.jsx'
 import './styles/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -12,9 +13,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <HelmetProvider>
       <ThemeProvider>
         <LanguageProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
+          <SearchProvider>
+            <BrowserRouter>
+              <App />
+            </BrowserRouter>
+          </SearchProvider>
         </LanguageProvider>
       </ThemeProvider>
     </HelmetProvider>

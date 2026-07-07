@@ -7,18 +7,26 @@ import CompareSection from './CompareSection.jsx'
 import DevCta from './DevCta.jsx'
 import { getEffectiveStatus } from '../../hooks/useDeviceStatus.js'
 import { useLanguage } from '../../context/LanguageContext.jsx'
+import { useSearch } from '../../context/SearchContext.jsx'
 import { tools } from '../../data/tools.js'
 import { desktopTools } from '../../data/desktopTools.js'
 import styles from './FeaturedTools.module.css'
 
 export default function FeaturedTools() {
   const { t } = useLanguage()
+  const { query, setQuery } = useSearch()
   const [platform, setPlatform] = useState('all')
 
-  const sortedTools = [...tools].sort((a, b) => {
-    const order = { active: 0, coming_soon: 1, maintenance: 2 }
-    return (order[getEffectiveStatus(a)] || 0) - (order[getEffectiveStatus(b)] || 0)
-  })
+  const q = query.trim().toLowerCase()
+  const matches = (name, tagline) =>
+    !q || name?.toLowerCase().includes(q) || tagline?.toLowerCase().includes(q)
+
+  const sortedTools = [...tools]
+    .filter(tool => matches(tool.name, tool.tagline))
+    .sort((a, b) => {
+      const order = { active: 0, coming_soon: 1, maintenance: 2 }
+      return (order[getEffectiveStatus(a)] || 0) - (order[getEffectiveStatus(b)] || 0)
+    })
 
   const categoryTabs = [
     { key: 'all',   label: t('tools.tabAll') },
@@ -33,12 +41,22 @@ export default function FeaturedTools() {
     return Array.from(set)
   }, [])
 
-  const filteredApps = platform === 'all'
+  const filteredApps = (platform === 'all'
     ? desktopTools
     : desktopTools.filter(tool => (tool.platform || []).includes(platform))
+  ).filter(tool => matches(tool.name, tool.tagline))
 
   return (
     <>
+      {q && (
+        <div className={styles.searchBanner}>
+          <div className="container">
+            <span>{t('search.active')} <b>&ldquo;{query}&rdquo;</b></span>
+            <button onClick={() => setQuery('')}>{t('search.clear')} ✕</button>
+          </div>
+        </div>
+      )}
+
       <section className={styles.section} id="tools">
         <div className={`container ${styles.inner}`}>
           <div className={styles.headerRow}>
@@ -60,11 +78,15 @@ export default function FeaturedTools() {
             ))}
           </div>
 
-          <div className={styles.grid}>
-            {sortedTools.map(tool => (
-              <AppCard key={tool.id} tool={tool} />
-            ))}
-          </div>
+          {sortedTools.length === 0 ? (
+            <p className={styles.noResults}>{t('search.noResults')}</p>
+          ) : (
+            <div className={styles.grid}>
+              {sortedTools.map(tool => (
+                <AppCard key={tool.id} tool={tool} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -101,11 +123,15 @@ export default function FeaturedTools() {
             </div>
           )}
 
-          <div className={styles.grid}>
-            {filteredApps.map(tool => (
-              <DesktopToolCard key={tool.id} tool={tool} />
-            ))}
-          </div>
+          {filteredApps.length === 0 ? (
+            <p className={styles.noResults}>{t('search.noResults')}</p>
+          ) : (
+            <div className={styles.grid}>
+              {filteredApps.map(tool => (
+                <DesktopToolCard key={tool.id} tool={tool} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

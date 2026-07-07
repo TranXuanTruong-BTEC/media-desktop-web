@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link, Layers, ListVideo } from 'lucide-react'
+import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link, Layers, ListVideo, Search } from 'lucide-react'
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
 import { downloaderConfig } from '../../data/downloaderConfig.js'
@@ -13,6 +13,7 @@ import BatchDownload    from './BatchDownload.jsx'
 import ID3Editor       from './ID3Editor.jsx'
 import PlaylistDownload from './PlaylistDownload.jsx'
 import { useLanguage } from '../../context/LanguageContext.jsx'
+import { useSearch } from '../../context/SearchContext.jsx'
 import styles from './Hero.module.css'
 
 // ── API base — trỏ tới backend server ────────────────────────
@@ -168,6 +169,8 @@ const STEPS = [
 
 export default function Hero() {
   const { t } = useLanguage()
+  const { runSearch } = useSearch()
+  const [searchInput, setSearchInput] = useState('')
   const [url,         setUrl]         = useState('')
   const [format,      setFormat]      = useState('mp3')
   const [quality,     setQuality]     = useState('320')
@@ -427,19 +430,71 @@ export default function Hero() {
       <div className={`container ${styles.inner}`}>
         <div className={styles.badge}>
           <span className={styles.badgeDot} />
-          {t('hero.badge')}
+          {t('hero.badge').replace('{count}', tools.length + desktopTools.length)}
         </div>
 
         <h1 className={styles.title}>
-          {t('hero.titleLine1')}<br />
-          <span className="gradient-text">{t('hero.titleAccent')}</span>
+          {t('hero.titleLine1')}
         </h1>
 
         <p className={styles.sub}>
           {t('hero.sub')}
         </p>
 
+        {/* ── Search bar ── */}
+        <form
+          className={styles.searchBar}
+          onSubmit={(e) => { e.preventDefault(); runSearch(searchInput.trim()) }}
+        >
+          <Search size={17} className={styles.searchIcon} />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder={t('hero.searchPlaceholder')}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <button type="submit" className={styles.searchBtn}>
+            {t('hero.searchBtn')}
+          </button>
+        </form>
+
+        <div className={styles.searchTags}>
+          <span className={styles.searchTagsLabel}>{t('hero.popularLabel')}</span>
+          {[t('hero.tag1'), t('hero.tag2'), t('hero.tag3'), t('hero.tag4')].map(tag => (
+            <button
+              key={tag}
+              type="button"
+              className={styles.searchTag}
+              onClick={() => { setSearchInput(tag); runSearch(tag) }}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
+
+        {/* Stat row */}
+        <div className={styles.statRow}>
+          <div className={styles.stat}>
+            <b>{tools.length}</b>
+            <span>{t('stats.webTools')}</span>
+          </div>
+          <div className={styles.stat}>
+            <b>{desktopTools.length}</b>
+            <span>{t('stats.apps')}</span>
+          </div>
+          <div className={styles.stat}>
+            <b>100%</b>
+            <span>{t('stats.free')}</span>
+          </div>
+          <div className={styles.stat}>
+            <b>0</b>
+            <span>{t('stats.signup')}</span>
+          </div>
+        </div>
+
         {/* ── Downloader Card ── */}
+        <span className={styles.quickLabel}>{t('hero.quickLabel')}</span>
         <div className={styles.card} id="downloader" style={{ position: 'relative' }}>
 
           {/* ── Device tab status banner ── */}
@@ -729,26 +784,6 @@ export default function Hero() {
               {p.name}
             </div>
           ))}
-        </div>
-
-        {/* Stat row */}
-        <div className={styles.statRow}>
-          <div className={styles.stat}>
-            <b>{tools.length}</b>
-            <span>{t('stats.webTools')}</span>
-          </div>
-          <div className={styles.stat}>
-            <b>{desktopTools.length}</b>
-            <span>{t('stats.apps')}</span>
-          </div>
-          <div className={styles.stat}>
-            <b>100%</b>
-            <span>{t('stats.free')}</span>
-          </div>
-          <div className={styles.stat}>
-            <b>0</b>
-            <span>{t('stats.signup')}</span>
-          </div>
         </div>
       </div>
     </section>
