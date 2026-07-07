@@ -21,7 +21,7 @@
   border-radius: 24px;
   width: 100%; max-width: 480px;
   position: relative;
-  box-shadow: 0 32px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(108,92,231,0.12);
+  box-shadow: 0 32px 96px rgba(0,0,0,0.7), 0 0 0 1px rgba(54,84,255,0.12);
   animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   overflow: hidden;
 }
@@ -33,7 +33,7 @@
 /* Rainbow top bar */
 .accentBar {
   height: 3px;
-  background: linear-gradient(90deg, #6c5ce7, #a29bfe, #00cec9, #fdcb6e);
+  background: linear-gradient(90deg, #3654ff, #5a72ff, #00cec9, #fdcb6e);
   background-size: 200% 100%;
   animation: gradientShift 3s linear infinite;
 }
@@ -41,12 +41,12 @@
 
 .skipBtn {
   position: absolute; top: 14px; right: 14px;
-  background: rgba(255,255,255,0.06); border: 1px solid var(--border2);
+  background: var(--bg2); border: 1px solid var(--border2);
   border-radius: 50%; width: 30px; height: 30px;
   display: flex; align-items: center; justify-content: center;
   color: var(--text3); cursor: pointer; transition: all 0.15s; z-index: 2;
 }
-.skipBtn:hover { color: var(--text); background: rgba(255,255,255,0.1); }
+.skipBtn:hover { color: var(--text); background: var(--bg3); }
 
 /* ── Dots ── */
 .dots {
@@ -91,7 +91,7 @@
   cursor: pointer; transition: all 0.15s;
   font-family: var(--font-body); text-align: left; width: 100%;
 }
-.langBtn:hover { border-color: var(--accent); background: rgba(108,92,231,0.07); transform: translateX(3px); }
+.langBtn:hover { border-color: var(--accent); background: rgba(54,84,255,0.07); transform: translateX(3px); }
 .langFlag  { font-size: 24px; flex-shrink: 0; }
 .langLabel { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
 .langSub   { font-size: 12px; color: var(--text3); }
@@ -150,13 +150,13 @@
 
 /* ── Desktop card ── */
 .desktopCard {
-  background: linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.06));
-  border: 1px solid rgba(108,92,231,0.22); border-radius: 14px; padding: 18px;
+  background: linear-gradient(135deg, rgba(54,84,255,0.1), rgba(0,206,201,0.06));
+  border: 1px solid rgba(54,84,255,0.22); border-radius: 14px; padding: 18px;
 }
 .desktopRow { display: flex; gap: 14px; align-items: flex-start; }
 .desktopIcon {
   width: 50px; height: 50px; border-radius: 13px;
-  background: rgba(108,92,231,0.16);
+  background: rgba(54,84,255,0.16);
   display: flex; align-items: center; justify-content: center;
   font-size: 22px; flex-shrink: 0;
 }
@@ -165,8 +165,8 @@
 .desktopBadges { display: flex; gap: 5px; flex-wrap: wrap; }
 .desktopBadge {
   font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 40px;
-  background: rgba(108,92,231,0.14); color: var(--accent2);
-  border: 1px solid rgba(108,92,231,0.2);
+  background: rgba(54,84,255,0.14); color: var(--accent2);
+  border: 1px solid rgba(54,84,255,0.2);
 }
 
 /* ── Modal footer ── */
@@ -188,12 +188,12 @@
 
 .langSwitch {
   display: flex; align-items: center; gap: 5px;
-  background: rgba(255,255,255,0.05); border: 1px solid var(--border2);
+  background: var(--bg2); border: 1px solid var(--border2);
   border-radius: 40px; padding: 5px 11px;
   font-family: var(--font-body); font-size: 11px; font-weight: 700;
   color: var(--text3); cursor: pointer; transition: all 0.15s;
 }
-.langSwitch:hover { color: var(--accent2); border-color: rgba(108,92,231,0.3); }
+.langSwitch:hover { color: var(--accent2); border-color: rgba(54,84,255,0.3); }
 
 .ctaLink {
   display: inline-flex; align-items: center; gap: 5px;
@@ -210,7 +210,7 @@
   border: none; border-radius: 8px; padding: 9px 18px;
   font-family: var(--font-body); font-size: 13px; font-weight: 700;
   color: #fff; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(108,92,231,0.4);
+  box-shadow: 0 4px 16px rgba(54,84,255,0.4);
   transition: opacity 0.15s, transform 0.1s;
 }
 .nextBtn:hover { opacity: 0.88; transform: translateY(-1px); }
@@ -229,8 +229,8 @@
   animation: spotPulse 2s ease-in-out infinite;
 }
 @keyframes spotPulse {
-  0%,100% { border-color: var(--accent); box-shadow: 0 0 0 9999px rgba(0,0,0,0.75), 0 0 0 4px rgba(108,92,231,0.2); }
-  50%     { border-color: var(--accent2); box-shadow: 0 0 0 9999px rgba(0,0,0,0.75), 0 0 0 8px rgba(108,92,231,0.12); }
+  0%,100% { border-color: var(--accent); box-shadow: 0 0 0 9999px rgba(0,0,0,0.75), 0 0 0 4px rgba(54,84,255,0.2); }
+  50%     { border-color: var(--accent2); box-shadow: 0 0 0 9999px rgba(0,0,0,0.75), 0 0 0 8px rgba(54,84,255,0.12); }
 }
 
 .tooltip {
@@ -256,7 +256,7 @@
 .tooltipHeader { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .tooltipStep {
   font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--accent2); background: rgba(108,92,231,0.12); border-radius: 40px; padding: 2px 9px;
+  color: var(--accent2); background: rgba(54,84,255,0.12); border-radius: 40px; padding: 2px 9px;
 }
 .tooltipClose {
   background: none; border: none; color: var(--text3); cursor: pointer;
@@ -301,7 +301,7 @@
 .helpBtn:hover {
   background: var(--accent); border-color: var(--accent);
   color: #fff; transform: scale(1.1);
-  box-shadow: 0 6px 28px rgba(108,92,231,0.45);
+  box-shadow: 0 6px 28px rgba(54,84,255,0.45);
 }
 
 /* ── Responsive ── */

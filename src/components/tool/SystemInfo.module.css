@@ -39,6 +39,6 @@
   padding: 4px 12px;
 }
 
-.mp3  { background: rgba(108,92,231,0.14); border-color: rgba(108,92,231,0.25); color: var(--accent2); }
+.mp3  { background: rgba(54,84,255,0.14); border-color: rgba(54,84,255,0.25); color: var(--accent2); }
 .mp4  { background: rgba(0,206,201,0.1);   border-color: rgba(0,206,201,0.2);   color: var(--green); }
 .webm { background: rgba(253,203,110,0.1); border-color: rgba(253,203,110,0.2); color: var(--amber); }

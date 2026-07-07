@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X, Download, ChevronDown, Music, Video, Repeat, Layers, ListVideo, Mic2 } from 'lucide-react'
 import { DonateNavBtn } from '../shared/DonateModal.jsx'
+import ThemeToggle from '../shared/ThemeToggle.jsx'
+import LanguageSwitcher from '../shared/LanguageSwitcher.jsx'
+import { useLanguage } from '../../context/LanguageContext.jsx'
 import { tools } from '../../data/tools.js'
 import styles from './Navbar.module.css'
 
@@ -10,7 +13,7 @@ const TOOL_ICONS = {
   'instagram-downloader':{ icon: '◈', color: '#e1306c' },
   'twitter-downloader':  { icon: '✕', color: '#1da1f2' },
   'facebook-downloader': { icon: 'f', color: '#1877f2' },
-  'audio-extractor':     { icon: '♫', color: '#6c5ce7' },
+  'audio-extractor':     { icon: '♫', color: '#3654ff' },
 }
 
 const WEB_TOOLS = [
@@ -26,6 +29,7 @@ export default function Navbar() {
   const [scrolled,    setScrolled]    = useState(false)
   const location = useLocation()
   const dropRef  = useRef(null)
+  const { t } = useLanguage()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -72,7 +76,7 @@ export default function Navbar() {
         <ul className={styles.links}>
           <li>
             <button className={styles.link} onClick={() => handleAnchor('/#downloader')}>
-              Downloader
+              {t('nav.downloader')}
             </button>
           </li>
 
@@ -82,7 +86,7 @@ export default function Navbar() {
               className={`${styles.link} ${styles.dropTrigger} ${toolsOpen ? styles.dropTriggerOpen : ''}`}
               onClick={() => setToolsOpen(o => !o)}
             >
-              Công cụ web
+              {t('nav.webTools')}
               <ChevronDown size={13} className={`${styles.chevron} ${toolsOpen ? styles.chevronOpen : ''}`}/>
             </button>
 
@@ -124,7 +128,7 @@ export default function Navbar() {
                         className={styles.dropItem}
                         onClick={() => handleAnchor(t.href, t.tab)}
                       >
-                        <span className={styles.dropIcon} style={{ background:'rgba(108,92,231,.15)', color:'#a29bfe' }}>
+                        <span className={styles.dropIcon} style={{ background:'rgba(54,84,255,.15)', color:'#5a72ff' }}>
                           {t.icon}
                         </span>
                         <div>
@@ -141,27 +145,29 @@ export default function Navbar() {
 
           <li>
             <button className={styles.link} onClick={() => handleAnchor('/#features')}>
-              Tính năng
+              {t('nav.features')}
             </button>
           </li>
           <li>
             <button className={styles.link} onClick={() => handleAnchor('/#faq')}>
-              FAQ
+              {t('nav.faq')}
             </button>
           </li>
         </ul>
 
         {/* Desktop CTA */}
         <div className={styles.actions}>
+          <LanguageSwitcher />
+          <ThemeToggle />
           <DonateNavBtn />
           <Link to="/tools" className={styles.toolsBtn}>
-            🧰 Tools .exe
+            🧰 {t('nav.toolsExe')}
           </Link>
           <button
             className={styles.ctaBtn}
             onClick={() => handleAnchor('/#downloader')}
           >
-            Dùng miễn phí →
+            {t('nav.ctaFree')}
           </button>
         </div>
 
@@ -177,26 +183,30 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div className={`${styles.mobileMenu} ${open ? styles.mobileOpen : ''}`}>
+        <div className={styles.mobileTopRow}>
+          <LanguageSwitcher />
+          <ThemeToggle />
+        </div>
         <button className={styles.mobileLink} onClick={() => handleAnchor('/#downloader')}>
-          Downloader
+          {t('nav.downloader')}
         </button>
-        <div className={styles.mobileSectionLabel}>Công cụ web</div>
-        {tools.filter(t => t.status !== 'coming_soon').map(t => (
-          <Link key={t.id} to={`/tool/${t.slug}`} className={styles.mobileLink}
+        <div className={styles.mobileSectionLabel}>{t('nav.webTools')}</div>
+        {tools.filter(t2 => t2.status !== 'coming_soon').map(t2 => (
+          <Link key={t2.id} to={`/tool/${t2.slug}`} className={styles.mobileLink}
             onClick={() => setOpen(false)}>
-            {t.icon} {t.name}
+            {t2.icon} {t2.name}
           </Link>
         ))}
-        {WEB_TOOLS.map(t => (
-          <button key={t.label} className={styles.mobileLink}
-            onClick={() => handleAnchor(t.href, t.tab)}>
-            {t.icon} {t.label}
+        {WEB_TOOLS.map(w => (
+          <button key={w.label} className={styles.mobileLink}
+            onClick={() => handleAnchor(w.href, w.tab)}>
+            {w.icon} {w.label}
           </button>
         ))}
-        <button className={styles.mobileLink} onClick={() => handleAnchor('/#features')}>Tính năng</button>
-        <button className={styles.mobileLink} onClick={() => handleAnchor('/#faq')}>FAQ</button>
+        <button className={styles.mobileLink} onClick={() => handleAnchor('/#features')}>{t('nav.features')}</button>
+        <button className={styles.mobileLink} onClick={() => handleAnchor('/#faq')}>{t('nav.faq')}</button>
         <Link to="/tools" className={styles.mobileCta}>
-          🧰 Tải Tools .exe miễn phí →
+          🧰 {t('nav.toolsExe')} — {t('nav.ctaFree')}
         </Link>
       </div>
     </nav>

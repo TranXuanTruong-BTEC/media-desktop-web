@@ -10,6 +10,7 @@ import { DonateTrigger } from '../shared/DonateModal.jsx'
 import BatchDownload    from './BatchDownload.jsx'
 import ID3Editor       from './ID3Editor.jsx'
 import PlaylistDownload from './PlaylistDownload.jsx'
+import { useLanguage } from '../../context/LanguageContext.jsx'
 import styles from './Hero.module.css'
 
 // ── API base — trỏ tới backend server ────────────────────────
@@ -164,6 +165,7 @@ const STEPS = [
 ]
 
 export default function Hero() {
+  const { t } = useLanguage()
   const [url,         setUrl]         = useState('')
   const [format,      setFormat]      = useState('mp3')
   const [quality,     setQuality]     = useState('320')
@@ -423,18 +425,16 @@ export default function Hero() {
       <div className={`container ${styles.inner}`}>
         <div className={styles.badge}>
           <span className={styles.badgeDot} />
-          100% Free · No Sign-up Required
+          {t('hero.badge')}
         </div>
 
         <h1 className={styles.title}>
-          Download Any Video as<br />
-          <span className="gradient-text">MP3 or MP4</span>
-          <br />in Seconds
+          {t('hero.titleLine1')}<br />
+          <span className="gradient-text">{t('hero.titleAccent')}</span>
         </h1>
 
         <p className={styles.sub}>
-          Dán link TikTok, Facebook, Instagram, Twitter/X...
-          <br className={styles.brHide} /> Get high-quality audio or video instantly — for free.
+          {t('hero.sub')}
         </p>
 
         {/* ── Downloader Card ── */}

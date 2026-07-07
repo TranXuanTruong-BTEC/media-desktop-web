@@ -54,7 +54,7 @@
 }
 .item.done { border-color:rgba(29,158,117,.3); }
 .item.error { border-color:rgba(255,118,117,.3); }
-.item.downloading { border-color:rgba(108,92,231,.3); }
+.item.downloading { border-color:rgba(54,84,255,.3); }
 
 .thumb { width:48px; height:36px; object-fit:cover; border-radius:4px; flex-shrink:0; }
 .thumbPlaceholder {

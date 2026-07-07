@@ -27,7 +27,7 @@
 }
 .heroBg {
   position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(ellipse 700px 400px at 50% 0%, rgba(108,92,231,0.14) 0%, transparent 65%);
+  background: radial-gradient(ellipse 700px 400px at 50% 0%, rgba(54,84,255,0.14) 0%, transparent 65%);
 }
 .heroInner {
   position: relative;
@@ -62,8 +62,8 @@
 .catBadge {
   font-size: 10px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
   padding: 3px 10px; border-radius: 40px;
-  background: rgba(108,92,231,0.14); color: var(--accent2);
-  border: 1px solid rgba(108,92,231,0.2);
+  background: rgba(54,84,255,0.14); color: var(--accent2);
+  border: 1px solid rgba(54,84,255,0.2);
 }
 
 .heroTitle {
@@ -96,7 +96,7 @@
   padding: 15px 28px;
   font-family: var(--font-body); font-size: 16px; font-weight: 700;
   color: #fff; text-decoration: none; cursor: pointer;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.3);
+  box-shadow: var(--shadow-accent);
   transition: opacity 0.2s, transform 0.15s;
 }
 .downloadBtn:hover { opacity: 0.88; transform: translateY(-2px); }
@@ -326,7 +326,7 @@
   text-decoration: none;
   transition: color 0.2s, background 0.2s;
 }
-.allReleasesLink:hover { background: rgba(255,255,255,0.03); color: var(--text); }
+.allReleasesLink:hover { background: var(--bg2); color: var(--text); }
 
 /* Changelog loading */
 .changelogLoading {

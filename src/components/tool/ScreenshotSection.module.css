@@ -41,8 +41,8 @@
   font-weight: 800;
   letter-spacing: 0.06em;
   color: var(--accent2);
-  background: rgba(108,92,231,0.12);
-  border: 1px solid rgba(108,92,231,0.2);
+  background: rgba(54,84,255,0.12);
+  border: 1px solid rgba(54,84,255,0.2);
   border-radius: 6px;
   padding: 5px 9px;
   flex-shrink: 0;
@@ -76,7 +76,7 @@
   overflow: hidden;
   width: 100%;
   max-width: 380px;
-  box-shadow: var(--shadow), 0 0 60px rgba(108,92,231,0.1);
+  box-shadow: var(--shadow), 0 0 60px rgba(54,84,255,0.1);
 }
 
 .mockHeader {
@@ -193,13 +193,13 @@
   border-radius: var(--radius-sm);
   transition: border-color 0.2s;
 }
-.mockRow:first-of-type { border-color: rgba(108,92,231,0.3); }
+.mockRow:first-of-type { border-color: rgba(54,84,255,0.3); }
 
 .mockBadge {
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.05em;
-  background: rgba(108,92,231,0.18);
+  background: rgba(54,84,255,0.18);
   color: var(--accent2);
   border-radius: 3px;
   padding: 2px 6px;
@@ -219,7 +219,7 @@
   width: 26px;
   height: 26px;
   border-radius: 6px;
-  border: 1.5px solid rgba(108,92,231,0.4);
+  border: 1.5px solid rgba(54,84,255,0.4);
   display: flex;
   align-items: center;
   justify-content: center;

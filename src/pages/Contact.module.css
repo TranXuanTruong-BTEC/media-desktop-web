@@ -26,7 +26,7 @@
   color: var(--text2);
 }
 .topicBtn:hover { border-color: var(--border3); color: var(--text); }
-.topicBtnActive { border-color: var(--accent) !important; background: rgba(108,92,231,.08) !important; color: var(--accent2) !important; }
+.topicBtnActive { border-color: var(--accent) !important; background: rgba(54,84,255,.08) !important; color: var(--accent2) !important; }
 .topicLabel { font-size: 12px; font-weight: 700; }
 .topicSub   { font-size: 10px; color: var(--text3); line-height: 1.3; }
 

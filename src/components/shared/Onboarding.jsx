@@ -25,7 +25,7 @@ const T = {
     welcome:    'Chào mừng đến với SnapLoad!',
     welcomeSub: 'Công cụ download video miễn phí, nhanh nhất',
     features: [
-      { icon: 'music',  color: '#a29bfe', label: 'MP3',     desc: 'Âm thanh lên đến 320 kbps' },
+      { icon: 'music',  color: '#5a72ff', label: 'MP3',     desc: 'Âm thanh lên đến 320 kbps' },
       { icon: 'video',  color: '#00cec9', label: 'MP4',     desc: 'Video lên đến 4K'           },
       { icon: 'repeat', color: '#fdcb6e', label: 'Convert', desc: 'Chuyển MP4 sang MP3'        },
     ],
@@ -62,7 +62,7 @@ const T = {
     welcome:    'Welcome to SnapLoad!',
     welcomeSub: 'The fastest free video downloader',
     features: [
-      { icon: 'music',  color: '#a29bfe', label: 'MP3',     desc: 'Audio up to 320 kbps' },
+      { icon: 'music',  color: '#5a72ff', label: 'MP3',     desc: 'Audio up to 320 kbps' },
       { icon: 'video',  color: '#00cec9', label: 'MP4',     desc: 'Video up to 4K'        },
       { icon: 'repeat', color: '#fdcb6e', label: 'Convert', desc: 'MP4 to MP3'            },
     ],

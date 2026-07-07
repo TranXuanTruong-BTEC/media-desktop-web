@@ -4,7 +4,7 @@ import styles from './WhySection.module.css'
 const features = [
   {
     icon: '🎵',
-    iconBg: 'rgba(108,92,231,0.14)',
+    iconBg: 'rgba(54,84,255,0.14)',
     title: 'Âm thanh chất lượng cao',
     desc: 'Tải MP3 lên đến 320 kbps — chất lượng tốt nhất hiện có. Phù hợp cho âm nhạc, podcast và bài giảng.',
   },
@@ -28,7 +28,7 @@ const features = [
   },
   {
     icon: '🔄',
-    iconBg: 'rgba(108,92,231,0.14)',
+    iconBg: 'rgba(54,84,255,0.14)',
     title: 'Convert MP4 → MP3',
     desc: 'Tải file video từ máy lên và chuyển đổi sang MP3 trực tiếp trên trình duyệt — không cần phần mềm.',
   },

@@ -10,7 +10,7 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 600px 350px at 50% 0%, rgba(108,92,231,0.18) 0%, transparent 65%);
+    radial-gradient(ellipse 600px 350px at 50% 0%, rgba(54,84,255,0.18) 0%, transparent 65%);
 }
 
 .inner {
@@ -62,7 +62,7 @@
   padding: 24px;
   width: 100%;
   max-width: 600px;
-  box-shadow: var(--shadow), 0 0 60px rgba(108,92,231,0.1);
+  box-shadow: var(--shadow), 0 0 60px rgba(54,84,255,0.1);
 }
 
 .urlRow {
@@ -85,7 +85,7 @@
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .urlInput::placeholder { color: var(--text3); }
-.urlInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(108,92,231,0.15); }
+.urlInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(54,84,255,0.15); }
 
 .fetchBtn {
   background: var(--accent);
@@ -175,10 +175,10 @@
 .resultDivider { height: 1px; background: var(--border); }
 .downloadList { display: flex; flex-direction: column; gap: 5px; padding: 8px 10px; }
 .downloadRow { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); transition: border-color 0.2s, background 0.2s; }
-.downloadRow:hover { border-color: rgba(108,92,231,0.3); background: rgba(108,92,231,0.04); }
+.downloadRow:hover { border-color: rgba(54,84,255,0.3); background: rgba(54,84,255,0.04); }
 .downloadLeft { display: flex; align-items: center; gap: 10px; }
 .badge { font-size: 9px; font-weight: 700; letter-spacing: 0.06em; padding: 2px 7px; border-radius: 3px; text-transform: uppercase; flex-shrink: 0; }
-.mp3  { background: rgba(108,92,231,0.18); color: var(--accent2); }
+.mp3  { background: rgba(54,84,255,0.18); color: var(--accent2); }
 .mp4  { background: rgba(0,206,201,0.14); color: var(--green); }
 .webm { background: rgba(253,203,110,0.14); color: var(--amber); }
 .dlQuality { font-size: 12px; color: var(--text); font-weight: 500; }

@@ -78,9 +78,9 @@
   font-weight: 600;
   letter-spacing: 0.04em;
   padding: 3px 10px;
-  background: rgba(108,92,231,0.12);
-  border: 1px solid rgba(108,92,231,0.2);
-  border-radius: 40px;
+  background: var(--accent3);
+  border: 1px solid var(--accent3);
+  border-radius: var(--radius-sm);
   color: var(--accent2);
 }
 

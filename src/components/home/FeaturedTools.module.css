@@ -6,10 +6,37 @@
 
 .inner {}
 
-.header {
-  margin-bottom: 52px;
-  max-width: 520px;
+.sectionAlt {
+  padding: 96px 0;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
+
+.headerRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.header {
+  max-width: 560px;
+}
+
+.viewAllLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  white-space: nowrap;
+  padding-bottom: 4px;
+}
+.viewAllLink:hover { color: var(--accent2); }
 
 .grid {
   display: grid;

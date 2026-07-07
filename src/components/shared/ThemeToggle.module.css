@@ -1,0 +1,49 @@
+.toggle {
+  position: relative;
+  width: 54px;
+  height: 28px;
+  border-radius: 100px;
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.toggle:hover {
+  border-color: var(--border3);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text3);
+  z-index: 1;
+  transition: color 0.2s;
+}
+
+.iconActive {
+  color: var(--accent);
+}
+
+.knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--border2);
+  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0,0,0,0.08));
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.knobDark {
+  transform: translateX(26px);
+}

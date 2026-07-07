@@ -16,7 +16,7 @@
   position: absolute; inset: 0; pointer-events: none;
   background:
     radial-gradient(ellipse 700px 400px at 50% 0%, rgba(0,206,201,0.13) 0%, transparent 60%),
-    radial-gradient(ellipse 400px 250px at 85% 70%, rgba(108,92,231,0.07) 0%, transparent 60%);
+    radial-gradient(ellipse 400px 250px at 85% 70%, rgba(54,84,255,0.07) 0%, transparent 60%);
 }
 
 .heroInner {
@@ -284,8 +284,8 @@
 }
 
 .catBadge {
-  background: rgba(108,92,231,0.13); color: var(--accent2);
-  border: 1px solid rgba(108,92,231,0.2);
+  background: rgba(54,84,255,0.13); color: var(--accent2);
+  border: 1px solid rgba(54,84,255,0.2);
 }
 
 .rowName {
@@ -351,8 +351,8 @@
 /* Changelog snippet */
 .changelogSnippet {
   display: flex; align-items: flex-start; gap: 8px;
-  background: rgba(108,92,231,0.07);
-  border: 1px solid rgba(108,92,231,0.15);
+  background: rgba(54,84,255,0.07);
+  border: 1px solid rgba(54,84,255,0.15);
   border-radius: var(--radius-sm);
   padding: 10px 14px;
   margin-bottom: 20px;

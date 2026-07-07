@@ -1,6 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Download } from 'lucide-react'
+import { useLanguage } from '../../context/LanguageContext.jsx'
 import styles from './Footer.module.css'
 
 const footerLinks = {
@@ -32,6 +33,7 @@ const trustBadges = [
 ]
 
 export default function Footer() {
+  const { t } = useLanguage()
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.inner}`}>
@@ -53,8 +55,7 @@ export default function Footer() {
               Snap<span>Load</span>
             </Link>
             <p className={styles.brandDesc}>
-              Tải MP3 và MP4 từ TikTok, Facebook, Instagram, Twitter/X và nhiều hơn nữa.
-              Miễn phí, nhanh, không quảng cáo, không đăng ký.
+              {t('footer.desc')}
             </p>
             <div className={styles.version}>v2.1.0</div>
           </div>
@@ -79,10 +80,10 @@ export default function Footer() {
         <div className={styles.divider} />
 
         <div className={styles.bottom}>
-          <p className={styles.copyright}>© 2025 SnapLoad. All rights reserved.</p>
+          <p className={styles.copyright}>{t('footer.copyright')}</p>
           <div className={styles.bottomLinks}>
-            <Link to="/privacy" className={styles.bottomLink}>Privacy</Link>
-            <Link to="/terms" className={styles.bottomLink}>Terms</Link>
+            <Link to="/privacy" className={styles.bottomLink}>{t('footer.privacy')}</Link>
+            <Link to="/terms" className={styles.bottomLink}>{t('footer.terms')}</Link>
           </div>
         </div>
       </div>
