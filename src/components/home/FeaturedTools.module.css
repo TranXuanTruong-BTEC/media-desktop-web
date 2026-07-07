@@ -38,6 +38,67 @@
 }
 .viewAllLink:hover { color: var(--accent2); }
 
+.catTabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+}
+
+.catTab {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 9px 4px;
+  margin-right: 22px;
+  color: var(--text3);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.catTab:hover {
+  color: var(--text2);
+}
+
+.catTabActive {
+  color: var(--text);
+  border-color: var(--accent);
+}
+
+.platformFilter {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.pfChip {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 7px 14px;
+  border-radius: 100px;
+  border: 1px solid var(--border2);
+  background: var(--card);
+  color: var(--text2);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.pfChip:hover {
+  border-color: var(--border3);
+}
+
+.pfChipActive {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--bg);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));

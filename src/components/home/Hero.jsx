@@ -5,6 +5,8 @@ import { Download, AlertCircle, X, Music, Video, Repeat, FolderOpen, Link, Layer
 import { showToast } from '../shared/Toast.jsx'
 import { detectDevice, smartDownload } from '../../hooks/useDeviceDownload.js'
 import { downloaderConfig } from '../../data/downloaderConfig.js'
+import { tools } from '../../data/tools.js'
+import { desktopTools } from '../../data/desktopTools.js'
 import StatusBanner from '../shared/StatusBanner.jsx'
 import { DonateTrigger } from '../shared/DonateModal.jsx'
 import BatchDownload    from './BatchDownload.jsx'
@@ -727,6 +729,26 @@ export default function Hero() {
               {p.name}
             </div>
           ))}
+        </div>
+
+        {/* Stat row */}
+        <div className={styles.statRow}>
+          <div className={styles.stat}>
+            <b>{tools.length}</b>
+            <span>{t('stats.webTools')}</span>
+          </div>
+          <div className={styles.stat}>
+            <b>{desktopTools.length}</b>
+            <span>{t('stats.apps')}</span>
+          </div>
+          <div className={styles.stat}>
+            <b>100%</b>
+            <span>{t('stats.free')}</span>
+          </div>
+          <div className={styles.stat}>
+            <b>0</b>
+            <span>{t('stats.signup')}</span>
+          </div>
         </div>
       </div>
     </section>
