@@ -57,6 +57,8 @@ export const translations = {
     },
     theme: { toLight: 'Chuyển sang giao diện sáng', toDark: 'Chuyển sang giao diện tối' },
     lang: { choose: 'Chọn ngôn ngữ' },
+    status: { active: 'Hoạt động', comingSoon: 'Sắp ra mắt', maintenance: 'Bảo trì' },
+    button: { openTool: 'Mở công cụ', comingSoon: 'Sắp có' },
   },
   en: {
     nav: {
@@ -99,6 +101,8 @@ export const translations = {
     },
     theme: { toLight: 'Switch to light mode', toDark: 'Switch to dark mode' },
     lang: { choose: 'Choose language' },
+    status: { active: 'Active', comingSoon: 'Coming soon', maintenance: 'Maintenance' },
+    button: { openTool: 'Open tool', comingSoon: 'Coming soon' },
   },
   zh: {
     nav: {
@@ -141,6 +145,8 @@ export const translations = {
     },
     theme: { toLight: '切换到浅色模式', toDark: '切换到深色模式' },
     lang: { choose: '选择语言' },
+    status: { active: '运行中', comingSoon: '即将推出', maintenance: '维护中' },
+    button: { openTool: '打开工具', comingSoon: '即将推出' },
   },
   ja: {
     nav: {
@@ -183,6 +189,8 @@ export const translations = {
     },
     theme: { toLight: 'ライトモードに切り替え', toDark: 'ダークモードに切り替え' },
     lang: { choose: '言語を選択' },
+    status: { active: '稼働中', comingSoon: '近日公開', maintenance: 'メンテナンス中' },
+    button: { openTool: 'ツールを開く', comingSoon: '近日公開' },
   },
   ko: {
     nav: {
@@ -225,6 +233,8 @@ export const translations = {
     },
     theme: { toLight: '라이트 모드로 전환', toDark: '다크 모드로 전환' },
     lang: { choose: '언어 선택' },
+    status: { active: '운영 중', comingSoon: '출시 예정', maintenance: '점검 중' },
+    button: { openTool: '도구 열기', comingSoon: '출시 예정' },
   },
   es: {
     nav: {
@@ -267,6 +277,8 @@ export const translations = {
     },
     theme: { toLight: 'Cambiar a modo claro', toDark: 'Cambiar a modo oscuro' },
     lang: { choose: 'Elegir idioma' },
+    status: { active: 'Activo', comingSoon: 'Próximamente', maintenance: 'Mantenimiento' },
+    button: { openTool: 'Abrir herramienta', comingSoon: 'Próximamente' },
   },
   fr: {
     nav: {
@@ -309,6 +321,8 @@ export const translations = {
     },
     theme: { toLight: 'Passer au mode clair', toDark: 'Passer au mode sombre' },
     lang: { choose: 'Choisir la langue' },
+    status: { active: 'Actif', comingSoon: 'Bientôt disponible', maintenance: 'Maintenance' },
+    button: { openTool: "Ouvrir l'outil", comingSoon: 'Bientôt disponible' },
   },
 }
 

@@ -4,166 +4,116 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 18px;
-  text-decoration: none;
-  color: var(--text);
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
-  position: relative;
-  overflow: hidden;
-}
-
-.card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 200px 100px at 0% 0%, rgba(54,84,255,0.07), transparent);
-  opacity: 0;
-  transition: opacity 0.3s;
+  padding: 20px;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .card:hover {
   border-color: var(--border2);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow);
 }
-.card:hover::before { opacity: 1; }
+
+.cardLocked {
+  opacity: 0.7;
+}
+.cardLocked:hover {
+  box-shadow: none;
+}
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 9px;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
-.badge {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  padding: 3px 10px;
+.statusLive {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
   border-radius: 100px;
-  background: rgba(54,84,255,0.15);
-  border: 1px solid rgba(54,84,255,0.25);
-  color: var(--accent2);
+  background: var(--green2);
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.statusSoon {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--bg2);
+  color: var(--text3);
+  white-space: nowrap;
+}
+
+.statusMaint {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 100px;
+  background: var(--red2);
+  color: var(--red);
+  white-space: nowrap;
 }
 
 .name {
   font-family: var(--font-display);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.3px;
+  letter-spacing: -0.01em;
+  color: var(--text);
   margin-bottom: 6px;
 }
 
 .tagline {
   font-size: 13px;
   color: var(--text2);
-  line-height: 1.65;
-  margin-bottom: 16px;
+  line-height: 1.55;
+  margin-bottom: 18px;
   flex: 1;
 }
 
-.formats {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
-}
-
-.format {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  padding: 3px 8px;
-  border-radius: 4px;
-  text-transform: uppercase;
-}
-
-.mp3 {
-  background: rgba(54,84,255,0.18);
-  color: var(--accent2);
-}
-
-.mp4 {
-  background: rgba(0,206,201,0.14);
-  color: var(--green);
-}
-
-.webm {
-  background: rgba(253,203,110,0.14);
-  color: var(--amber);
-}
-
-.arrow {
+.btn {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
+  width: 100%;
+  background: var(--accent);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: background 0.15s;
+}
+.btn:hover {
+  background: var(--accent2);
+}
+
+.btnDisabled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border2);
   color: var(--text3);
-  transition: color 0.2s, transform 0.2s;
-}
-
-.card:hover .arrow {
-  color: var(--accent2);
-  transform: translateX(4px);
-}
-
-.badgeComingSoon {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
-  padding: 3px 9px; border-radius: 100px;
-  background: rgba(253,203,110,0.14);
-  color: var(--amber);
-  border: 1px solid rgba(253,203,110,0.25);
-}
-
-.badgeMaintenance {
-  font-size: 10px; font-weight: 700; letter-spacing: 0.04em;
-  padding: 3px 9px; border-radius: 100px;
-  background: rgba(255,118,117,0.12);
-  color: var(--red);
-  border: 1px solid rgba(255,118,117,0.22);
-}
-
-/* Locked card */
-.cardLocked {
-  cursor: not-allowed !important;
-  opacity: 0.65;
-}
-.cardLocked:hover {
-  transform: none !important;
-  box-shadow: none !important;
-}
-
-/* Status overlay pill */
-.statusOverlay {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  background: rgba(253,203,110,0.18);
-  border: 1px solid rgba(253,203,110,0.35);
-  color: var(--amber);
-  border-radius: 100px;
-  padding: 4px 10px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  backdrop-filter: blur(4px);
-}
-
-.statusOverlayRed {
-  background: rgba(255,118,117,0.15);
-  border-color: rgba(255,118,117,0.3);
-  color: var(--red);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  cursor: not-allowed;
 }
