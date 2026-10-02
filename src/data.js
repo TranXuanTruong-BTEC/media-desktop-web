@@ -1,15 +1,16 @@
 import { Download, Bot, Code2, Palette, TrendingUp, Bug, Briefcase, Megaphone, Star } from 'lucide-react'
 
 // Sửa link của bạn ở đây
-export const LINKS = { github: 'https://github.com/TranXuanTruong-BTEC', contact: 'mailto:you@example.com' }
+export const LINKS = { contact: 'mailto:you@example.com' }
 export const CATEGORIES = ['AI', 'Web', 'Mobile', 'UI', 'Desktop']
 
-// locked: true = chưa phát hành (thẻ bị khóa). Khi ra mắt: bỏ locked, thêm url + repo.
+// locked: true = chưa phát hành (thẻ bị khóa). Khi ra mắt: bỏ locked, thêm url.
 // action: nhãn nút ('download' | 'launch').
-// cat: một trong CATEGORIES · url: link "Launch App" · repo: link GitHub của dự án
+// cat: một trong CATEGORIES · url: link nút bấm (link nội bộ, KHÔNG dán link GitHub vào đây)
 export const PROJECTS = [
   { title: 'MediaGet', desc: 'Download video and audio from YouTube, TikTok, Facebook and 1000+ sites.', tags: ['Electron', 'Windows'], cat: 'Desktop', icon: Download, action: 'download',
-    url: 'https://github.com/TranXuanTruong-BTEC/media-desktop-app/releases/latest', repo: 'https://github.com/TranXuanTruong-BTEC/media-desktop-app' },
+    url: '/download/mediaget',
+    features: ['Download video or audio from YouTube, TikTok, Facebook and 1000+ sites', 'Built-in yt-dlp and ffmpeg — nothing else to install', 'Automatic updates', 'Windows installer'] },
   { title: 'AI Image Generator', desc: 'Turn text prompts into images with a clean, fast interface.', tags: ['React', 'Python'], cat: 'AI', icon: Bot, locked: true },
   { title: 'Code Snippet Manager', desc: 'Save, tag and search your favorite code snippets in one place.', tags: ['React', 'Python'], cat: 'Web', icon: Code2, locked: true },
   { title: 'Color Palette', desc: 'Generate and export harmonious color palettes for any design.', tags: ['Tailwind', 'UI'], cat: 'UI', icon: Palette, locked: true },

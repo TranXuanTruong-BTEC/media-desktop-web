@@ -60,3 +60,14 @@ button, input { font: inherit; color: inherit }
 .card.locked .ico { background: var(--line); color: var(--muted) }
 button.btn { border: 0; cursor: pointer; font-family: inherit }
 .btn:disabled { background: var(--line); color: var(--muted); box-shadow: none; cursor: not-allowed; transform: none; filter: none }
+
+button.gh { background: none; border: 0; cursor: pointer; padding: 0 }
+.link-btn { margin-top: auto; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 8px; font-size: 13px; cursor: pointer }
+.link-btn:hover { border-color: var(--accent); color: var(--accent) }
+.link-btn + .btn.full { margin-top: 0 }
+.overlay { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 20px; background: rgba(2, 6, 18, .7); backdrop-filter: blur(4px) }
+.modal { position: relative; width: min(460px, 100%); max-height: 90vh; overflow: auto; display: flex; flex-direction: column; gap: 12px; padding: 24px; border-radius: 16px; background: var(--bg2); border: 1px solid var(--line); box-shadow: 0 20px 60px var(--glow) }
+.modal .x { position: absolute; top: 12px; right: 12px }
+.modal h2 { font-size: 20px } .modal h4 { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px }
+.modal ul { padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.5 }
+.modal .btn.full { margin-top: 6px }

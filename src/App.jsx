@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Box, Search, Sun, Moon, Github, ArrowRight, Globe, Lock } from 'lucide-react'
+import { Box, Search, Sun, Moon, Info, X, ArrowRight, Globe, Lock } from 'lucide-react'
 import { PROJECTS, CATEGORIES, LINKS } from './data'
 import { LANGS, initialLang, geoLang, hasSavedLang, saveLang } from './i18n'
 
@@ -8,6 +8,13 @@ export default function App() {
   const [q, setQ] = useState('')
   const [lang, setLang] = useState(initialLang)
   const t = LANGS[lang]
+  const [open, setOpen] = useState(null)
+
+  useEffect(() => {
+    const k = e => e.key === 'Escape' && setOpen(null)
+    window.addEventListener('keydown', k)
+    return () => window.removeEventListener('keydown', k)
+  }, [])
   const [theme, setTheme] = useState(() => {
     try { return localStorage.getItem('theme') || 'dark' } catch { return 'dark' }
   })
@@ -51,7 +58,6 @@ export default function App() {
                 onClick={() => setCat(cat === c ? 'All' : c)}>{c}</button>
             ))}
           </div>
-          <a href={LINKS.github} target="_blank" rel="noreferrer">GitHub</a>
           <a href={LINKS.contact}>{t.contact}</a>
         </nav>
         <label className="search">
@@ -84,19 +90,37 @@ export default function App() {
                 <span className="ico"><p.icon size={20} /></span>
                 {p.locked
                   ? <span className="gh" title={t.soon}><Lock size={14} /></span>
-                  : <a className="gh" href={p.repo} target="_blank" rel="noreferrer" aria-label={`${p.title} on GitHub`}><Github size={14} /></a>}
+                  : <button className="gh" onClick={() => setOpen(p)} aria-label={t.details}><Info size={14} /></button>}
               </div>
               <h3>{p.title}</h3>
               <p>{desc(p)}</p>
               <div className="tags">{p.tags.map(t => <span key={t}>{t}</span>)}</div>
               {p.locked
                 ? <button className="btn full" disabled><Lock size={14} /> {t.soon}</button>
-                : <a className="btn full" href={p.url} target="_blank" rel="noreferrer">{t[p.action || 'launch']}</a>}
+                : <>
+                    <button className="link-btn" onClick={() => setOpen(p)}>{t.details}</button>
+                    <a className="btn full" href={p.url}>{t[p.action || 'launch']}</a>
+                  </>}
             </article>
           ))}
           {list.length === 0 && <p className="empty">{t.empty}</p>}
         </section>
       </main>
+
+      {open && (
+        <div className="overlay" onClick={() => setOpen(null)}>
+          <div className="modal" role="dialog" aria-modal="true" onClick={e => e.stopPropagation()}>
+            <button className="icon-btn x" onClick={() => setOpen(null)} aria-label={t.close}><X size={16} /></button>
+            <span className="ico"><open.icon size={22} /></span>
+            <h2>{open.title}</h2>
+            <p className="muted">{desc(open)}</p>
+            <h4>{t.features}</h4>
+            <ul>{(t.feat?.[open.title] || open.features || []).map(f => <li key={f}>{f}</li>)}</ul>
+            <div className="tags">{open.tags.map(x => <span key={x}>{x}</span>)}</div>
+            <a className="btn full" href={open.url}>{t[open.action || 'launch']}</a>
+          </div>
+        </div>
+      )}
     </>
   )
 }
