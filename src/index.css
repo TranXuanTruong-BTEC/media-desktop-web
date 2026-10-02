@@ -50,3 +50,7 @@ button, input { font: inherit; color: inherit }
 .tags span { font-size: 11px; padding: 2px 9px; border-radius: 6px; background: var(--line) }
 .empty { grid-column: 1 / -1; text-align: center; padding: 40px 0 }
 @media (max-width: 700px) { .nav { padding: 10px 14px } .search input { width: 90px } }
+
+.lang { display: flex; align-items: center; gap: 4px; color: var(--muted) }
+.lang select { background: none; border: 0; outline: 0; cursor: pointer; font-size: 13px; color: var(--text) }
+.lang option { background: var(--bg2); color: var(--text) }
