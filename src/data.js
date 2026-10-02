@@ -6,7 +6,7 @@ export const CATEGORIES = ['AI', 'Web', 'Mobile', 'UI', 'Desktop']
 
 // locked: true = chưa phát hành (thẻ bị khóa). Khi ra mắt: bỏ locked, thêm url.
 // action: nhãn nút ('download' | 'launch').
-// cat: một trong CATEGORIES · url: link nút bấm (link nội bộ, KHÔNG dán link GitHub vào đây)
+// cat: một trong CATEGORIES · url: link nút bấm (dạng '/download/<tên-app>', KHÔNG dán link GitHub)
 export const PROJECTS = [
   { title: 'MediaGet', desc: 'Download video and audio from YouTube, TikTok, Facebook and 1000+ sites.', tags: ['Electron', 'Windows'], cat: 'Desktop', icon: Download, action: 'download',
     url: '/download/mediaget',
