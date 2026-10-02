@@ -70,11 +70,18 @@ export const hasSavedLang = () => !!saved()
 export const saveLang = l => { try { localStorage.setItem('lang', l) } catch {} }
 // Ngôn ngữ ban đầu (đồng bộ): lựa chọn đã lưu > ngôn ngữ trình duyệt
 export const initialLang = () => saved() || fromBrowser()
-// Theo vị trí (quốc gia) của người truy cập; không xác định được thì trả null để giữ nguyên
+// Theo vị trí (quốc gia) của người truy cập; kết quả được nhớ 24 giờ để mỗi khách chỉ tốn 1 lượt gọi/ngày.
+// Không xác định được thì trả null để giữ nguyên ngôn ngữ hiện tại.
 export async function geoLang() {
   try {
-    const r = await fetch('/api/geo', { cache: 'no-store' })
+    const c = JSON.parse(localStorage.getItem('geo') || 'null')
+    if (c && LANGS[c.l] && Date.now() - c.t < 864e5) return c.l
+  } catch {}
+  try {
+    const r = await fetch('/api/geo')
     const { country } = await r.json()
-    return COUNTRY_LANG[country] || (country ? 'en' : null)
+    const l = COUNTRY_LANG[country] || (country ? 'en' : null)
+    if (l) { try { localStorage.setItem('geo', JSON.stringify({ l, t: Date.now() })) } catch {} }
+    return l
   } catch { return null }
 }
