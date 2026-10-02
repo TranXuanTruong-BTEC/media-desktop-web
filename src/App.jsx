@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Box, Search, Sun, Moon, Github, ArrowRight, Globe } from 'lucide-react'
+import { Box, Search, Sun, Moon, Github, ArrowRight, Globe, Lock } from 'lucide-react'
 import { PROJECTS, CATEGORIES, LINKS } from './data'
 import { LANGS, initialLang, geoLang, hasSavedLang, saveLang } from './i18n'
 
@@ -79,17 +79,19 @@ export default function App() {
 
         <section id="projects" className="grid">
           {list.map(p => (
-            <article className="card" key={p.title}>
+            <article className={p.locked ? 'card locked' : 'card'} key={p.title}>
               <div className="card-top">
                 <span className="ico"><p.icon size={20} /></span>
-                <a className="gh" href={p.repo} target="_blank" rel="noreferrer" aria-label={`${p.title} on GitHub`}>
-                  <Github size={14} />
-                </a>
+                {p.locked
+                  ? <span className="gh" title={t.soon}><Lock size={14} /></span>
+                  : <a className="gh" href={p.repo} target="_blank" rel="noreferrer" aria-label={`${p.title} on GitHub`}><Github size={14} /></a>}
               </div>
               <h3>{p.title}</h3>
               <p>{desc(p)}</p>
               <div className="tags">{p.tags.map(t => <span key={t}>{t}</span>)}</div>
-              <a className="btn full" href={p.url} target="_blank" rel="noreferrer">{t.launch}</a>
+              {p.locked
+                ? <button className="btn full" disabled><Lock size={14} /> {t.soon}</button>
+                : <a className="btn full" href={p.url} target="_blank" rel="noreferrer">{t[p.action || 'launch']}</a>}
             </article>
           ))}
           {list.length === 0 && <p className="empty">{t.empty}</p>}

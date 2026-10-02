@@ -54,3 +54,9 @@ button, input { font: inherit; color: inherit }
 .lang { display: flex; align-items: center; gap: 4px; color: var(--muted) }
 .lang select { background: none; border: 0; outline: 0; cursor: pointer; font-size: 13px; color: var(--text) }
 .lang option { background: var(--bg2); color: var(--text) }
+
+.card.locked { opacity: .6 }
+.card.locked:hover { transform: none; border-color: var(--line); box-shadow: none }
+.card.locked .ico { background: var(--line); color: var(--muted) }
+button.btn { border: 0; cursor: pointer; font-family: inherit }
+.btn:disabled { background: var(--line); color: var(--muted); box-shadow: none; cursor: not-allowed; transform: none; filter: none }
