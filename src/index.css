@@ -71,3 +71,22 @@ button.gh { background: none; border: 0; cursor: pointer; padding: 0 }
 .modal h2 { font-size: 20px } .modal h4 { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px }
 .modal ul { padding-left: 18px; display: grid; gap: 6px; font-size: 14px; line-height: 1.5 }
 .modal .btn.full { margin-top: 6px }
+
+.ads { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 0 16px 60px; overflow-x: auto }
+.ads iframe { border: 0; max-width: 100% }
+.ads small { color: var(--muted); font-size: 11px }
+.consent { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 40; max-width: 560px; margin: 0 auto; display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  padding: 14px 16px; border-radius: 12px; background: var(--bg2); border: 1px solid var(--line); box-shadow: 0 10px 40px var(--glow); font-size: 13px }
+.consent p { flex: 1 1 100%; line-height: 1.5 }
+.consent .btn { padding: 7px 16px }
+.consent .link-btn { margin-top: 0; padding: 7px 14px }
+
+.notice { overflow: hidden; white-space: nowrap; padding: 7px 0; font-size: 13px; font-weight: 500; color: #fff;
+  background: linear-gradient(90deg, #1f5fd6, #2f7bff, #1f5fd6) }
+.notice span { display: inline-block; padding-left: 100%; animation: marquee 20s linear infinite }
+.notice:hover span { animation-play-state: paused }
+@keyframes marquee { to { transform: translateX(-100%) } }
+@media (prefers-reduced-motion: reduce) {
+  .notice { white-space: normal; text-align: center; padding: 7px 12px }
+  .notice span { padding-left: 0; animation: none }
+}

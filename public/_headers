@@ -12,5 +12,11 @@
   Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data: https: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-origin
-  Cross-Origin-Embedder-Policy: require-corp
   X-Permitted-Cross-Domain-Policies: none
+
+# Trang chứa mã quảng cáo: nới CSP CHỈ ở đây (cô lập khỏi trang chính, chạy trong iframe sandbox)
+/ads/*
+  ! Content-Security-Policy
+  ! X-Frame-Options
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: default-src 'none'; script-src https: 'unsafe-inline'; style-src https: 'unsafe-inline'; img-src https: data:; frame-src https:; connect-src https:; font-src https: data:; frame-ancestors 'self'; base-uri 'none'; form-action 'none'

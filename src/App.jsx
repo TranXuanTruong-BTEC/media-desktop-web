@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Box, Search, Sun, Moon, Info, X, ArrowRight, Globe, Lock } from 'lucide-react'
+import Ads from './Ads'
 import { PROJECTS, CATEGORIES, LINKS } from './data'
 import { LANGS, initialLang, geoLang, hasSavedLang, saveLang } from './i18n'
 
@@ -46,6 +47,8 @@ export default function App() {
 
   return (
     <>
+      <div className="notice" role="note"><span>{t.notice}</span></div>
+
       <header className="nav">
         <a className="logo" href="#top"><Box size={20} /> MyTools</a>
         <nav className="links">
@@ -105,6 +108,7 @@ export default function App() {
           ))}
           {list.length === 0 && <p className="empty">{t.empty}</p>}
         </section>
+        <Ads t={t} />
       </main>
 
       {open && (
